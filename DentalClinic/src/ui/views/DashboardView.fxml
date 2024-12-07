@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" >
+    <top>
+        <HBox spacing="20" style="-fx-background-color: #2a8f54; -fx-padding: 10;">
+            <Button text="Users" />
+            <Button text="Patients" />
+            <Button text="Hospitals" />
+            <Button text="Notice" />
+            <Button text="Help Center" />
+        </HBox>
+    </top>
+    <center>
+        <TabPane fx:id="tabPane">
+            <tabs>
+                <Tab text="Doctor">
+                    <VBox>
+                        <TableView fx:id="doctorTable">
+                            <columns>
+                                <TableColumn text="Name" />
+                                <TableColumn text="ID" />
+                                <TableColumn text="Email" />
+                                <TableColumn text="Phone number" />
+                                <TableColumn text="Date added" />
+                                <TableColumn text="Status" />
+                            </columns>
+                        </TableView>
+                        <Button text="Add new doctor" style="-fx-background-color: #2a8f54; -fx-text-fill: white;" />
+                    </VBox>
+                </Tab>
+                <Tab text="Administration" />
+                <Tab text="Accounts" />
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
