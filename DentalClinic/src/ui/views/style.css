@@ -1,0 +1,18 @@
+.btn_menu{
+    -fx-border-width: none;
+    -fx-text-fill: white;
+    -fx-background-color: tranparent;
+    -fx-font-weight: 700;
+    -fx-pref-height: 65px;
+}
+.btn_menu:hover{
+    -fx-cursor:hand;
+}
+.btn_menu:selected{
+    -fx-text-fill: red;
+}
+.tab-content .tab{
+    -fx-text-fill: blue;
+    -fx-font-weight: bold;
+}
+
