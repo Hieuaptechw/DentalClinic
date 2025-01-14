@@ -1,0 +1,36 @@
+.tab .tab-label {
+
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+}
+
+.tab-pane1 {
+    -fx-background-color: transparent;
+
+}
+
+.tab-top .tab-header-background {
+    -fx-background-color: #4c984d;
+    -fx-padding: 10;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 0 0 2 0;
+}
+.tab-pane1 .tab-header-area .tab:selected {
+    -fx-background-color: #ffffff;
+    -fx-text-base-color: #000000;
+}
+
+.tab-pane1 .tab-header-area .tab {
+    -fx-background-color: #2d6a2e;
+    -fx-text-base-color: white;
+}
+
+.image-hover:hover {
+    -fx-cursor: hand;
+}
+
+.label-hover:hover {
+    -fx-text-fill: blue;
+    -fx-cursor: hand;
+}
