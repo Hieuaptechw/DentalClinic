@@ -22,7 +22,7 @@ public class PrimaryView {
         }
     }
 
-    private Node generateToolbarItem() {
-
-    }
+//    private Node generateToolbarItem() {
+//
+//    }
 }
