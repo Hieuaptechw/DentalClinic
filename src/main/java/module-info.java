@@ -8,4 +8,5 @@ module com.example.test {
 
     exports com.dentalclinic;
     opens com.dentalclinic to javafx.fxml;
+    opens com.dentalclinic.view to javafx.fxml;
 }

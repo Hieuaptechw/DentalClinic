@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../css/style.css" fx:controller="com.dentalclinic.view.PrimaryView" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <top>
+        <HBox style="-fx-border-width: 0 0 1 0; -fx-border-color: transparent transparent #000000 transparent;" BorderPane.alignment="CENTER">
+            <children>
+                <VBox>
+                    <children>
+                  <VBox alignment="CENTER_LEFT" style="-fx-background-color: #4c984d;">
+                     <children>
+                        <ImageView fitHeight="41.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 100px;" styleClass="circular-image">
+                            <image>
+                                <Image url="@../image/logo.png" />
+                            </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox alignment="CENTER" styleClass="toolbar-item">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                           <image>
+                              <Image url="@../image/home.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="toolbar-item-label" text="Trang chủ" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="2.0" />
+                     </VBox.margin>
+                  </VBox>
+                    </children>
+                </VBox>
+                <VBox prefWidth="960.0" HBox.hgrow="ALWAYS">
+                    <children>
+                  <HBox alignment="CENTER" style="-fx-background-color: #4c984d;" VBox.vgrow="ALWAYS">
+                     <children>
+                                <Label text="Trang chủ - Quản lý phong khám" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font name="Arial Bold" size="11.0" />
+                                    </font>
+                                </Label>
+                     </children>
+                  </HBox>
+                        <TabPane fx:id="toolbar" styleClass="tab-top" tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="Quản lý">
+                                    <content>
+                                        <HBox fillHeight="false" minHeight="0.0" minWidth="0.0">
+                                            <children>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/patient.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Bệnh nhân" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/waiting-room.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="SBD" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/calendar.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Lịch hẹn" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/finance.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Tài chính" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/warehouse.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Kho" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/staff.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Nhân sự" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/roomclinic.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Phòng khám" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/documentation.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Tài liệu" />
+                                                </VBox>
+                                                <VBox alignment="CENTER" styleClass="toolbar-item">
+                                                    <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                                        <image>
+                                                            <Image url="@../image/records.png" />
+                                                        </image>
+                                                    </ImageView>
+                                                    <Label styleClass="toolbar-item-label" text="Bệnh án" />
+                                                </VBox>
+                                            </children>
+                                        </HBox>
+                                    </content>
+                                </Tab>
+                        <Tab text="Quản trị">
+                           <content>
+                              <HBox fillHeight="false" minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/doctor.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Bác sĩ" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/working-hours.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Lịch làm việc" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/revenue.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Lương" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </content>
+                        </Tab>
+                        <Tab text="Cài đặt">
+                           <content>
+                              <HBox fillHeight="false" minHeight="0.0" minWidth="0.0">
+                                 <children>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/system.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Hệ thống" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/active.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Thông báo" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/customer-service.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Hỗ trợ" />
+                                       </children>
+                                    </VBox>
+                                    <VBox alignment="CENTER" styleClass="toolbar-item">
+                                       <children>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">
+                                             <image>
+                                                <Image url="@../image/files.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label styleClass="toolbar-item-label" text="Sao lưu" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </content>
+                        </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </top>
+    <center>
+        <AnchorPane fx:id="maincontent" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <TabPane layoutY="7.0" prefHeight="564.0" prefWidth="1040.0" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                        <Tab text="Trang chu">
+                            <content>
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="546.0" prefWidth="1040.0" />
+                            </content>
+                        </Tab>
+                    </tabs>
+                </TabPane>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
