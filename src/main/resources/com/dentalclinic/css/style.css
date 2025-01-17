@@ -38,3 +38,7 @@
 .toolbar-item:hover > .toolbar-item-label {
     -fx-text-fill: green;
 }
+.home-item {
+    -fx-padding: 2px 0 0 0;
+    -fx-pref-height: 66px;
+}
