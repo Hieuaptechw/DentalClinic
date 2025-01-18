@@ -12,5 +12,5 @@ module com.example.test {
     opens com.dentalclinic to javafx.fxml;
     opens com.dentalclinic.views to javafx.fxml;
     opens com.dentalclinic.views.pages to javafx.fxml;
-    opens com.dentalclinic.views.pages.doctor to javafx.fxml;
+    opens com.dentalclinic.views.pages.manage to javafx.fxml;
 }

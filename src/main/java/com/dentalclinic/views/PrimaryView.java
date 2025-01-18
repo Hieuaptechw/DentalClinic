@@ -2,9 +2,15 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.views.pages.AbstractPage;
-import com.dentalclinic.views.pages.doctor.HomePage;
+import com.dentalclinic.views.pages.administration.DoctorPage;
+import com.dentalclinic.views.pages.administration.SalaryPage;
+import com.dentalclinic.views.pages.administration.WorkSchedulePage;
+import com.dentalclinic.views.pages.manage.*;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.doctor.PatientPage;
+import com.dentalclinic.views.pages.setting.BackupPage;
+import com.dentalclinic.views.pages.setting.NotificationPage;
+import com.dentalclinic.views.pages.setting.SupportPage;
+import com.dentalclinic.views.pages.setting.SystemPage;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +31,9 @@ public class PrimaryView {
 
     @FXML private TabPane toolbar;
     @FXML private VBox homeItemHolder;
-    @FXML private HBox toolbarDoctorTab;
+    @FXML private HBox toolbarSettingTab;
+    @FXML private HBox toolbarManageTab;
+    @FXML private HBox toolbarAdministrationTab;
 
     @FXML private TabPane mainTabPane;
 
@@ -35,9 +43,31 @@ public class PrimaryView {
         homeItem.getStyleClass().add("home-item");
         homeItemHolder.getChildren().add(homeItem);
 
-        toolbarDoctorTab.getChildren().addAll(
-            generateToolbarPageItem(PatientPage.class)
+        toolbarManageTab.getChildren().addAll(
+                generateToolbarPageItem(PatientPage.class),
+                generateToolbarPageItem(CandidateNumberPage.class),
+                generateToolbarPageItem(CalendarPage.class),
+                generateToolbarPageItem(PatientRecordPage.class),
+                generateToolbarPageItem(FinancePage.class),
+                generateToolbarPageItem(StaffPage.class),
+                generateToolbarPageItem(RoomPage.class),
+                generateToolbarPageItem(WareHousePage.class),
+                generateToolbarPageItem(DocumentPage.class)
+
+
         );
+        toolbarAdministrationTab.getChildren().addAll(
+                generateToolbarPageItem(DoctorPage.class),
+                generateToolbarPageItem(WorkSchedulePage.class),
+                generateToolbarPageItem(SalaryPage.class)
+        );
+        toolbarSettingTab.getChildren().addAll(
+                generateToolbarPageItem(SystemPage.class),
+                generateToolbarPageItem(NotificationPage.class),
+                generateToolbarPageItem(SupportPage.class),
+                generateToolbarPageItem(BackupPage.class)
+        );
+
 
         Tab homeTab = openPage(HomePage.class);
         homeTab.setClosable(false);

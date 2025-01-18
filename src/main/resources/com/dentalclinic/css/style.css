@@ -1,14 +1,11 @@
-.tab .tab-label {
-
+.tab-top .tab-label {
     -fx-font-size: 12px;
     -fx-font-weight: bold;
     -fx-font-family: 'Arial';
+    -fx-text-fill: white;
 }
 
-.tab-pane1 {
-    -fx-background-color: transparent;
 
-}
 
 .tab-top .tab-header-background {
     -fx-background-color: #4c984d;
@@ -16,14 +13,21 @@
     -fx-border-color: #ffffff;
     -fx-border-width: 0 0 2 0;
 }
-.tab-pane1 .tab-header-area .tab:selected {
-    -fx-background-color: #ffffff;
-    -fx-text-base-color: #000000;
+
+.tab-top .tab-header-area .tab {
+    -fx-background-color: #4c984d;
+    -fx-text-fill: white;
 }
 
-.tab-pane1 .tab-header-area .tab {
-    -fx-background-color: #2d6a2e;
-    -fx-text-base-color: white;
+.tab-top .tab-header-area .tab:selected {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-background-radius: 5px 5px 0 0;
+}
+
+
+.tab-top .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: black;
 }
 
 .toolbar-item {
