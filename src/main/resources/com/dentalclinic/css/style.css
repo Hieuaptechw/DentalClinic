@@ -46,3 +46,48 @@
     -fx-padding: 2px 0 0 0;
     -fx-pref-height: 66px;
 }
+
+/*warehouse css*/
+#searchField{
+    -fx-background-radius: 15px;
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 15px;
+}
+#typeBox{
+    -fx-background-radius: 15px;
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 15px;
+}
+#inStockBox{
+    -fx-background-radius: 15px;
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 15px;
+}
+#manufactureBox{
+    -fx-background-radius: 15px;
+    -fx-background-color: white;
+    -fx-border-color: gray;
+    -fx-border-radius: 15px;
+}
+
+.table-view{
+    -fx-border-color: transparent;
+   -fx-background-color: transparent;
+
+}
+#codeColumn, #nameColumn, #typeColumn, #priceColumn, #quantityColumn, #expireColumn, #statusColumn, #manufactureColumn, #actionColumn{
+    -fx-background-color: white;
+}
+.table-view .table-row-cell {
+    -fx-border-color: #cccccc;
+    -fx-border-width: 0 0 1px 0;
+}
+#btnAddProduct{
+    -fx-background-color: #1185cc;
+}
+
+
+

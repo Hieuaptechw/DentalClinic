@@ -5,8 +5,8 @@ module com.example.test {
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
     requires com.almasb.fxgl.all;
-    requires java.desktop;
     requires annotations;
+    requires com.fasterxml.jackson.databind;
 
     exports com.dentalclinic;
     opens com.dentalclinic to javafx.fxml;
