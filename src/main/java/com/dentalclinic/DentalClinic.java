@@ -7,8 +7,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+import com.dentalclinic.controllers.DatabaseController;
+
 public class DentalClinic extends Application {
     public static void main(String[] args) {
+        DatabaseController.init();
         launch();
     }
 

@@ -1,4 +1,4 @@
-module com.example.test {
+module com.dentalclinic {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -7,8 +7,11 @@ module com.example.test {
     requires com.almasb.fxgl.all;
     requires java.desktop;
     requires annotations;
+    requires jakarta.persistence;
+    requires org.hibernate.orm.core;
 
     exports com.dentalclinic;
+    opens com.dentalclinic.entities;
     opens com.dentalclinic to javafx.fxml;
     opens com.dentalclinic.views to javafx.fxml;
     opens com.dentalclinic.views.pages to javafx.fxml;
