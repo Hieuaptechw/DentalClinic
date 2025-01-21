@@ -1,7 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../css/style.css" fx:controller="com.dentalclinic.views.pages.manage.WareHousePage" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Label>This is kho page</Label>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="1016.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.WareHousePage">
+   <HBox prefHeight="35.0" prefWidth="1016.0">
+      <children>
+         <HBox prefHeight="100.0" prefWidth="566.0">
+            <children>
+                <Label prefHeight="50.0" prefWidth="274.0" text="Quản lý vật tư y tế">
+                  <HBox.margin>
+                     <Insets left="25.0" />
+                  </HBox.margin>
+                  <font>
+                     <Font name="System Bold" size="18.0" />
+                  </font>
+               </Label>
+            </children>
+         </HBox>
+         <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="566.0">
+            <children>
+               <Button fx:id="btnAddProduct" mnemonicParsing="false" onAction="#getAddView" prefHeight="35.0" prefWidth="121.0" text="Add product" textFill="WHITE">
+                  <HBox.margin>
+                     <Insets left="380.0" />
+                  </HBox.margin>
+               </Button>
+            </children>
+         </HBox>
+      </children>
+      <VBox.margin>
+         <Insets bottom="15.0" top="15.0" />
+      </VBox.margin>
+   </HBox>
+   <VBox prefHeight="513.0" prefWidth="1016.0">
+      <children>
+         <HBox prefHeight="73.0" prefWidth="1016.0">
+            <children>
+               <TextField fx:id="searchField" prefHeight="49.0" prefWidth="182.0" promptText="Search">
+                  <HBox.margin>
+                     <Insets left="25.0" right="25.0" />
+                  </HBox.margin>
+               </TextField>
+               <ComboBox fx:id="typeBox" prefHeight="58.0" prefWidth="150.0" promptText="Product Type">
+                  <HBox.margin>
+                     <Insets left="25.0" right="15.0" />
+                  </HBox.margin>
+               </ComboBox>
+               <ComboBox fx:id="inStockBox" layoutX="160.0" layoutY="10.0" prefHeight="52.0" prefWidth="150.0" promptText="In Stock">
+                  <HBox.margin>
+                     <Insets left="15.0" right="15.0" />
+                  </HBox.margin>
+               </ComboBox>
+               <DatePicker fx:id="expireDate" prefHeight="54.0" prefWidth="175.0" promptText="Expire Date">
+                  <HBox.margin>
+                     <Insets left="15.0" right="15.0" />
+                  </HBox.margin>
+               </DatePicker>
+               <ComboBox fx:id="manufactureBox" layoutX="310.0" layoutY="10.0" prefHeight="48.0" prefWidth="150.0" promptText="Manufacture">
+                  <HBox.margin>
+                     <Insets left="15.0" right="15.0" />
+                  </HBox.margin>
+               </ComboBox>
+            </children>
+            <VBox.margin>
+               <Insets bottom="20.0" top="20.0" />
+            </VBox.margin>
+         </HBox>
+         <TableView fx:id="inventoryTable" prefHeight="452.0" prefWidth="997.0">
+           <columns>
+             <TableColumn fx:id="codeColumn" prefWidth="80.7999809384346" style="-fx-alignment: center;" text="Mã sản phầm" />
+             <TableColumn fx:id="nameColumn" prefWidth="128.80001831054688" style="-fx-alignment: center;" text="Tên sản phẩm" />
+               <TableColumn fx:id="typeColumn" prefWidth="80.00003051757812" style="-fx-alignment: center;" text="Phân loại" />
+               <TableColumn fx:id="priceColumn" prefWidth="120.0" style="-fx-alignment: center;" text="Đơn giá" />
+               <TableColumn fx:id="quantityColumn" prefWidth="113.60003662109375" style="-fx-alignment: center;" text="Số lượng tồn kho" />
+               <TableColumn fx:id="expireColumn" prefWidth="121.60003662109375" style="-fx-alignment: center;" text="Ngày hết hạn" />
+               <TableColumn fx:id="statusColumn" prefWidth="111.20001220703125" style="-fx-alignment: center;" text="Trạng thái" />
+               <TableColumn fx:id="manufactureColumn" prefWidth="112.79998779296875" style="-fx-alignment: center;" text="Nhà cung cấp" />
+               <TableColumn fx:id="actionColumn" prefWidth="123.2000732421875" text="Hành động" />
+           </columns>
+            <VBox.margin>
+               <Insets bottom="15.0" left="25.0" />
+            </VBox.margin>
+         </TableView>
+      </children>
+   </VBox>
 </VBox>
