@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.addProductController">
    <children>
       <VBox prefHeight="71.0" prefWidth="700.0">
@@ -26,8 +25,14 @@
                         <Insets left="40.0" />
                      </HBox.margin>
                   </Label>
-                  <Label prefHeight="65.0" prefWidth="84.0" text="Tổng số tiền" />
-                  <Label layoutX="248.0" layoutY="10.0" prefHeight="65.0" prefWidth="84.0" text="100000" />
+                  <Label prefHeight="65.0" prefWidth="84.0" text="Tổng số tiền">
+                     <font>
+                        <Font size="14.0" />
+                     </font></Label>
+                  <Label layoutX="248.0" layoutY="10.0" prefHeight="65.0" prefWidth="84.0" text="100000">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin></Label>
                </children>
             </HBox>
          </children>
@@ -146,7 +151,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="162.0" layoutY="35.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="145.0" text="Clean">
+            <Button layoutX="162.0" layoutY="35.0" mnemonicParsing="false" onAction="#clean" prefHeight="45.0" prefWidth="145.0" text="Clean">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>

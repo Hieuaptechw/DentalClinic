@@ -36,31 +36,41 @@ public class addProductController {
 
     @FXML
     private TextField supplierField;
+
     WareHousePage warehousePage = new WareHousePage();
+
+    public void setWareHousePage(WareHousePage warehousePage) {
+        this.warehousePage = warehousePage;
+    }
+
+
     private Connection connection;
     private PreparedStatement preparedStatement;
 
+
+
     @FXML
     public void initialize() {
-        try{
+        try {
             connection = DatabaseConnection.getConnection();
             typeBox.getItems().addAll(Category.values());
-
-        }catch(SQLException e){
-            e.printStackTrace();
+        } catch (SQLException e) {
+            showError("Không thể kết nối cơ sở dữ liệu: " + e.getMessage());
         }
     }
 
     @FXML
     public void save() {
         try {
-
             if (nameField.getText().isEmpty() || priceField.getText().isEmpty() || quantityField.getText().isEmpty() || supplierField.getText().isEmpty()) {
-                System.out.println("Vui lòng nhập đầy đủ thông tin!");
+                showError("Vui lòng nhập đầy đủ thông tin!");
+                return;
+            }
+            if (typeBox.getValue() == null) {
+                showError("Vui lòng chọn loại sản phẩm!");
                 return;
             }
 
-            // Lấy dữ liệu từ các trường
             String code = generateRandomCode();
             String name = nameField.getText();
             Category category = typeBox.getValue();
@@ -75,8 +85,6 @@ public class addProductController {
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             preparedStatement = connection.prepareStatement(query);
-
-
             preparedStatement.setString(1, code); // Code
             preparedStatement.setString(2, name); // Tên sản phẩm
             preparedStatement.setString(3, category.name()); // Loại sản phẩm
@@ -85,20 +93,28 @@ public class addProductController {
             preparedStatement.setDate(6, expiryDate); // Ngày hết hạn
             preparedStatement.setString(7, supplier); // Nhà cung cấp
 
-
             int result = preparedStatement.executeUpdate();
             if (result > 0) {
-                System.out.println("Thêm sản phẩm thành công!");
+                showInfo("Thêm sản phẩm thành công!");
+                warehousePage.refreshTable();
                 clean();
             }
 
         } catch (NumberFormatException e) {
-            System.out.println("Giá và số lượng phải là số!");
+            showError("Giá và số lượng phải là số!");
         } catch (SQLException e) {
-            e.printStackTrace();
+            showError("Lỗi khi lưu sản phẩm: " + e.getMessage());
         } finally {
             closeResources();
         }
+    }
+
+    private void showInfo(String message) {
+        System.out.println(message);
+    }
+
+    private void showError(String message) {
+        System.out.println(message);
     }
 
     @FXML
@@ -116,15 +132,12 @@ public class addProductController {
         String letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder code = new StringBuilder();
 
-        // Bắt đầu với chữ 'P'
         code.append("P");
 
-        // Random 2 chữ cái
         for (int i = 0; i < 2; i++) {
             code.append(letters.charAt((int) (Math.random() * letters.length())));
         }
-
-        // Thêm dấu gạch ngang
+        
         code.append("-");
 
         // Random 4 chữ số

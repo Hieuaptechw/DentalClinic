@@ -7,6 +7,7 @@ import com.dentalclinic.entity.Status;
 import com.dentalclinic.utils.DatabaseConnection;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
+import com.dentalclinic.views.pages.form.addProductController;
 import com.fasterxml.jackson.databind.deser.std.NumberDeserializers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -68,7 +69,6 @@ public class WareHousePage extends AbstractPage {
 
     @FXML
     public void initialize(){
-        loadData();
         codeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("productName"));
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
@@ -76,6 +76,8 @@ public class WareHousePage extends AbstractPage {
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         expireColumn.setCellValueFactory(new PropertyValueFactory<>("expiryDate"));
         manufactureColumn.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+        loadData();
+
     }
 
     @FXML
@@ -116,30 +118,22 @@ public class WareHousePage extends AbstractPage {
         }catch(SQLException e){
             e.printStackTrace();
         }
-
     }
-    
-
 
     @FXML
     public void getAddView(){
-        try{
-            Parent parent = FXMLLoader.load(getClass().getResource("/com/dentalclinic/views/pages/form/addProduct.fxml"));
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addProduct.fxml"));
+            Parent parent = loader.load();
+            addProductController controller = loader.getController();
+            controller.setWareHousePage(this);
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
-
-
-
-
 }
