@@ -1,21 +1,49 @@
 package com.dentalclinic.entity;
 
-public enum Category {
-    DENTAL("Nha khoa"),
-    MEDICAL_EQUIPMENT("Thiết bị y tế"),
-    DENTAL_MATERIALS("Vật liệu nha khoa"),
-    DENTAL_TOOLS("Dụng cụ nha khoa"),
-    ORAL_HYGIENE("Vệ sinh răng miệng"),
-    SUPPLEMENTARY_PRODUCTS("Chế phẩm bổ sung"),
-    OTHER("Khác");
+public class Category {
+    private String code;
+    private String name;
+    private Status status;
 
-    private final String name;
-
-    Category(String name) {
+    public Category(String code, String name, Status status) {
+        this.code = code;
         this.name = name;
+        this.status = status;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "Category{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

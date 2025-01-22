@@ -5,23 +5,26 @@ import java.time.LocalDate;
 public class Products {
     private String code;
     private String productName;
-    private Category category;
+    private String categoryName;
     private Double price;
     private int quantity;
     private LocalDate expiryDate;
     private String supplier;
+    private Double totalPrice;
+    private Status status;
 
-    public Products(String code, String productName, Category category, Double price, int quantity, LocalDate expiryDate, String supplier) {
+    public Products(String code, String productName, String categoryName, Double price, int quantity, LocalDate expiryDate, String supplier, double totalPrice, Status status) {
         this.code = code;
         this.productName = productName;
-        this.category = category;
+        this.categoryName = categoryName;
         this.price = price;
         this.quantity = quantity;
         this.expiryDate = expiryDate;
+
         this.supplier = supplier;
+        this.totalPrice = totalPrice;
+        this.status = status;
     }
-
-
 
     public String getCode() {
         return code;
@@ -39,13 +42,16 @@ public class Products {
         this.productName = productName;
     }
 
-    public Category getCategory() {
-        return category;
+
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
+
+
 
     public Double getPrice() {
         return price;
@@ -79,16 +85,34 @@ public class Products {
         this.supplier = supplier;
     }
 
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Products{" +
                 "code='" + code + '\'' +
                 ", productName='" + productName + '\'' +
-                ", category=" + category +
+                ", categoryName='" + categoryName + '\'' +
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", expiryDate=" + expiryDate +
                 ", supplier='" + supplier + '\'' +
+                ", totalPrice=" + totalPrice +
+                ", status=" + status +
                 '}';
     }
 }
