@@ -9,20 +9,15 @@ public class Products {
     private Double price;
     private int quantity;
     private LocalDate expiryDate;
-    private String supplier;
-    private Double totalPrice;
     private Status status;
 
-    public Products(String code, String productName, String categoryName, Double price, int quantity, LocalDate expiryDate, String supplier, double totalPrice, Status status) {
+    public Products(String code, String productName, String categoryName, Double price, int quantity, LocalDate expiryDate, Status status) {
         this.code = code;
         this.productName = productName;
         this.categoryName = categoryName;
         this.price = price;
         this.quantity = quantity;
         this.expiryDate = expiryDate;
-
-        this.supplier = supplier;
-        this.totalPrice = totalPrice;
         this.status = status;
     }
 
@@ -51,8 +46,6 @@ public class Products {
         this.categoryName = categoryName;
     }
 
-
-
     public Double getPrice() {
         return price;
     }
@@ -77,21 +70,6 @@ public class Products {
         this.expiryDate = expiryDate;
     }
 
-    public String getSupplier() {
-        return supplier;
-    }
-
-    public void setSupplier(String supplier) {
-        this.supplier = supplier;
-    }
-
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
 
     public Status getStatus() {
         return status;
@@ -110,8 +88,6 @@ public class Products {
                 ", price=" + price +
                 ", quantity=" + quantity +
                 ", expiryDate=" + expiryDate +
-                ", supplier='" + supplier + '\'' +
-                ", totalPrice=" + totalPrice +
                 ", status=" + status +
                 '}';
     }

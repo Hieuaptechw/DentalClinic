@@ -29,7 +29,7 @@
          </HBox>
          <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="566.0">
             <children>
-               <Button fx:id="btnAddProduct" mnemonicParsing="false" prefHeight="35.0" prefWidth="121.0" text="Add product" textFill="WHITE">
+               <Button fx:id="btnAddProduct" mnemonicParsing="false" onAction="#loadFormAddProduct" prefHeight="35.0" prefWidth="121.0" text="Add product" textFill="WHITE">
                   <HBox.margin>
                      <Insets left="380.0" />
                   </HBox.margin>
@@ -79,14 +79,12 @@
            <columns>
              <TableColumn fx:id="codeColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Mã sản phầm" />
              <TableColumn fx:id="nameColumn" prefWidth="102.4000244140625" style="-fx-alignment: center;" text="Tên sản phẩm" />
-               <TableColumn fx:id="typeColumn" prefWidth="63.20002746582031" style="-fx-alignment: center;" text="Phân loại" />
-               <TableColumn fx:id="priceColumn" prefWidth="87.20002746582031" style="-fx-alignment: center;" text="Đơn giá" />
-               <TableColumn fx:id="quantityColumn" prefWidth="107.20001220703125" style="-fx-alignment: center;" text="Số lượng tồn kho" />
-               <TableColumn fx:id="expireColumn" prefWidth="112.00006103515625" style="-fx-alignment: center;" text="Ngày hết hạn" />
-               <TableColumn fx:id="statusColumn" prefWidth="94.39996337890625" style="-fx-alignment: center;" text="Trạng thái" />
-               <TableColumn fx:id="manufactureColumn" prefWidth="99.20001220703125" style="-fx-alignment: center;" text="Nhà cung cấp" />
-               <TableColumn fx:id="totalColumn" prefWidth="121.59991455078125" style="-fx-alignment: center;" text="Tổng số tiền" />
-               <TableColumn fx:id="actionColumn" prefWidth="139.2000732421875" text="Hành động" />
+               <TableColumn fx:id="typeColumn" prefWidth="120.800048828125" style="-fx-alignment: center;" text="Phân loại" />
+               <TableColumn fx:id="priceColumn" prefWidth="111.99996948242188" style="-fx-alignment: center;" text="Đơn giá" />
+               <TableColumn fx:id="quantityColumn" prefWidth="124.79998779296875" style="-fx-alignment: center;" text="Số lượng tồn kho" />
+               <TableColumn fx:id="expireColumn" prefWidth="170.4000244140625" style="-fx-alignment: center;" text="Ngày hết hạn" />
+               <TableColumn fx:id="statusColumn" prefWidth="113.60003662109375" style="-fx-alignment: center;" text="Trạng thái" />
+               <TableColumn fx:id="actionColumn" prefWidth="167.199951171875" style="-fx-alignment: center;" text="Hành động" />
            </columns>
             <VBox.margin>
                <Insets bottom="15.0" left="25.0" />
