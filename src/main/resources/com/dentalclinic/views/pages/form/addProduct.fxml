@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.addProductController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.AddProductController">
    <children>
       <VBox prefHeight="71.0" prefWidth="700.0">
          <children>
@@ -117,25 +117,9 @@
             <Insets left="300.0" />
          </VBox.margin>
       </CheckBox>
-      <HBox layoutX="25.0" layoutY="340.0" prefHeight="45.0" prefWidth="700.0">
-         <children>
-            <Label prefHeight="51.0" prefWidth="168.0" text="Nhà cung cấp">
-               <padding>
-                  <Insets left="35.0" />
-               </padding>
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="supplierField" prefHeight="102.0" prefWidth="200.0" promptText="Họ và tên" />
-         </children>
-         <VBox.margin>
-            <Insets bottom="15.0" left="15.0" top="15.0" />
-         </VBox.margin>
-      </HBox>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false"  prefHeight="45.0" prefWidth="145.0" text="Save">
+            <Button mnemonicParsing="false" onAction="#addProduct" prefHeight="45.0" prefWidth="145.0" text="Save">
                <HBox.margin>
                   <Insets right="20.0" />
                </HBox.margin>
@@ -143,7 +127,7 @@
                   <Font size="20.0" />
                </font>
             </Button>
-            <Button layoutX="162.0" layoutY="35.0" mnemonicParsing="false"  prefHeight="45.0" prefWidth="145.0" text="Clean">
+            <Button layoutX="162.0" layoutY="35.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="145.0" text="Clean">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>

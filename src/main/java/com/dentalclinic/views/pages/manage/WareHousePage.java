@@ -7,6 +7,7 @@ import com.dentalclinic.utils.AlertUtils;
 import com.dentalclinic.utils.DatabaseConnection;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
+import com.dentalclinic.views.pages.form.AddProductController;
 import com.dentalclinic.views.pages.form.EditProductController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
@@ -25,9 +26,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Page(name="Kho", icon="images/warehouse.png", fxml="manage/warehouse.fxml")
 public class WareHousePage extends AbstractPage {
+    private AddProductController addProductController;
     @FXML
     private TableView<Products> inventoryTable;
 
@@ -61,7 +65,6 @@ public class WareHousePage extends AbstractPage {
     PreparedStatement preparedStatement = null;
     Connection connection = null;
     ResultSet resultSet = null;
-    Products products = null;
 
     @FXML
     private void initialize(){
@@ -82,7 +85,6 @@ public class WareHousePage extends AbstractPage {
                         handleEdit(product);
                     }
                 });
-
 
                 deleteButton.setOnAction(event -> {
                     Products product = getTableRow().getItem();
@@ -112,18 +114,13 @@ public class WareHousePage extends AbstractPage {
         alert.setTitle("Xác nhận");
         alert.setHeaderText("Xóa sản phẩm");
         alert.setContentText("Bạn có chắc chắn muốn xóa sản phẩm: " + product.getProductName() + "?");
-
         alert.showAndWait().ifPresent(response -> {
             if (response == ButtonType.OK) {
-
                 deleteProductFromDatabase(product);
-
                 productsObservableList.remove(product);
-
             }
         });
     }
-
 
 
     private void handleEdit(Products product) {
@@ -139,30 +136,25 @@ public class WareHousePage extends AbstractPage {
         }
     }
 
+
     private void deleteProductFromDatabase(Products product) {
         try {
             Connection connection = DatabaseConnection.getConnection();
 
-            String sql = "DELETE FROM products WHERE code = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
+           query = "DELETE FROM products WHERE code = ?";
+            preparedStatement = connection.prepareStatement(query);
 
-            statement.setString(1, product.getCode());
+            preparedStatement.setString(1, product.getCode());
 
-            statement.executeUpdate();
-            statement.close();
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
             connection.close();
             System.out.println("Đã xóa sản phẩm:");
         } catch (SQLException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText("Xóa thất bại");
-            alert.setContentText("Có lỗi xảy ra khi xóa sản phẩm: " + e.getMessage());
-            alert.show();
+           AlertUtils.showCustomAlert("Lỗi", "Xóa thất bại", Alert.AlertType.ERROR);
         }
     }
-
-
 
 
 
@@ -197,8 +189,17 @@ public class WareHousePage extends AbstractPage {
                 int quantity = resultSet.getInt("quantity");
                 java.sql.Date expiryDate = resultSet.getDate("expiryDate");
                 String statusString = resultSet.getString("status");
-                Status status = Status.fromString(statusString);
+                Status status = Status.valueOf(statusString.toUpperCase());
+
                 Products product = new Products(code, productName, categoryName, price, quantity, expiryDate.toLocalDate(), status);
+
+                if (quantity < 5) {
+                    product.setStatus(Status.OUT_OF_STOCK);
+                    updateProductStatus(product);
+                } else {
+                    product.setStatus(Status.AVAILABLE);
+                    updateProductStatus(product);
+                }
                 productsObservableList.add(product);
             }
         } catch (SQLException e) {
@@ -206,21 +207,39 @@ public class WareHousePage extends AbstractPage {
         }
     }
 
+    private void updateProductStatus(Products product) {
+        try {
+            query = "UPDATE products SET status = ? WHERE code = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, product.getStatus().name());
+            preparedStatement.setString(2, product.getCode());
+            preparedStatement.executeUpdate();
+            System.out.println("Đã cập nhật trạng thái cho sản phẩm: " + product.getProductName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            AlertUtils.showCustomAlert("Lỗi", "Có lỗi xảy ra khi cập nhật trạng thái sản phẩm: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+
     @FXML
     public void loadFormAddProduct(){
         try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addProduct.fxml"));
-                Parent parent = loader.load();
-                Scene scene = new Scene(parent);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle("Thêm sản phẩm");
-                stage.show();
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addProduct.fxml"));
+            Parent root = loader.load();
+            AddProductController controller = loader.getController();
+            controller.setWareHousePage(this);
+            Stage stage = new Stage();
+            stage.setTitle("Add Product");
+            stage.setScene(new Scene(root));
+            stage.show();
         }catch(IOException e){
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public ObservableList<Products> 
 
 
 

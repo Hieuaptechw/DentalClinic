@@ -3,12 +3,12 @@ package com.dentalclinic.entity;
 public class Category {
     private String code;
     private String name;
-    private Status status;
 
-    public Category(String code, String name, Status status) {
+
+    public Category(String code, String name) {
         this.code = code;
         this.name = name;
-        this.status = status;
+
     }
 
     public String getCode() {
@@ -28,13 +28,6 @@ public class Category {
     }
 
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
 
 
@@ -43,7 +36,6 @@ public class Category {
         return "Category{" +
                 "code='" + code + '\'' +
                 ", name='" + name + '\'' +
-                ", status=" + status +
                 '}';
     }
 }

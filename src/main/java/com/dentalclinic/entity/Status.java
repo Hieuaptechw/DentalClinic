@@ -1,18 +1,7 @@
 package com.dentalclinic.entity;
 
 public enum Status {
-    ACTIVE,
-    INACTIVE;
+    AVAILABLE,
+    OUT_OF_STOCK;
 
-
-    public static Status fromString(String status) {
-        switch (status.toUpperCase()) {
-            case "ACTIVE":
-                return ACTIVE;
-            case "INACTIVE":
-                return INACTIVE;
-            default:
-                throw new IllegalArgumentException("Unknown status: " + status);
-        }
-    }
 }
