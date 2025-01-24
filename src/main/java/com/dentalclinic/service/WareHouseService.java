@@ -1,5 +1,5 @@
 package com.dentalclinic.service;
 
-public class warehouseService {
+public class WareHouseService {
 
 }

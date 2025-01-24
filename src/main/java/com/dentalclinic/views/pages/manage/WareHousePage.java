@@ -14,6 +14,7 @@ import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -26,12 +27,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Page(name="Kho", icon="images/warehouse.png", fxml="manage/warehouse.fxml")
 public class WareHousePage extends AbstractPage {
-    private AddProductController addProductController;
     @FXML
     private TableView<Products> inventoryTable;
 
@@ -101,7 +102,9 @@ public class WareHousePage extends AbstractPage {
                     setGraphic(null);
                 } else {
                     HBox box = new HBox(10, editButton, deleteButton);
+                    box.setAlignment(Pos.CENTER);  // Căn giữa các nút trong HBox
                     setGraphic(box);
+
                 }
             }
         });
@@ -191,7 +194,14 @@ public class WareHousePage extends AbstractPage {
                 String statusString = resultSet.getString("status");
                 Status status = Status.valueOf(statusString.toUpperCase());
 
-                Products product = new Products(code, productName, categoryName, price, quantity, expiryDate.toLocalDate(), status);
+                LocalDate expiryLocalDate = null;
+                if (expiryDate != null) {
+                    expiryLocalDate = expiryDate.toLocalDate();
+                } else {
+                    expiryLocalDate = null;
+                }
+
+                Products product = new Products(code, productName, categoryName, price, quantity, expiryLocalDate, status);
 
                 if (quantity < 5) {
                     product.setStatus(Status.OUT_OF_STOCK);
@@ -206,6 +216,7 @@ public class WareHousePage extends AbstractPage {
             e.printStackTrace();
         }
     }
+
 
     private void updateProductStatus(Products product) {
         try {
@@ -237,10 +248,5 @@ public class WareHousePage extends AbstractPage {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    public ObservableList<Products> 
-
-
 
 }
