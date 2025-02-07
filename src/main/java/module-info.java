@@ -9,6 +9,7 @@ module com.dentalclinic {
     requires annotations;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires mysql.connector.java;
 
     exports com.dentalclinic;
     opens com.dentalclinic.entities;

@@ -46,3 +46,43 @@
     -fx-padding: 2px 0 0 0;
     -fx-pref-height: 66px;
 }
+.stat-box {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-padding: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0, 0, 5);
+    -fx-alignment: center;
+}
+
+.stat-number {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c44b2;
+}
+
+.stat-label {
+    -fx-font-size: 15px;
+    -fx-text-fill: rgba(0, 0, 0, 0.51);
+}
+.btn-add{
+    -fx-background-color: #3497f9;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: 700;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}
+.input{
+    -fx-border-color: #70afec;
+    -fx-border-width: 0 0 0 0 ;
+    -fx-text-fill: red;
+    -fx-background-color:#70afec ;
+    -fx-prompt-text-fill: #ffffff;
+}
+.t{
+    -fx-border-color: #70afec;
+    -fx-border-width: 1 1 1 1 ;
+    -fx-background-color: #70afec;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+}

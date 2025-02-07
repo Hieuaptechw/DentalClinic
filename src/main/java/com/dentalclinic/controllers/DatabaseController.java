@@ -1,8 +1,11 @@
 package com.dentalclinic.controllers;
 
+import com.dentalclinic.entities.Patient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+
+import java.util.List;
 
 public final class DatabaseController {
     private static EntityManagerFactory emf;
@@ -17,4 +20,5 @@ public final class DatabaseController {
     public static EntityManager getEntityManager() {
         return em;
     }
+
 }

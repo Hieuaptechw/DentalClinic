@@ -1,7 +1,183 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../css/style.css" fx:controller="com.dentalclinic.views.pages.manage.HomePage" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Label>This is home page</Label>
-</VBox>
+<?import javafx.scene.text.Font?>
+
+<ScrollPane fitToWidth="true" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.HomePage">
+   <content>
+      <VBox alignment="CENTER" stylesheets="@../../../css/style.css">
+         <Label text="Home">
+            <font>
+               <Font name="System Bold" size="22.0" />
+            </font>
+            <VBox.margin>
+               <Insets />
+            </VBox.margin>
+         </Label>
+
+                     <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <children>
+               <VBox HBox.hgrow="ALWAYS">
+                  <children>
+
+                                 <GridPane alignment="center" hgap="20" vgap="20" VBox.vgrow="ALWAYS">
+                        <columnConstraints>
+                           <ColumnConstraints minWidth="10.0" prefWidth="200.0" />
+                           <ColumnConstraints prefWidth="200.0" />
+                           <ColumnConstraints minWidth="10.0" prefWidth="200.0" />
+                           <ColumnConstraints prefWidth="200.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                           <RowConstraints prefHeight="150.0" />
+                        </rowConstraints>
+
+                                    <children>
+                           <Pane styleClass="stat-box">
+                              <children>
+                                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="75.0" layoutY="10.0">
+                                    <image>
+                                       <Image url="@../../../images/medical-team.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label layoutX="80.0" layoutY="70.0" styleClass="stat-number" text="14" />
+                                 <Label layoutX="59.0" layoutY="100.0" styleClass="stat-label" text="All Doctors" />
+                              </children>
+                           </Pane>
+                           <Pane styleClass="stat-box" GridPane.columnIndex="1">
+                              <children>
+                                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="75.0" layoutY="10.0">
+                                    <image>
+                                       <Image url="@../../../images/tooth-extraction.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label layoutX="80.0" layoutY="70.0" styleClass="stat-number" text="50" />
+                                 <Label layoutX="58.0" layoutY="100.0" styleClass="stat-label" text="All Patients" />
+                              </children>
+                           </Pane>
+                           <Pane styleClass="stat-box" GridPane.columnIndex="2">
+                              <children>
+                                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="75.0" layoutY="10.0">
+                                    <image>
+                                       <Image url="@../../../images/online-booking.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label layoutX="80.0" layoutY="70.0" styleClass="stat-number" text="30" />
+                                 <Label layoutX="50.0" layoutY="100.0" styleClass="stat-label" text="All Bookings" />
+                              </children>
+                           </Pane>
+                           <Pane styleClass="stat-box" GridPane.columnIndex="3">
+                              <children>
+                                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="75.0" layoutY="10.0">
+                                    <image>
+                                       <Image url="@../../../images/calendar.png" />
+                                    </image>
+                                 </ImageView>
+                                 <Label layoutX="89.0" layoutY="69.0" styleClass="stat-number" text="8" />
+                                 <Label layoutX="57.0" layoutY="100.0" styleClass="stat-label" text="All Sessions" />
+                              </children>
+                           </Pane>
+                        </children>
+                        <VBox.margin>
+                           <Insets />
+                        </VBox.margin>
+                        <opaqueInsets>
+                           <Insets />
+                        </opaqueInsets>
+                        <padding>
+                           <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+                        </padding>
+                     </GridPane>
+                  </children>
+               </VBox>
+               <VBox>
+                  <children>
+                     <Pane prefHeight="200.0" prefWidth="200.0">
+                        <children>
+                           <ImageView fitHeight="150.0" fitWidth="200.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                              <image>
+                                 <Image url="@../../../images/customer-service.png" />
+                              </image>
+                           </ImageView>
+                        </children>
+                     </Pane>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <children>
+               <VBox layoutX="10.0" layoutY="10.0">
+                  <children>
+                     <Label text="Danh sách lịch hẹn sắp tới">
+                        <font>
+                           <Font name="System Bold" size="13.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets left="20.0" />
+                        </VBox.margin>
+                     </Label>
+                     <TableView>
+                        <columns>
+                           <TableColumn prefWidth="65.0" text="SBD" />
+                           <TableColumn prefWidth="126.0" text="Tên" />
+                           <TableColumn prefWidth="61.0" text="Ngày" />
+                           <TableColumn prefWidth="77.0" text="GIờ" />
+                           <TableColumn prefWidth="74.0" text="Phòng" />
+                           <TableColumn prefWidth="84.0" text="Trạng thái" />
+                        </columns>
+                        <VBox.margin>
+                           <Insets top="20.0" />
+                        </VBox.margin>
+                     </TableView>
+                  </children>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+               </VBox>
+               <VBox prefWidth="350.0" HBox.hgrow="ALWAYS">
+                  <children>
+                     <Label text="Danh sách bệnh nhân đang chờ">
+                        <font>
+                           <Font name="System Bold" size="13.0" />
+                        </font>
+                        <VBox.margin>
+                           <Insets left="20.0" />
+                        </VBox.margin>
+                     </Label>
+                     <TableView>
+                        <columns>
+                           <TableColumn prefWidth="65.0" text="SBD" />
+                           <TableColumn prefWidth="126.0" text="Tên" />
+                           <TableColumn prefWidth="74.0" text="Phòng" />
+                           <TableColumn prefWidth="84.0" text="Trạng thái" />
+                        </columns>
+                        <VBox.margin>
+                           <Insets top="20.0" />
+                        </VBox.margin>
+                     </TableView>
+                  </children>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <padding>
+                     <Insets left="20.0" />
+                  </padding>
+               </VBox>
+            </children>
+         </HBox>
+
+      </VBox>
+   </content>
+</ScrollPane>
