@@ -11,6 +11,7 @@ module com.dentalclinic {
     requires org.hibernate.orm.core;
     requires mysql.connector.java;
 
+
     exports com.dentalclinic;
     opens com.dentalclinic.entities;
     opens com.dentalclinic to javafx.fxml;
@@ -19,4 +20,5 @@ module com.dentalclinic {
     opens com.dentalclinic.views.pages.manage to javafx.fxml;
     opens com.dentalclinic.views.pages.setting to javafx.fxml;
     opens com.dentalclinic.views.pages.administration to javafx.fxml;
+
 }
