@@ -1,6 +1,7 @@
 package com.dentalclinic.entities;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,8 +14,9 @@ public class Patient {
     @Column(name = "name", nullable = false)
     private String name;
 
+    // Chuyển từ LocalDateTime sang LocalDate
     @Column(name = "dob")
-    private LocalDateTime dob;
+    private LocalDate dob;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
@@ -51,11 +53,11 @@ public class Patient {
         this.name = name;
     }
 
-    public LocalDateTime getDob() {
+    public LocalDate getDob() {
         return dob;
     }
 
-    public void setDob(LocalDateTime dob) {
+    public void setDob(LocalDate dob) {
         this.dob = dob;
     }
 

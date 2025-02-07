@@ -13,6 +13,9 @@ public class Room {
     @Column(name = "room_number", nullable = false)
     private String roomNumber;
 
+    @Column(name = "branch_id", nullable = false)
+    private long branchId; // Dùng kiểu long vì branch_id thường là khóa ngoại
+
     @Column(name = "room_type")
     private String roomType;
 
@@ -36,6 +39,14 @@ public class Room {
 
     public void setRoomNumber(String roomNumber) {
         this.roomNumber = roomNumber;
+    }
+
+    public long getBranchId() {
+        return branchId;
+    }
+
+    public void setBranchId(long branchId) {
+        this.branchId = branchId;
     }
 
     public String getRoomType() {
