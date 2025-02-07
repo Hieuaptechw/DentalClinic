@@ -25,5 +25,63 @@ public class Document {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Getters and Setters
+    public long getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(long documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public String getUploadedBy() {
+        return uploadedBy;
+    }
+
+    public void setUploadedBy(String uploadedBy) {
+        this.uploadedBy = uploadedBy;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Document{" +
+                "documentId=" + documentId +
+                ", title='" + title + '\'' +
+                ", filePath='" + filePath + '\'' +
+                ", uploadedBy='" + uploadedBy + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
