@@ -75,13 +75,12 @@
             <children>
                <TableView fx:id="tableViewPatient" prefHeight="452.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
                   <columns>
-                     <TableColumn fx:id="idColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="ID" />
                      <TableColumn fx:id="nameColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Name" />
+                     <TableColumn fx:id="genderColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Gender" />
                      <TableColumn fx:id="emailColumn" prefWidth="102.4000244140625" style="-fx-alignment: center;" text="Email" />
                      <TableColumn fx:id="phoneColumn" prefWidth="170.4000244140625" style="-fx-alignment: center;" text="Phone" />
                      <TableColumn fx:id="addressColumn" prefWidth="111.99996948242188" style="-fx-alignment: center;" text="Address" />
                      <TableColumn fx:id="dobColumn" prefWidth="124.79998779296875" style="-fx-alignment: center;" text="Date of Birth" />
-                     <TableColumn fx:id="passwordColumn" prefWidth="120.800048828125" style="-fx-alignment: center;" text="Password" />
 <!--                     <TableColumn fx:id="actionColumn" prefWidth="167.199951171875" style="-fx-alignment: center;" text="Hành động" />-->
                   </columns>
                   <columnResizePolicy>

@@ -10,6 +10,9 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long appointmentId;
 
+    @Column(name = "registration_number", nullable = false, unique = true)
+    private String registrationNumber; // Thêm số báo danh
+
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
@@ -98,10 +101,19 @@ public class Appointment {
         this.updatedAt = updatedAt;
     }
 
+    public String getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(String registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
                 "appointmentId=" + appointmentId +
+                ", registrationNumber='" + registrationNumber + '\'' +
                 ", patient=" + patient +
                 ", doctor=" + doctor +
                 ", room=" + room +

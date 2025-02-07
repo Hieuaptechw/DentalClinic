@@ -1,6 +1,8 @@
 package com.dentalclinic.entities;
 
 import jakarta.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,13 +17,13 @@ public class WorkSchedule {
     private Doctor doctor;
 
     @Column(name = "working_day", nullable = false)
-    private LocalDateTime workingDay;
+    private LocalDate workingDay; // Chỉ lưu ngày
 
     @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    private LocalTime startTime; // Chỉ lưu giờ và phút
 
     @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    private LocalTime endTime; // Chỉ lưu giờ và phút
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -45,27 +47,27 @@ public class WorkSchedule {
         this.doctor = doctor;
     }
 
-    public LocalDateTime getWorkingDay() {
+    public LocalDate getWorkingDay() {
         return workingDay;
     }
 
-    public void setWorkingDay(LocalDateTime workingDay) {
+    public void setWorkingDay(LocalDate workingDay) {
         this.workingDay = workingDay;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

@@ -21,8 +21,6 @@ public class PatientPage extends AbstractPage {
     @FXML
     private TableView<Patient> tableViewPatient;
     @FXML
-    private TableColumn<Patient, Long> idColumn;
-    @FXML
     private TableColumn<Patient, String> nameColumn;
 
     @FXML
@@ -38,7 +36,7 @@ public class PatientPage extends AbstractPage {
     private TableColumn<Patient, String> dobColumn;
 
     @FXML
-    private TableColumn<Patient, String> passwordColumn;
+    private TableColumn<Patient, String> genderColumn;
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;
@@ -47,22 +45,19 @@ public class PatientPage extends AbstractPage {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
         patientController = new PatientController(em);
-
-        // Thiết lập các cột cho TableView
         setupTableColumns();
 
-        // Tải dữ liệu bệnh nhân
         loadPatients();
     }
 
     private void setupTableColumns() {
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
+
     }
 
     private void loadPatients() {
