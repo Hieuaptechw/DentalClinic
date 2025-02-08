@@ -7,10 +7,14 @@ import jakarta.persistence.EntityManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 
 public class AddInventoryPage {
+    @FXML
+    private Label messageLabel;
+
     @FXML
     private TextField addName;
 
@@ -39,15 +43,56 @@ public class AddInventoryPage {
     @FXML
     public void handleAddInventory(){
         try{
-            String name = addName.getText();
-            double price = Double.parseDouble(addPrice.getText());
-            int quantity = Integer.parseInt(addQuantity.getText());
-            String supplier = addSupplier.getText();
+            String name = addName.getText().trim();
+            String price = addPrice.getText().trim();
+            String quantity = addQuantity.getText().trim();
+            String supplier = addSupplier.getText().trim();
+
+            if (name.isEmpty() || price.isEmpty() || quantity.isEmpty() || supplier.isEmpty()) {
+               messageLabel.setText("Vui lòng điền đầy đủ thông tin");
+               messageLabel.setStyle("-fx-text-fill: red");
+                return;
+            }else {
+                messageLabel.setText("");
+            }
+
+            double unitPrice;
+            int qty;
+
+            try{
+                unitPrice = Double.parseDouble(price);
+                if(unitPrice < 0){
+                    messageLabel.setText("Lỗi nhập liệu giá tiền không thể âm");
+                    messageLabel.setStyle("-fx-text-fill: red");
+                    return;
+                }else {
+                    messageLabel.setText("");
+                }
+            }catch(NumberFormatException e){
+                    messageLabel.setText("Đã có lỗi xảy ra");
+
+                    return;
+            }
+
+            try{
+                qty = Integer.parseInt(quantity);
+                if(qty < 0){
+                    messageLabel.setText("Lỗi nhập liệu số lượng không thể âm");
+                    messageLabel.setStyle("-fx-text-fill: red");
+                    return;
+                }else {
+                    messageLabel.setText("");
+                }
+            }catch(NumberFormatException e){
+                messageLabel.setText("Đã có lỗi xảy ra");
+                return;
+            }
+
 
             Inventory inventory = new Inventory();
             inventory.setItemName(name);
-            inventory.setUnitPrice(price);
-            inventory.setQuantity(quantity);
+            inventory.setUnitPrice(unitPrice);
+            inventory.setQuantity(qty);
             inventory.setSupplier(supplier);
 
             inventoryController.addInventory(inventory);

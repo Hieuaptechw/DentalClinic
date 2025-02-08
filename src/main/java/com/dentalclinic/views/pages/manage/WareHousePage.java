@@ -58,7 +58,6 @@ public class WareHousePage extends AbstractPage {
         actionColumn.setCellFactory(KParameter -> new TableCell<Inventory, Void>() {
             private final Button editButton;
             private final Button deleteButton;
-
             {
                 // Tạo icon sửa
                 ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/pen.png")));
@@ -101,8 +100,6 @@ public class WareHousePage extends AbstractPage {
                 }
             }
         });
-
-
         inventoryTable.setItems(productsObservableList);
     }
 
@@ -112,7 +109,7 @@ public class WareHousePage extends AbstractPage {
         alert.setHeaderText("Xóa sản phẩm");
         alert.setContentText("Bạn có chắc chắn muốn xóa sản phẩm: " + inventory.getItemName() + "?");
         alert.showAndWait().ifPresent(response -> {
-            if(response == ButtonType.YES){
+            if(response == ButtonType.OK){
                 inventoryController.handleDeleteInventory(inventory.getInventoryId());
                 productsObservableList.remove(inventory);
             }
@@ -157,9 +154,11 @@ public class WareHousePage extends AbstractPage {
     }
 
 
+
     public TableView<Inventory> getInventoryTable(){
         return inventoryTable;
     }
+
 
 
 
