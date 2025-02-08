@@ -58,7 +58,7 @@ public class CandidatenumberFormController {
         roomNameField.setText(appointment.getRoom().getRoomNumber());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         examTimeField.setText(appointment.getAppointmentDate().format(formatter));
-        doctorExaminesField.setText(appointment.getDoctor().getName());
+        doctorExaminesField.setText(appointment.getStaff().getName());
         symptomPresentationField.setText("Đau răng");
     }
 }

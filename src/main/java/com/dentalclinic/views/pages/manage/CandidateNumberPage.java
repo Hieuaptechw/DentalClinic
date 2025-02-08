@@ -166,7 +166,7 @@ public class CandidateNumberPage extends AbstractPage {
         colSBD_2.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
         colName_2.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getName()));
         colRoom_2.setCellValueFactory(c->new SimpleStringProperty(c.getValue().getRoom().getRoomNumber()));
-        colDoctor_2.setCellValueFactory(c->new SimpleStringProperty(c.getValue().getDoctor().getName()));
+       colDoctor_2.setCellValueFactory(c->new SimpleStringProperty(c.getValue().getStaff().getName()));
         colTime_2.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         loadActionColumn( colAction_2);
     }
@@ -236,7 +236,7 @@ public class CandidateNumberPage extends AbstractPage {
                         "SBD: " + nextAppointment.getRegistrationNumber() + "\n" +
                         "SĐT: " + nextAppointment.getPatient().getPhone() + "\n" +
                         "Thời gian khám: " + nextAppointment.getAppointmentDate().toString() + "\n" +
-                        "Bác sĩ: " + nextAppointment.getDoctor().getName()
+                        "Bác sĩ: " + nextAppointment.getStaff().getName()
         );
         alert.show();
 
@@ -289,7 +289,7 @@ public class CandidateNumberPage extends AbstractPage {
 
         String combinedData = (appointment.getPatient().getName() + " " +
                 appointment.getRoom().getRoomNumber() + " " +
-                appointment.getDoctor().getName() + " " +
+                appointment.getStaff().getName() + " " +
                 appointment.getRegistrationNumber() + " " +
                 appointment.getStatus()).toLowerCase();
 

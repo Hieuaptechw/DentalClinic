@@ -156,7 +156,7 @@
                                  <TableColumn fx:id="colSBD_1" prefWidth="90.0" text="SBD" />
                                  <TableColumn fx:id="colName_1" prefWidth="162.0" text="Tên" />
                                  <TableColumn fx:id="colPriority_1" prefWidth="111.0" text="Ưu Tiên" />
-                                 <TableColumn fx:id="colReason_1" minWidth="0.0" prefWidth="154.0" text="Nguyên Nhân Khám" />
+                                 <TableColumn fx:id="colReason_1" minWidth="0.0" prefWidth="154.0" text="Triệu Chứng" />
                                  <TableColumn fx:id="colStatus_1" prefWidth="157.0" text="Trạng Thái" />
                                  <TableColumn fx:id="colAction_1" prefWidth="83.0" text="Action" />
                               </columns>

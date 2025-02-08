@@ -18,8 +18,8 @@ public class Appointment {
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "staff_id", nullable = false)
+    private Staff staff;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
@@ -57,12 +57,15 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setStaff(Staff staff) {
+        if (staff.getRole() != RoleType.DOCTOR) {
+            throw new IllegalArgumentException("Chỉ có bác sĩ mới có thể nhận cuộc hẹn.");
+        }
+        this.staff = staff;
     }
 
     public Room getRoom() {
@@ -127,7 +130,7 @@ public class Appointment {
                 "appointmentId=" + appointmentId +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", patient=" + patient +
-                ", doctor=" + doctor +
+                ", staff=" + staff +
                 ", room=" + room +
                 ", appointmentDate=" + appointmentDate +
                 ", symptoms='" + symptoms + '\'' +

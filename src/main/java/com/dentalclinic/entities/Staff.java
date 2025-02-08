@@ -23,14 +23,28 @@ public class Staff {
     @Column(name = "role", nullable = false)
     private RoleType role;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+    @Column(name = "specialty")
+    private String specialty;
 
-    @Column(name = "created_at")
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
 
     public long getStaffId() {
         return staffId;
@@ -72,28 +86,28 @@ public class Staff {
         this.role = role;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getSpecialty() {
+        return specialty;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setSpecialty(String specialty) {
+        this.specialty = specialty;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -104,7 +118,8 @@ public class Staff {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", specialty='" + specialty + '\'' +
+                ", phone='" + phone + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 '}';

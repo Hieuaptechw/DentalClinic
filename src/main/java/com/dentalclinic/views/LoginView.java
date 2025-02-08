@@ -2,35 +2,13 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.views.pages.AbstractPage;
-import com.dentalclinic.views.pages.administration.DoctorPage;
-import com.dentalclinic.views.pages.administration.SalaryPage;
-import com.dentalclinic.views.pages.administration.WorkSchedulePage;
-import com.dentalclinic.views.pages.manage.*;
-import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.setting.BackupPage;
-import com.dentalclinic.views.pages.setting.NotificationPage;
-import com.dentalclinic.views.pages.setting.SupportPage;
-import com.dentalclinic.views.pages.setting.SystemPage;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class LoginView {
     @FXML private TextField emailField;

@@ -2,8 +2,8 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.views.pages.AbstractPage;
-import com.dentalclinic.views.pages.administration.DoctorPage;
 import com.dentalclinic.views.pages.administration.SalaryPage;
+import com.dentalclinic.views.pages.administration.StaffPage;
 import com.dentalclinic.views.pages.administration.WorkSchedulePage;
 import com.dentalclinic.views.pages.manage.*;
 import com.dentalclinic.views.pages.Page;
@@ -49,7 +49,6 @@ public class PrimaryView {
                 generateToolbarPageItem(CalendarPage.class),
                 generateToolbarPageItem(PatientRecordPage.class),
                 generateToolbarPageItem(FinancePage.class),
-                generateToolbarPageItem(StaffPage.class),
                 generateToolbarPageItem(RoomPage.class),
                 generateToolbarPageItem(WareHousePage.class),
                 generateToolbarPageItem(DocumentPage.class)
@@ -57,7 +56,7 @@ public class PrimaryView {
 
         );
         toolbarAdministrationTab.getChildren().addAll(
-                generateToolbarPageItem(DoctorPage.class),
+                generateToolbarPageItem(StaffPage.class),
                 generateToolbarPageItem(WorkSchedulePage.class),
                 generateToolbarPageItem(SalaryPage.class)
         );

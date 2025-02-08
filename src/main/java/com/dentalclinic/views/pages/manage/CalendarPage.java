@@ -48,7 +48,7 @@ public class CalendarPage extends AbstractPage {
     private void setupTableColumns() {
         registrationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
         patientColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getPatient().getName()));
-        doctorColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getDoctor().getName()));
+        doctorColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getStaff().getName()));
         roomColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getRoom().getRoomNumber()));
         appointmentDateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
