@@ -5,6 +5,7 @@ import com.dentalclinic.controllers.InventoryController;
 import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
+import com.dentalclinic.views.pages.form.AddInventoryPage;
 import com.dentalclinic.views.pages.form.EditInventoryPage;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
@@ -147,11 +148,31 @@ public class WareHousePage extends AbstractPage {
         }
     }
 
+
+    public void handleAddInventory(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/AddInventory.fxml"));
+            Parent root = loader.load();
+            AddInventoryPage addInventoryPage = loader.getController();
+            addInventoryPage.setWareHousePage(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Thêm Sản Phẩm");
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public void loadInventory(){
         List<Inventory> inventories = inventoryController.getAllInventory();
         productsObservableList.addAll(inventories);
     }
 
+
+    public TableView<Inventory> getInventoryTable(){
+        return inventoryTable;
+    }
 
 
 

@@ -86,3 +86,37 @@
     -fx-background-radius: 10;
     -fx-border-radius: 10;
 }
+
+#btnAddProduct{
+    -fx-background-color: #69a2e4;
+}
+
+/* Loại bỏ tất cả các đường kẻ mặc định */
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+}
+
+/* Chỉ giữ lại đường kẻ dọc */
+.table-row-cell {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+
+}
+
+.table-cell {
+    -fx-border-color: #d1d1d1; /* Màu của đường kẻ ngang */
+    -fx-border-width: 0 0 1px 0; /* Chỉ giữ lại đường kẻ ngang dưới mỗi hàng */
+}
+
+.table-view .column-header {
+    -fx-background-color: white;
+}
+
+#searchField{
+
+    -fx-background-radius: 18px;
+}
+
+
