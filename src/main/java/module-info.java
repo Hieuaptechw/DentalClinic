@@ -20,5 +20,6 @@ module com.dentalclinic {
     opens com.dentalclinic.views.pages.manage to javafx.fxml;
     opens com.dentalclinic.views.pages.setting to javafx.fxml;
     opens com.dentalclinic.views.pages.administration to javafx.fxml;
+    opens com.dentalclinic.views.pages.form to javafx.fxml;
 
 }

@@ -1,0 +1,27 @@
+.btn-add {
+    -fx-background-color: #2196F3;  /* Màu nền xanh dương */
+    -fx-text-fill: white;           /* Màu chữ trắng */
+    -fx-font-size: 14px;            /* Kích thước font */
+    -fx-font-weight: bold;          /* Chữ đậm */
+    -fx-padding: 8px 16px;          /* Khoảng cách bên trong nút */
+    -fx-background-radius: 4px;     /* Bo góc nút */
+    -fx-border-radius: 4px;         /* Bo góc viền */
+    -fx-cursor: hand;              /* Con trỏ chuột hiển thị dạng tay */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
+.btn-clear {
+    -fx-background-color: #ff9800;  /* Màu cam nhẹ */
+    -fx-text-fill: white;           /* Màu chữ trắng */
+    -fx-font-size: 14px;            /* Kích thước font */
+    -fx-font-weight: bold;          /* Chữ đậm */
+    -fx-padding: 8px 16px;          /* Khoảng cách bên trong nút */
+    -fx-background-radius: 4px;     /* Bo góc nút */
+    -fx-border-radius: 4px;         /* Bo góc viền */
+    -fx-cursor: hand;              /* Con trỏ chuột dạng tay */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
+.btn-update {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
