@@ -11,7 +11,7 @@ public class Appointment {
     private long appointmentId;
 
     @Column(name = "registration_number", nullable = false, unique = true)
-    private String registrationNumber; // Thêm số báo danh
+    private String registrationNumber;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
