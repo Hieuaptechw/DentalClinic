@@ -22,30 +22,16 @@ import java.util.List;
 
 @Page(name="Kho", icon="images/warehouse.png", fxml="manage/warehouse.fxml")
 public class WareHousePage extends AbstractPage {
-    @FXML
-    private TextField searchField;
 
-    @FXML
-    private TableView<Inventory> inventoryTable;
-
-    @FXML
-    private TableColumn<Inventory, Long> idColumn;
-
-    @FXML
-    private TableColumn<Inventory, String> nameColumn;
-
-    @FXML
-    private TableColumn<Inventory, Double> priceColumn;
-
-    @FXML
-    private TableColumn<Inventory, Integer> quantityColumn;
-
-    @FXML
-    private TableColumn<Inventory, String> supplierColumn;
-
-    @FXML
-    private TableColumn<Inventory, Void> actionColumn;
-
+    @FXML private TextField searchField;
+    @FXML private TableView<Inventory> inventoryTable;
+    @FXML private TableColumn<Inventory, Long> idColumn;
+    @FXML private TableColumn<Inventory, String> nameColumn;
+    @FXML private TableColumn<Inventory, Double> priceColumn;
+    @FXML private TableColumn<Inventory, Integer> quantityColumn;
+    @FXML private TableColumn<Inventory, String> supplierColumn;
+    @FXML private TableColumn<Inventory, Void> actionColumn;
+    
     private InventoryController inventoryController;
 
     public WareHousePage(){
