@@ -40,6 +40,12 @@ public class PatientPage extends AbstractPage {
     @FXML private TableColumn<Patient, String> addressColumn;
     @FXML private TableColumn<Patient, String> dobColumn;
     @FXML private TableColumn<Patient, String> genderColumn;
+    @FXML private TableColumn<Patient, String> dateRColumn;
+    @FXML private TableColumn<Patient, Void> actionColumn;
+    @FXML private  TextField searchField;
+    @FXML private DatePicker fromDatePicker;
+    @FXML private DatePicker toDatePicker;
+
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;

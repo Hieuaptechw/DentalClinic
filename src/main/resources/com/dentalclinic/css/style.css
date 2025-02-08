@@ -148,7 +148,6 @@
 .table-view .column-header .label {
     -fx-text-fill: white;
 }
-/* Header của bảng */
 .table-view .column-header {
     -fx-background-color: linear-gradient(to bottom, #2196F3, #1976D2);
     -fx-text-fill: white;
@@ -211,28 +210,8 @@
     -fx-background-color: #69a2e4;
 }
 
-/* Loại bỏ tất cả các đường kẻ mặc định */
-.table-view {
-    -fx-table-cell-border-color: transparent;
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-}
 
-/* Chỉ giữ lại đường kẻ dọc */
-.table-row-cell {
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
 
-}
-
-.table-cell {
-    -fx-border-color: #d1d1d1; /* Màu của đường kẻ ngang */
-    -fx-border-width: 0 0 1px 0; /* Chỉ giữ lại đường kẻ ngang dưới mỗi hàng */
-}
-
-.table-view .column-header {
-    -fx-background-color: white;
-}
 
 #searchField{
 

@@ -28,6 +28,9 @@ public class Appointment {
     @Column(name = "appointment_date", nullable = false)
     private LocalDateTime appointmentDate;
 
+    @Column(name = "symptoms", columnDefinition = "TEXT")
+    private String symptoms;
+
     @Column(name = "status")
     private String status;
 
@@ -37,6 +40,7 @@ public class Appointment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Getters và Setters
     public long getAppointmentId() {
         return appointmentId;
     }
@@ -75,6 +79,14 @@ public class Appointment {
 
     public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
     }
 
     public String getStatus() {
@@ -118,6 +130,7 @@ public class Appointment {
                 ", doctor=" + doctor +
                 ", room=" + room +
                 ", appointmentDate=" + appointmentDate +
+                ", symptoms='" + symptoms + '\'' +
                 ", status='" + status + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
