@@ -18,25 +18,13 @@ import java.util.List;
 @Page(name = "Bệnh nhân", icon = "images/patient.png", fxml = "manage/patient.fxml")
 public class PatientPage extends AbstractPage {
 
-    @FXML
-    private TableView<Patient> tableViewPatient;
-    @FXML
-    private TableColumn<Patient, String> nameColumn;
-
-    @FXML
-    private TableColumn<Patient, String> emailColumn;
-
-    @FXML
-    private TableColumn<Patient, String> phoneColumn;
-
-    @FXML
-    private TableColumn<Patient, String> addressColumn;
-
-    @FXML
-    private TableColumn<Patient, String> dobColumn;
-
-    @FXML
-    private TableColumn<Patient, String> genderColumn;
+    @FXML private TableView<Patient> tableViewPatient;
+    @FXML private TableColumn<Patient, String> nameColumn;
+    @FXML private TableColumn<Patient, String> emailColumn;
+    @FXML private TableColumn<Patient, String> phoneColumn;
+    @FXML private TableColumn<Patient, String> addressColumn;
+    @FXML private TableColumn<Patient, String> dobColumn;
+    @FXML private TableColumn<Patient, String> genderColumn;
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;

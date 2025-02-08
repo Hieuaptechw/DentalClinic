@@ -2,6 +2,7 @@ package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.InventoryController;
+import com.dentalclinic.controllers.CalendarController;
 import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
