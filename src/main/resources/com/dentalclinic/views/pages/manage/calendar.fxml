@@ -81,6 +81,7 @@
                     <TableColumn fx:id="roomColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Room" />
                     <TableColumn fx:id="appointmentDateColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Appointment Date" />
                     <TableColumn fx:id="statusColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Status" />
+                    <TableColumn fx:id="actionColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="Actions" />
                   </columns>
                   <columnResizePolicy>
                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

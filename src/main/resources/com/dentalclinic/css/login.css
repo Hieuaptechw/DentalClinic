@@ -1,0 +1,8 @@
+.login-background {
+    -fx-background-color: #4c984d;
+}
+
+.login-form {
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+}
