@@ -92,8 +92,6 @@ public class Doctor {
                 ", specialty='" + specialty + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
                 '}';
     }
 }
