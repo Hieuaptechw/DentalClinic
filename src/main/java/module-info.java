@@ -13,6 +13,7 @@ module com.dentalclinic {
 
 
     exports com.dentalclinic;
+    exports com.dentalclinic.controllers;
     opens com.dentalclinic.entities;
     opens com.dentalclinic to javafx.fxml;
     opens com.dentalclinic.views to javafx.fxml;
