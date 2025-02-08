@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="286.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.AddNewRoom">
+    <center>
+        <AnchorPane prefHeight="482.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="titleLabel" alignment="CENTER" layoutX="183.0" layoutY="129.0" prefHeight="36.0" prefWidth="189.0" text="Add New Branch">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Label>
+
+                <!-- Name Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="184.0" prefHeight="26.0" prefWidth="62.0" text="ID" />
+                <TextField fx:id="idField" layoutX="121.0" layoutY="184.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="idError" layoutX="85.0" layoutY="120.0" textFill="red" />
+
+                <!-- Address Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="231.0" prefHeight="26.0" prefWidth="62.0" text="Name" />
+                <TextField fx:id="nameField" layoutX="121.0" layoutY="232.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="nameError" layoutX="85.0" layoutY="168.0" textFill="red" />
+
+                <!-- Doctors Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="281.0" prefHeight="26.0" prefWidth="62.0" text="Phone" />
+                <TextField fx:id="phoneField" layoutX="121.0" layoutY="282.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="phoneError" layoutX="85.0" layoutY="218.0" textFill="red" />
+
+                <!-- Confirm Button -->
+                <Button fx:id="confirmButton" layoutX="248.0" layoutY="334.0" mnemonicParsing="false" text="Confirm" />
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
