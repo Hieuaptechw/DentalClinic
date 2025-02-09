@@ -43,7 +43,6 @@
         </AnchorPane>
     </left>
     <right>
-
         <AnchorPane prefHeight="802.0" prefWidth="663.0" BorderPane.alignment="CENTER">
             <children>
                 <TableView fx:id="branchTable" layoutY="90.0" prefHeight="712.0" prefWidth="652.0">
