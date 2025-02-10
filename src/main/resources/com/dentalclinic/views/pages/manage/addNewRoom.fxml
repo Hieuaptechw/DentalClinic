@@ -7,33 +7,39 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="286.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.AddNewRoom">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="333.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.AddNewRoom">
     <center>
-        <AnchorPane prefHeight="482.0" prefWidth="556.0" BorderPane.alignment="CENTER">
+        <AnchorPane prefHeight="368.0" prefWidth="556.0" BorderPane.alignment="CENTER">
             <children>
-                <Label fx:id="titleLabel" alignment="CENTER" layoutX="183.0" layoutY="129.0" prefHeight="36.0" prefWidth="189.0" text="Add New Branch">
+                <!-- Title Label -->
+                <Label fx:id="titleLabel" alignment="CENTER" layoutX="183.0" layoutY="25.0" prefHeight="36.0" prefWidth="189.0" text="Add New Room">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
 
-                <!-- Name Field -->
-                <Label alignment="CENTER" layoutX="41.0" layoutY="184.0" prefHeight="26.0" prefWidth="62.0" text="ID" />
-                <TextField fx:id="idField" layoutX="121.0" layoutY="184.0" prefHeight="25.0" prefWidth="394.0" />
-                <Label fx:id="idError" layoutX="85.0" layoutY="120.0" textFill="red" />
+                <!-- Room ID Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="84.0" prefHeight="26.0" prefWidth="62.0" text="Room ID" />
+                <TextField fx:id="roomIdField" layoutX="121.0" layoutY="84.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="roomIdError" layoutX="85.0" layoutY="120.0" textFill="red" />
 
-                <!-- Address Field -->
-                <Label alignment="CENTER" layoutX="41.0" layoutY="231.0" prefHeight="26.0" prefWidth="62.0" text="Name" />
-                <TextField fx:id="nameField" layoutX="121.0" layoutY="232.0" prefHeight="25.0" prefWidth="394.0" />
-                <Label fx:id="nameError" layoutX="85.0" layoutY="168.0" textFill="red" />
+                <!-- Branch ID Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="131.0" prefHeight="26.0" prefWidth="62.0" text="Branch ID" />
+                <TextField fx:id="branchIdField" layoutX="121.0" layoutY="132.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="branchIdError" layoutX="85.0" layoutY="168.0" textFill="red" />
 
-                <!-- Doctors Field -->
-                <Label alignment="CENTER" layoutX="41.0" layoutY="281.0" prefHeight="26.0" prefWidth="62.0" text="Phone" />
-                <TextField fx:id="phoneField" layoutX="121.0" layoutY="282.0" prefHeight="25.0" prefWidth="394.0" />
-                <Label fx:id="phoneError" layoutX="85.0" layoutY="218.0" textFill="red" />
+                <!-- Room Number Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="178.0" prefHeight="26.0" prefWidth="62.0" text="Room No." />
+                <TextField fx:id="roomNumberField" layoutX="121.0" layoutY="179.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="roomNumberError" layoutX="85.0" layoutY="213.0" textFill="red" />
+
+                <!-- Room Type Field -->
+                <Label alignment="CENTER" layoutX="41.0" layoutY="227.0" prefHeight="26.0" prefWidth="62.0" text="Room Type" />
+                <TextField fx:id="roomTypeField" layoutX="121.0" layoutY="228.0" prefHeight="25.0" prefWidth="394.0" />
+                <Label fx:id="roomTypeError" layoutX="85.0" layoutY="263.0" textFill="red" />
 
                 <!-- Confirm Button -->
-                <Button fx:id="confirmButton" layoutX="248.0" layoutY="334.0" mnemonicParsing="false" text="Confirm" />
+                <Button fx:id="confirmButton" layoutX="248.0" layoutY="272.0" mnemonicParsing="false" text="Confirm" />
             </children>
         </AnchorPane>
     </center>

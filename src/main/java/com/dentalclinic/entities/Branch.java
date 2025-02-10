@@ -1,7 +1,9 @@
 package com.dentalclinic.entities;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "branches")
@@ -24,6 +26,13 @@ public class Branch {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "branchId", cascade = CascadeType.ALL)
+    private List<Room> rooms;
+
+    public List<Room> getRooms() { return rooms; }
+
+    public void setRooms(List<Room> rooms) { this.rooms = rooms; }
 
     public long getBranchId() {
         return branchId;
