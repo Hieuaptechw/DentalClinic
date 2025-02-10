@@ -68,7 +68,6 @@
                 <children>
                     <TableView fx:id="recordTable" prefHeight="452.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
                         <columns>
-                            <TableColumn fx:id="idColumn" prefWidth="81.59999924898148" style="-fx-alignment: center;" text="ID" />
                             <TableColumn fx:id="nameColumn" prefWidth="272.79994201660156" style="-fx-alignment: center;" text="Bệnh nhân" />
                             <TableColumn fx:id="diagnosisColumn" prefWidth="108.800048828125" style="-fx-alignment: center;" text="Chuẩn đoán" />
                             <TableColumn fx:id="treatmentColumn" prefWidth="178.39996337890625" style="-fx-alignment: center;" text="Điều trị" />

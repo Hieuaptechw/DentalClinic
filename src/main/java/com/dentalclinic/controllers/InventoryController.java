@@ -22,30 +22,15 @@ public class InventoryController {
 
     public void addInventory(Inventory inventory){
         EntityTransaction transaction = em.getTransaction();
-        try{
-            transaction.begin();
-            Inventory existingInventory = em.createQuery(
-                            "SELECT i FROM Inventory i WHERE i.itemName = :name AND i.supplier = :supplier AND i.unitPrice = :price", Inventory.class)
-                    .setParameter("name", inventory.getItemName())
-                    .setParameter("supplier", inventory.getSupplier())
-                    .setParameter("price", inventory.getUnitPrice())// Kiểm tra cùng nhà cung cấp
-                    .getResultStream()
-                    .findFirst()
-                    .orElse(null);
-            if (existingInventory != null) {
-                // Nếu sản phẩm đã tồn tại với cùng nhà cung cấp, cập nhật số lượng
-                existingInventory.setQuantity(existingInventory.getQuantity() + inventory.getQuantity());
-                em.merge(existingInventory);
-            } else {
-                // Nếu chưa có hoặc nhà cung cấp khác, thêm mới vào database
-                em.persist(inventory);
-            }
-        }catch(Exception e){
-            if(transaction.isActive()){
-                transaction.rollback();
-            }
-            throw new RuntimeException("Lỗi khi thêm sản phẩm: " + e.getMessage());
-        }
+       try{
+           transaction.begin();
+           em.persist(inventory);
+           transaction.commit();
+       }catch(Exception e){
+           if(transaction.isActive()){
+               transaction.rollback();
+           }
+       }
     }
     
     public void handleDeleteInventory(Long inventoryId){
@@ -64,7 +49,6 @@ public class InventoryController {
 
     public void updateInventory(Inventory inventory) {
         if (inventory == null) return;
-
         em.getTransaction().begin();
         try {
             em.merge(inventory);  // Cập nhật dữ liệu vào DB

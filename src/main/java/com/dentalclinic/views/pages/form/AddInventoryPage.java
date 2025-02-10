@@ -97,14 +97,10 @@ public class AddInventoryPage {
 
             inventoryController.addInventory(inventory);
             showAlert(Alert.AlertType.INFORMATION, "Thêm sản phẩm", "Thêm sản phẩm thành công");
-            if(wareHousePage != null){
-                wareHousePage.getInventoryTable().getItems().add(inventory);
-            }
+
         }catch(NumberFormatException e){
             showAlert(Alert.AlertType.ERROR, "Lỗi", "Giá và số lượng phải hợp lệ");
         }
-
-
     }
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
