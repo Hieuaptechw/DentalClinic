@@ -26,6 +26,10 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
+
 @Page(name="Bệnh án", icon="images/records.png", fxml="manage/patientrecord.fxml")
 public class PatientRecordPage extends AbstractPage {
     @FXML
