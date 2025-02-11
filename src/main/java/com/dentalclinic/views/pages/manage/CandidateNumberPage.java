@@ -30,16 +30,16 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Page(name="SBD", icon="images/waiting-room.png", fxml="manage/candidatenumber.fxml")
 public class CandidateNumberPage extends AbstractPage {
@@ -81,60 +81,87 @@ public class CandidateNumberPage extends AbstractPage {
     public void initialize() {
        updateTime();
        startClock();
-       startAutoUpdate();
        DatabaseController.init();
        EntityManager em = DatabaseController.getEntityManager();
        candidateNumberController = new CandidateNumberController(em);
        setupTableColumns();
        loadAppointmentsToday();
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch(newValue));
+       searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch(newValue));
+       startAutoUpdate();
 
    }
+    private List<Appointment> currentProcessingAppointments = new ArrayList<>();
     private void loadAppointmentsToday() {
         List<Appointment> fetchedAppointments = candidateNumberController.getAllCandidateNumbers();
         LocalDate today = LocalDate.now();
-
-        // Lọc danh sách bệnh nhân hôm nay
+        LocalTime currentTime = LocalTime.now();
         List<Appointment> todayAppointments = fetchedAppointments.stream()
-                .filter(a -> a.getAppointmentDate().toLocalDate().equals(today))
+                .filter(a -> a.getAppointmentDate() != null
+                        && a.getAppointmentDate().toLocalDate().equals(today)
+                        && currentProcessingAppointments.stream().noneMatch(p -> p.getRegistrationNumber().equals(a.getRegistrationNumber()))) // Không lấy trùng
+                .collect(Collectors.toList());
+        List<Appointment> appointmentListProcessingToday = todayAppointments.stream()
+                .filter(a -> {
+                    LocalTime appointmentTime = a.getAppointmentDate().toLocalTime();
+                    return !currentTime.isBefore(appointmentTime) && currentTime.isBefore(appointmentTime.plusMinutes(45));
+                })
                 .toList();
+        appointmentListWaitToday.setAll(todayAppointments);
+        tableViewAppointmentsToday.setItems(appointmentListWaitToday);
+        for (Appointment appointment : appointmentListProcessingToday) {
+            if (currentProcessingAppointments.stream().noneMatch(p -> p.getRegistrationNumber().equals(appointment.getRegistrationNumber()))) {
+                currentProcessingAppointments.add(appointment);
+            }
+        }
 
-        // Cập nhật danh sách chờ, nhưng không ảnh hưởng đến danh sách đang khám
-        appointmentListWaitToday.setAll(todayAppointments.stream()
-                .filter(a -> !appointmentListProcessing.contains(a)) // Không cập nhật bệnh nhân đang khám
-                .toList());
-
-        // Cập nhật giao diện
+        appointmentListProcessing.setAll(currentProcessingAppointments);
         updateTables();
     }
 
-    private void autoCallNextPatient() {
-        if (appointmentListProcessing.isEmpty()) {
-            handleCallNext(); // Nếu không có ai đang khám, gọi bệnh nhân tiếp theo
+    @FXML
+    private void handleCallNext() {
+        if (appointmentListWaitToday.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Notification");
+            alert.setHeaderText("No patients in the waiting list!");
+            alert.setContentText("Please check the appointment list again.");
+            alert.show();
             return;
         }
 
-        // Lấy bệnh nhân hiện tại
-        Appointment currentPatient = appointmentListProcessing.get(0);
-        LocalDateTime appointmentStart = currentPatient.getAppointmentDate();
-        LocalDateTime appointmentEnd = appointmentStart.plusMinutes(45);
-        LocalDateTime currentTime = LocalDateTime.now();
+        Appointment nextAppointment = appointmentListWaitToday.remove(0);
+        currentProcessingAppointments.add(nextAppointment);
+        appointmentListProcessing.setAll(currentProcessingAppointments);
 
-        // Nếu hết thời gian khám, tự động gọi bệnh nhân tiếp theo
-        if (currentTime.isAfter(appointmentEnd)) {
-            appointmentListProcessing.remove(0); // Xóa bệnh nhân cũ khỏi danh sách đang khám
-            handleCallNext(); // Gọi bệnh nhân tiếp theo
-        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Next Patient");
+        alert.setHeaderText("Patient Information:");
+        alert.setContentText(
+                "Name: " + nextAppointment.getPatient().getName() + "\n" +
+                        "Reg. Number: " + nextAppointment.getRegistrationNumber() + "\n" +
+                        "Phone: " + nextAppointment.getPatient().getPhone() + "\n" +
+                        "Appointment Time: " + nextAppointment.getAppointmentDate().toString() + "\n" +
+                        "Doctor: " + nextAppointment.getStaff().getName()
+        );
+        alert.show();
+
+        updateTables();
     }
 
     private void updateTables() {
         tableViewAppointmentsToday.setItems(FXCollections.observableArrayList(appointmentListWaitToday));
-        tablePatientsBeingExamined.setItems(FXCollections.observableArrayList(appointmentListProcessing));
+        tablePatientsBeingExamined.setItems(FXCollections.observableArrayList(currentProcessingAppointments));
     }
+    private void startAutoUpdate() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(30), event -> loadAppointmentsToday()));
+
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
+    }
+
     private void setupTableColumns() {
-        System.out.println(tableViewAppointmentsToday);
-        System.out.println("Setup Table Columns");
         colSBD_1.setCellValueFactory(new PropertyValueFactory<>("registrationNumber"));
+        colReason_1.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
         colStatus_1.setCellValueFactory(new PropertyValueFactory<>("status"));
         colName_1.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getPatient().getName()));
         colPriority_1.setCellFactory(column -> new TableCell<>() {
@@ -209,40 +236,6 @@ public class CandidateNumberPage extends AbstractPage {
 
         });
     }
-    @FXML
-    private void handleCallNext() {
-        if (appointmentListWaitToday.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thông báo");
-            alert.setHeaderText("Không có bệnh nhân nào trong danh sách!");
-            alert.setContentText("Vui lòng kiểm tra lại danh sách đặt lịch.");
-            alert.show();
-            return;
-        }
-
-        // Lấy bệnh nhân đầu tiên trong danh sách chờ
-        Appointment nextAppointment = appointmentListWaitToday.remove(0);
-
-        // Thêm vào danh sách bệnh nhân đang khám
-        appointmentListProcessing.clear(); // Chỉ giữ một bệnh nhân đang khám
-        appointmentListProcessing.add(nextAppointment);
-
-        // Hiển thị thông báo bệnh nhân tiếp theo
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Bệnh nhân tiếp theo");
-        alert.setHeaderText("Thông tin bệnh nhân:");
-        alert.setContentText(
-                "Tên: " + nextAppointment.getPatient().getName() + "\n" +
-                        "SBD: " + nextAppointment.getRegistrationNumber() + "\n" +
-                        "SĐT: " + nextAppointment.getPatient().getPhone() + "\n" +
-                        "Thời gian khám: " + nextAppointment.getAppointmentDate().toString() + "\n" +
-                        "Bác sĩ: " + nextAppointment.getStaff().getName()
-        );
-        alert.show();
-
-        // Cập nhật bảng
-        updateTables();
-    }
 
 
     private void handleView(Appointment appointment){
@@ -260,7 +253,6 @@ public class CandidateNumberPage extends AbstractPage {
             stage.showAndWait();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Không thể load file FXML: " + ex.getMessage());
         }
     }
     private void handleSearch(String keyword) {
@@ -310,11 +302,11 @@ public class CandidateNumberPage extends AbstractPage {
     }
     private String getPriorityLevel(int age, Gender gender) {
         if (age >= 65) {
-            return "Cao";
+            return "High";
         } else if ((gender == Gender.FEMALE && age >= 50) || (gender == Gender.MALE && age >= 40)) {
-            return "Trung Bình";
+            return "Medium";
         } else {
-            return "Thấp";
+            return "Low";
         }
     }
 
@@ -331,10 +323,6 @@ public class CandidateNumberPage extends AbstractPage {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
-    private void startAutoUpdate() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> loadAppointmentsToday()));
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
-    }
+
 
 }

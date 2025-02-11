@@ -18,7 +18,7 @@
             <children>
                 <VBox fx:id="homeItemHolder">
                     <children>
-                  <VBox alignment="CENTER_LEFT" style="-fx-background-color: #4c984d;">
+                  <VBox alignment="CENTER_LEFT" style="-fx-background-color: #4288f7;">
                      <children>
                         <ImageView fitHeight="41.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 100px;" styleClass="circular-image">
                             <image>
@@ -37,24 +37,24 @@
                 </VBox>
                 <VBox prefWidth="960.0" HBox.hgrow="ALWAYS">
                     <children>
-                  <HBox alignment="CENTER" style="-fx-background-color: #4c984d;" VBox.vgrow="ALWAYS">
+                  <HBox alignment="CENTER" style="-fx-background-color: #4288f7;" VBox.vgrow="ALWAYS">
                      <children>
-                                <Label text="Trang chủ - Quản lý phong khám" textFill="WHITE" HBox.hgrow="ALWAYS">
+                                <Label text="Clinic Management" textFill="WHITE" HBox.hgrow="ALWAYS">
                                     <font>
-                                        <Font name="Arial Bold" size="11.0" />
+                                        <Font name="Arial Bold" size="17.0" />
                                     </font>
                                 </Label>
                      </children>
                   </HBox>
                         <TabPane fx:id="toolbar" styleClass="tab-top" tabClosingPolicy="UNAVAILABLE">
                             <tabs>
-                                <Tab text="Quản lý">
+                                <Tab text="Manage">
                                     <content>
                                         <HBox fx:id="toolbarManageTab" fillHeight="false">
                                         </HBox>
                                     </content>
                                 </Tab>
-                        <Tab text="Quản trị">
+                        <Tab text="Administration">
                            <content>
                                <HBox fx:id="toolbarAdministrationTab" fillHeight="false">
                                </HBox>
@@ -94,7 +94,7 @@
 <!--                              </HBox>-->
                            </content>
                         </Tab>
-                        <Tab text="Cài đặt">
+                        <Tab text="Setting">
                            <content>
                                <HBox fx:id="toolbarSettingTab" fillHeight="false">
                                </HBox>

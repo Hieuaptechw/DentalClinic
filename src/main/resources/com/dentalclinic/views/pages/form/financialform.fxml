@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="577.0" prefWidth="450.0" stylesheets="@../../../css/other.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.FinancialFormController">
+    <children>
+        <Label fx:id="lblTitle" alignment="CENTER" prefHeight="56.0" prefWidth="816.0" text="Information Invoice">
+            <font>
+                <Font name="System Bold" size="20.0" />
+            </font>
+        </Label>
+            <GridPane prefHeight="291.0" prefWidth="321.0" VBox.vgrow="ALWAYS">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="424.0" minWidth="10.0" prefWidth="196.5999755859375" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="261.6" minWidth="10.0" prefWidth="233.4000244140625" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints maxHeight="38.000006103515624" minHeight="10.0" prefHeight="38.000006103515624" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="44.19998779296875" minHeight="10.0" prefHeight="33.199993896484365" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="42.00001831054688" minHeight="10.0" prefHeight="42.00001831054688" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="40.599999999999994" minHeight="10.0" prefHeight="40.599999999999994" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="75.80001220703124" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="38.99998779296877" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="38.60002441406249" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="63.39997558593751" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="63.39997558593751" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="88.0" minHeight="10.0" prefHeight="63.39997558593751" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="38.0" minHeight="0.0" prefHeight="0.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Label text="Invoice Number :">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label text="Transaction Type :" GridPane.rowIndex="2">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="97.0" layoutY="176.0" text="Payment Method :" GridPane.rowIndex="3">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label layoutX="78.0" layoutY="169.0" text="Description :" GridPane.rowIndex="4">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label text="Export Date :" GridPane.rowIndex="5">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Label text="Amount :" GridPane.rowIndex="1">
+                        <font>
+                            <Font name="Cambria" size="14.0" />
+                        </font>
+                    </Label>
+                    <Pane prefHeight="35.0" prefWidth="222.0" GridPane.columnIndex="1">
+                        <children>
+                            <TextField fx:id="invoiceNumberField" editable="false" layoutX="14.0" layoutY="2.0" promptText="IVN2065" />
+                        </children>
+                    </Pane>
+                    <Pane layoutX="186.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+               <children>
+                  <ComboBox fx:id="paymentMethodCombobox" layoutX="14.0" layoutY="4.0" prefWidth="150.0" />
+               </children>
+                    </Pane>
+                    <Pane layoutX="186.0" layoutY="55.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+               <children>
+                  <RadioButton fx:id="radioIncome" layoutX="20.0" layoutY="10.0" mnemonicParsing="false" text="Income" />
+                  <RadioButton fx:id="radioExpenses" layoutX="90.0" layoutY="10.0" mnemonicParsing="false" text="Expenses" />
+               </children>
+                    </Pane>
+                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <children>
+                            <TextArea fx:id="descriptionField" layoutX="14.0" layoutY="13.0" prefHeight="49.0" prefWidth="149.0" promptText="Thanh toán điều trị răng sâu" />
+                        </children>
+                    </Pane>
+                    <Pane prefHeight="156.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <children>
+                            <DatePicker fx:id="exportDateField" editable="false" layoutX="14.0" layoutY="4.0" promptText="1/1/1999" />
+                        </children>
+                    </Pane>
+                    <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <children>
+                            <TextField fx:id="amountField" layoutX="14.0" layoutY="2.0" promptText="1.500.000" />
+                        </children>
+                    </Pane>
+            <Pane layoutX="189.0" layoutY="92.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+               <children>
+                  <ComboBox fx:id="statusCombobox" layoutX="14.0" layoutY="7.0" prefHeight="25.0" prefWidth="112.0" />
+               </children>
+            </Pane>
+                  <Pane prefHeight="62.0" prefWidth="253.0" GridPane.columnIndex="1" GridPane.rowIndex="9">
+                      <children>
+                          <Button fx:id="btnAction" layoutX="17.0" layoutY="12.0" mnemonicParsing="false" onAction="#handleUpdate" styleClass="btn-update" text="Update" />
+                      </children>
+                  </Pane>
+            <Pane layoutX="189.0" layoutY="374.0" prefHeight="62.0" prefWidth="253.0" GridPane.rowIndex="9">
+               <children>
+                  <Button layoutX="105.0" layoutY="13.0" mnemonicParsing="false" onAction="#handleClear" styleClass="btn-clear" text="Clear" />
+               </children>
+            </Pane>
+            <Label layoutX="10.0" layoutY="240.0" text="Patient Phone :" GridPane.rowIndex="7">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="10.0" layoutY="334.0" text="Status :" GridPane.rowIndex="6">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Label>
+            <Pane layoutX="189.0" layoutY="64.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="8">
+               <children>
+                  <TextField fx:id="emailStaffField" layoutX="14.0" layoutY="17.0" promptText="staff@email.com" />
+               </children>
+            </Pane>
+            <Label layoutX="10.0" layoutY="328.0" text="Staff By :" GridPane.rowIndex="8">
+               <font>
+                  <Font name="Cambria" size="14.0" />
+               </font>
+            </Label>
+            <Pane layoutX="187.0" layoutY="368.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="7">
+               <children>
+                  <TextField fx:id="phonePatiendField" layoutX="14.0" layoutY="17.0" promptText="0123456789" />
+               </children>
+            </Pane>
+                </children>
+                <VBox.margin>
+                    <Insets left="20.0" />
+                </VBox.margin>
+            </GridPane>
+    </children>
+</VBox>

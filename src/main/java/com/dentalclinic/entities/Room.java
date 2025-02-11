@@ -14,7 +14,7 @@ public class Room {
     private String roomNumber;
 
     @Column(name = "branch_id", nullable = false)
-    private long branchId; // Dùng kiểu long vì branch_id thường là khóa ngoại
+    private long branchId;
 
     @Column(name = "room_type")
     private String roomType;

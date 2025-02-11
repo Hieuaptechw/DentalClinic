@@ -130,14 +130,11 @@ public class PatientPage extends AbstractPage {
 }
     private void loadPatients() {
         List<Patient> patients = patientController.getAllPatients();
-        System.out.println("Số lượng bệnh nhân: " + patients.size());
-//        patients.forEach(System.out::println);
         patientList.setAll(patients);
         tableViewPatient.setItems(patientList);
     }
     @FXML
     private void handleFilter() {
-        System.out.println("Đang lọc...");
 
         if (fromDatePicker.getValue() == null || toDatePicker.getValue() == null) {
             tableViewPatient.setItems(FXCollections.observableArrayList(patientList));
@@ -148,8 +145,9 @@ public class PatientPage extends AbstractPage {
         LocalDate fromDate = fromDatePicker.getValue();
         LocalDate toDate = toDatePicker.getValue();
         if (toDate.isBefore(fromDate)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "End date must be greater than or equal to the start date!", ButtonType.OK);
             alert.showAndWait();
+
             return;
         }
         List<Patient> filteredList = patientList.stream()
@@ -162,12 +160,13 @@ public class PatientPage extends AbstractPage {
         tableViewPatient.setItems(FXCollections.observableArrayList(filteredList));
         loadActionColumn();
         if (filteredList.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Không tìm thấy bệnh nhân nào trong khoảng thời gian này!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "No patients found within this time period!", ButtonType.OK);
             alert.showAndWait();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Tìm thấy " + filteredList.size() + " bệnh nhân!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Found " + filteredList.size() + " patients!", ButtonType.OK);
             alert.showAndWait();
         }
+
     }
 
 
@@ -204,19 +203,19 @@ public class PatientPage extends AbstractPage {
 
     private void handleDeletePatient(Patient patient) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa bệnh nhân này?");
-        alert.setContentText("Tên: " + patient.getName());
+        alert.setTitle("Confirm Deletion");
+        alert.setHeaderText("Are you sure you want to delete this patient?");
+        alert.setContentText("Name: " + patient.getName());
 
-        ButtonType buttonYes = new ButtonType("Có", ButtonBar.ButtonData.OK_DONE);
-        ButtonType buttonNo = new ButtonType("Không", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonYes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(buttonYes, buttonNo);
 
         alert.showAndWait().ifPresent(response -> {
             if (response == buttonYes) {
                 patientController.deletePatient(patient.getPatientId());
                 loadPatients();
-                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Xóa bệnh nhân thành công!", ButtonType.OK);
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Patient deleted successfully!", ButtonType.OK);
                 alert1.showAndWait();
             }
         });
@@ -239,12 +238,10 @@ public class PatientPage extends AbstractPage {
             loadPatients();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Không thể load file FXML: " + ex.getMessage());
         }
     }
     @FXML
     private void handleEditPatient(Patient patient) {
-        System.out.println("Đang gọi handleAddPatient()...");
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/patientform.fxml"));
@@ -260,7 +257,6 @@ public class PatientPage extends AbstractPage {
             loadPatients();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Không thể load file FXML: " + ex.getMessage());
         }
     }
 

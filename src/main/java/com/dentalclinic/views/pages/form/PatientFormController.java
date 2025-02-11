@@ -48,7 +48,7 @@ public class PatientFormController {
     private ToggleGroup genderGroup;
     private Patient patient;
     private PatientController patientController;
-
+    private Patient selectedPatient;
     @FXML
     public void initialize() {
         genderGroup = new ToggleGroup();
@@ -62,46 +62,10 @@ public class PatientFormController {
 
     @FXML
     private void handleAdd() {
-        String name = nameField.getText().trim();
-        String email = emailField.getText().trim();
-        String phone = phoneField.getText().trim();
-        String address = addressArea.getText().trim();
-        LocalDate dob = dobPicker.getValue();
+        handleConfirmPatient();
 
-        Gender gender = null;
-        if (maleRadio.isSelected()) {
-            gender = Gender.MALE;
-        } else if (femaleRadio.isSelected()) {
-            gender = Gender.FEMALE;
-        } else if (otherRadio.isSelected()) {
-            gender = Gender.OTHER;
-        }
-
-        System.out.println(name+email+phone+address+dob+gender);
-        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty() || dob == null || gender == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin!", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-
-        Patient patient = new Patient();
-        patient.setName(name);
-        patient.setEmail(email);
-        patient.setPhone(phone);
-        patient.setAddress(address);
-        patient.setDob(dob);
-        patient.setGender(gender);
-        patient.setCreatedAt(LocalDateTime.now());
-        patient.setUpdatedAt(LocalDateTime.now());
-        System.out.println(patient);
-        patientController.addPatient(patient);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Thêm bệnh nhân thành công!", ButtonType.OK);
-        alert.showAndWait();
-
-        Stage stage = (Stage) btnAction.getScene().getWindow();
-        stage.close();
     }
+
 
 
     @FXML
@@ -128,7 +92,7 @@ public class PatientFormController {
         } else {
             otherRadio.setSelected(true);
         }
-        btnAction.setText("Cập nhật");
+        btnAction.setText("Update");
         btnAction.getStyleClass().add("btn-update");
         btnAction.setOnAction(e->handleUpdate());
         lblTitle.setText("Edit Patient");
@@ -136,7 +100,7 @@ public class PatientFormController {
     @FXML
     private void handleUpdate() {
         if (patient == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Không tìm thấy bệnh nhân cần cập nhật!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Patient not found for update!", ButtonType.OK);
             alert.showAndWait();
             return;
         }
@@ -157,10 +121,11 @@ public class PatientFormController {
         }
 
         if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty() || dob == null || gender == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin!", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in all required information!", ButtonType.OK);
             alert.showAndWait();
             return;
         }
+
 
         patient.setName(name);
         patient.setEmail(email);
@@ -172,11 +137,64 @@ public class PatientFormController {
 
         patientController.updatePatient(patient);
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Cập nhật bệnh nhân thành công!", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient updated successfully!", ButtonType.OK);
         alert.showAndWait();
 
         Stage stage = (Stage) btnAction.getScene().getWindow();
         stage.close();
     }
 
+    private void handleConfirmPatient() {
+        String name = nameField.getText().trim();
+        String email = emailField.getText().trim();
+        String phone = phoneField.getText().trim();
+        String address = addressArea.getText().trim();
+        LocalDate dob = dobPicker.getValue();
+
+        Gender gender = null;
+        if (maleRadio.isSelected()) {
+            gender = Gender.MALE;
+        } else if (femaleRadio.isSelected()) {
+            gender = Gender.FEMALE;
+        } else if (otherRadio.isSelected()) {
+            gender = Gender.OTHER;
+        }
+
+        if (email.isEmpty() || phone.isEmpty() || name.isEmpty() || address.isEmpty() || dob == null || gender == null) {
+            System.out.println("Please enter all required patient information!");
+            return;
+        }
+
+
+        selectedPatient = patientController.findPatientByPhoneOrEmail(phone, email);
+
+        if (selectedPatient == null) {
+            selectedPatient = new Patient();
+            selectedPatient.setName(name);
+            selectedPatient.setEmail(email);
+            selectedPatient.setPhone(phone);
+            selectedPatient.setAddress(address);
+            selectedPatient.setDob(dob);
+            selectedPatient.setGender(gender);
+            selectedPatient.setCreatedAt(LocalDateTime.now());
+            selectedPatient.setUpdatedAt(LocalDateTime.now());
+
+            patientController.addPatient(selectedPatient);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient has been added!", ButtonType.OK);
+            alert.showAndWait();
+            Stage stage = (Stage) btnAction.getScene().getWindow();
+            stage.close();
+
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient already exists!", ButtonType.OK);
+            alert.showAndWait();
+            Stage stage = (Stage) btnAction.getScene().getWindow();
+            stage.close();
+
+        }
+    }
+
+    public Patient getPatient() {
+        return selectedPatient;
+    }
 }
