@@ -11,15 +11,15 @@ public class Appointment {
     private long appointmentId;
 
     @Column(name = "registration_number", nullable = false, unique = true)
-    private String registrationNumber; // Thêm số báo danh
+    private String registrationNumber;
 
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "staff_id", nullable = false)
+    private Staff staff;
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
@@ -27,6 +27,9 @@ public class Appointment {
 
     @Column(name = "appointment_date", nullable = false)
     private LocalDateTime appointmentDate;
+
+    @Column(name = "symptoms", columnDefinition = "TEXT")
+    private String symptoms;
 
     @Column(name = "status")
     private String status;
@@ -37,6 +40,7 @@ public class Appointment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // Getters và Setters
     public long getAppointmentId() {
         return appointmentId;
     }
@@ -53,12 +57,15 @@ public class Appointment {
         this.patient = patient;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setStaff(Staff staff) {
+        if (staff.getRole() != RoleType.DOCTOR) {
+            throw new IllegalArgumentException("Chỉ có bác sĩ mới có thể nhận cuộc hẹn.");
+        }
+        this.staff = staff;
     }
 
     public Room getRoom() {
@@ -75,6 +82,14 @@ public class Appointment {
 
     public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    public String getSymptoms() {
+        return symptoms;
+    }
+
+    public void setSymptoms(String symptoms) {
+        this.symptoms = symptoms;
     }
 
     public String getStatus() {
@@ -115,9 +130,10 @@ public class Appointment {
                 "appointmentId=" + appointmentId +
                 ", registrationNumber='" + registrationNumber + '\'' +
                 ", patient=" + patient +
-                ", doctor=" + doctor +
+                ", staff=" + staff +
                 ", room=" + room +
                 ", appointmentDate=" + appointmentDate +
+                ", symptoms='" + symptoms + '\'' +
                 ", status='" + status + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +

@@ -1,4 +1,4 @@
-package com.dentalclinic.views.pages.manage;
+package com.dentalclinic.views.pages.administration;
 
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;

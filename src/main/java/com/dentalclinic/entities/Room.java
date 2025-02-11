@@ -72,4 +72,14 @@ public class Room {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId=" + roomId +
+                ", roomNumber='" + roomNumber + '\'' +
+                ", branchId=" + branchId +
+                ", roomType='" + roomType + '\'' +
+                '}';
+    }
 }

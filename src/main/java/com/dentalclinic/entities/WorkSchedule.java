@@ -13,23 +13,35 @@ public class WorkSchedule {
     private long scheduleId;
 
     @ManyToOne
-    @JoinColumn(name = "doctor_id", nullable = false)
-    private Doctor doctor;
+    @JoinColumn(name = "staffId", nullable = false) // Đảm bảo trùng với SQL
+    private Staff staff;
 
     @Column(name = "working_day", nullable = false)
-    private LocalDate workingDay; // Chỉ lưu ngày
+    private LocalDate workingDay;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime; // Chỉ lưu giờ và phút
+    private LocalTime startTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime; // Chỉ lưu giờ và phút
+    private LocalTime endTime;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
 
     public long getScheduleId() {
         return scheduleId;
@@ -39,12 +51,15 @@ public class WorkSchedule {
         this.scheduleId = scheduleId;
     }
 
-    public Doctor getDoctor() {
-        return doctor;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setDoctor(Doctor doctor) {
-        this.doctor = doctor;
+    public void setStaff(Staff staff) {
+        if (staff.getRole() != RoleType.DOCTOR) {
+            throw new IllegalArgumentException("Chỉ có bác sĩ mới được đặt lịch làm việc.");
+        }
+        this.staff = staff;
     }
 
     public LocalDate getWorkingDay() {
@@ -75,23 +90,15 @@ public class WorkSchedule {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     @Override
     public String toString() {
         return "WorkSchedule{" +
                 "scheduleId=" + scheduleId +
-                ", doctor=" + doctor +
+                ", staff=" + (staff != null ? staff.getName() : "null") +
                 ", workingDay=" + workingDay +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
