@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.controllers.PatientController;
 import com.dentalclinic.controllers.StaffController;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.entities.Staff;
@@ -16,6 +15,7 @@ import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.PatientFormController;
 
+import com.dentalclinic.views.pages.form.StaffFormController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,6 +37,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -88,7 +89,7 @@ public class StaffPage extends AbstractPage {
                 editButton.setOnAction(event -> {
                     Staff staff = getTableRow().getItem();
                     if (staff != null) {
-                        // loadViewEditProduct(inventory);
+                        handleEditStaff(staff);
                     }
                 });
 
@@ -102,7 +103,7 @@ public class StaffPage extends AbstractPage {
                 deleteButton.setOnAction(event -> {
                     Staff staff = getTableRow().getItem();
                     if (staff != null) {
-                        // handleDelete(inventory);
+                        handleDeleteStaff(staff);
                     }
                 });
             }
@@ -215,16 +216,13 @@ public class StaffPage extends AbstractPage {
     }
 
     @FXML
-    private void handleAddPatient() {
-        System.out.println("Đang gọi handleAddPatient()...");
+    private void handleAddStaff() {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/staffform.fxml"));
-
-            AnchorPane root = loader.load();
-            PatientFormController patientFormController = loader.getController();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/staff-form.fxml"));
+            Pane root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Add New Patient");
+            stage.setTitle("Add Staff");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
@@ -235,17 +233,16 @@ public class StaffPage extends AbstractPage {
         }
     }
     @FXML
-    private void handleEditPatient(Patient patient) {
-        System.out.println("Đang gọi handleAddPatient()...");
+    private void handleEditStaff(Staff staff) {
         try {
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/staffform.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/staff-form.fxml"));
 
-            AnchorPane root = loader.load();
-            PatientFormController patientFormController = loader.getController();
-            patientFormController.setPatient(patient);
+            Pane root = loader.load();
+            StaffFormController staffFormController = loader.getController();
+            staffFormController.setStaff(staff);
             Stage stage = new Stage();
-            stage.setTitle("Edit New Patient");
+            stage.setTitle("Edit Staff");
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();

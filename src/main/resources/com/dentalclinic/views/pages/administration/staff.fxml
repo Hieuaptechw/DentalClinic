@@ -45,7 +45,7 @@
                            <Insets right="25.0" />
                         </HBox.margin>
                      </TextField>
-                     <Button mnemonicParsing="false" onAction="#handleAddPatient" prefHeight="38.0" prefWidth="142.0" styleClass="btn-add" text="New Staff" textFill="WHITE">
+                     <Button mnemonicParsing="false" onAction="#handleAddStaff" prefHeight="38.0" prefWidth="142.0" styleClass="btn-add" text="New Staff" textFill="WHITE">
                         <graphic>
                            <ImageView fitHeight="30.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                               <image>
