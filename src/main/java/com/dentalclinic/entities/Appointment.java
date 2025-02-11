@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "appointments")
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long appointmentId;
@@ -39,8 +40,20 @@ public class Appointment {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    // Getters và Setters
+    public Appointment() {}
+    public Appointment(String registrationNumber, Patient patient, Staff staff, Room room,
+                       LocalDateTime appointmentDate, String symptoms, String status,
+                       LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.registrationNumber = registrationNumber;
+        this.patient = patient;
+        setStaff(staff); // Kiểm tra role bác sĩ
+        this.room = room;
+        this.appointmentDate = appointmentDate;
+        this.symptoms = symptoms;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
     public long getAppointmentId() {
         return appointmentId;
     }

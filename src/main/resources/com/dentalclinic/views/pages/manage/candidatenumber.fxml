@@ -17,7 +17,7 @@
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="716.0" prefWidth="1054.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.CandidateNumberPage">
    <HBox prefHeight="2.0" prefWidth="1054.0" VBox.vgrow="ALWAYS">
       <children>
-         <Label prefHeight="27.0" prefWidth="472.0" text="Manage SBD" HBox.hgrow="ALWAYS">
+         <Label prefHeight="57.0" prefWidth="214.0" styleClass="label-title" text="Reg Number" HBox.hgrow="ALWAYS">
             <font>
                <Font name="System Bold" size="18.0" />
             </font>
@@ -73,39 +73,39 @@
                          <RowConstraints maxHeight="160.0" minHeight="10.0" prefHeight="76.0" vgrow="SOMETIMES" />
                        </rowConstraints>
                         <children>
-                           <Label styleClass="lbl-high-priority" text="Cao" textFill="WHITE">
+                           <Label styleClass="lbl-high-priority" text="High" textFill="WHITE">
                               <font>
                                  <Font name="System Bold" size="13.0" />
                               </font>
                            </Label>
-                           <Label styleClass="lbl-medium-priority" text="Trung Bình" GridPane.rowIndex="1">
+                           <Label styleClass="lbl-medium-priority" text="Medium" GridPane.rowIndex="1">
                               <font>
                                  <Font name="System Bold" size="13.0" />
                               </font>
                            </Label>
-                           <Label styleClass="lbl-low-priority" text="Thấp" GridPane.rowIndex="2">
+                           <Label styleClass="lbl-low-priority" text="Low" GridPane.rowIndex="2">
                               <font>
                                  <Font name="System Bold" size="13.0" />
                               </font>
                            </Label>
-                           <Label maxWidth="133.0" prefHeight="88.0" prefWidth="103.0" styleClass="lblNote" text="Người già, phụ nữ mang thai, trẻ nhỏ, bệnh nhân cấp cứu." GridPane.columnIndex="1">
+                           <Label maxWidth="133.0" prefHeight="88.0" prefWidth="103.0" styleClass="lblNote" text="Elderly people, pregnant women, young children, emergency patients." GridPane.columnIndex="1">
                               <font>
                                  <Font name="System Bold" size="11.0" />
                               </font>
                            </Label>
-                           <Label maxWidth="133.0" prefHeight="88.0" prefWidth="133.0" styleClass="lblNote" text="Bệnh nhân đặt lịch trước hoặc tái khám." GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <Label maxWidth="133.0" prefHeight="88.0" prefWidth="133.0" styleClass="lblNote" text="Patients schedule appointments or follow-up visits." GridPane.columnIndex="1" GridPane.rowIndex="1">
                               <font>
                                  <Font name="System Bold" size="11.0" />
                               </font>
                            </Label>
-                           <Label maxWidth="124.0" prefHeight="72.0" prefWidth="124.0" styleClass="lblNote" text="Bệnh nhân khám thông thường, không có yếu tố ưu tiên." GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <Label maxWidth="124.0" prefHeight="72.0" prefWidth="124.0" styleClass="lblNote" text="Patients are examined normally, without priority factors." GridPane.columnIndex="1" GridPane.rowIndex="2">
                               <font>
                                  <Font name="System Bold" size="11.0" />
                               </font>
                            </Label>
                         </children>
                      </GridPane>
-                     <Label layoutX="36.0" layoutY="230.0" prefHeight="28.0" prefWidth="150.0" styleClass="priority-label" text="Mức độ ưu tiên" textFill="#abb55f">
+                     <Label layoutX="36.0" layoutY="230.0" prefHeight="28.0" prefWidth="150.0" styleClass="priority-label" text="Priority level" textFill="#abb55f">
                         <font>
                            <Font name="Cambria Math" size="19.0" />
                         </font>
@@ -115,9 +115,9 @@
                </Pane>
                <VBox HBox.hgrow="ALWAYS">
                   <children>
-                     <VBox prefHeight="491.0" prefWidth="294.0">
+                     <VBox prefHeight="558.0" prefWidth="770.0">
                         <children>
-                           <Label text="🏥 DANH SÁCH BỆNH NHÂN ĐANG KHÁM ">
+                           <Label text="🏥 LIST OF PATIENTS UNDER EXAMINATION">
                               <font>
                                  <Font name="Cambria Bold" size="14.0" />
                               </font>
@@ -127,11 +127,11 @@
                            </Label>
                            <TableView fx:id="tablePatientsBeingExamined" prefHeight="163.0" VBox.vgrow="ALWAYS">
                              <columns>
-                               <TableColumn fx:id="colSBD_2" prefWidth="99.0" text="SBD" />
-                               <TableColumn fx:id="colName_2" prefWidth="154.0" text="Tên" />
-                                 <TableColumn fx:id="colRoom_2" prefWidth="100.0" text="Phòng Khám" />
-                                 <TableColumn fx:id="colDoctor_2" prefWidth="120.0" text="Bác Sĩ" />
-                                 <TableColumn fx:id="colTime_2" prefWidth="196.0" text="Thời Gian Bắt Đầu" />
+                               <TableColumn fx:id="colSBD_2" prefWidth="99.0" text="Reg.Number" />
+                               <TableColumn fx:id="colName_2" prefWidth="154.0" text="Name" />
+                                 <TableColumn fx:id="colRoom_2" prefWidth="100.0" text="Room Name" />
+                                 <TableColumn fx:id="colDoctor_2" prefWidth="120.0" text="Doctor" />
+                                 <TableColumn fx:id="colTime_2" prefWidth="196.0" text="Start Time" />
                                  <TableColumn fx:id="colAction_2" prefWidth="91.0" text="Action" />
                              </columns>
                               <columnResizePolicy>
@@ -143,7 +143,7 @@
                      </VBox>
                      <VBox prefHeight="676.0" prefWidth="770.0">
                         <children>
-                           <Label text="🏥 DANH SÁCH BỆNH NHÂN ĐANG CHỜ">
+                           <Label text="🏥 WAITING LIST OF PATIENTS">
                               <font>
                                  <Font name="Cambria Bold" size="14.0" />
                               </font>
@@ -151,13 +151,13 @@
                                  <Insets bottom="5.0" top="5.0" />
                               </VBox.margin>
                            </Label>
-                           <TableView fx:id="tableViewAppointmentsToday" prefHeight="474.0" style="-fx-aligment: center;" VBox.vgrow="ALWAYS">
+                           <TableView fx:id="tableViewAppointmentsToday" prefHeight="361.0" prefWidth="770.0" style="-fx-aligment: center;" VBox.vgrow="ALWAYS">
                               <columns>
-                                 <TableColumn fx:id="colSBD_1" prefWidth="90.0" text="SBD" />
-                                 <TableColumn fx:id="colName_1" prefWidth="162.0" text="Tên" />
-                                 <TableColumn fx:id="colPriority_1" prefWidth="111.0" text="Ưu Tiên" />
-                                 <TableColumn fx:id="colReason_1" minWidth="0.0" prefWidth="154.0" text="Triệu Chứng" />
-                                 <TableColumn fx:id="colStatus_1" prefWidth="157.0" text="Trạng Thái" />
+                                 <TableColumn fx:id="colSBD_1" prefWidth="90.0" text="Reg.Number" />
+                                 <TableColumn fx:id="colName_1" prefWidth="162.0" text="Name" />
+                                 <TableColumn fx:id="colPriority_1" prefWidth="111.0" text="Prioritize" />
+                                 <TableColumn fx:id="colReason_1" minWidth="0.0" prefWidth="154.0" text="Symptom" />
+                                 <TableColumn fx:id="colStatus_1" prefWidth="157.0" text="Status" />
                                  <TableColumn fx:id="colAction_1" prefWidth="83.0" text="Action" />
                               </columns>
                               <VBox.margin>

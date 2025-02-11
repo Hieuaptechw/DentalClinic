@@ -16,7 +16,7 @@
 <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.PatientPage">
    <HBox>
       <children>
-         <Label text="Manage Patient">
+         <Label styleClass="label-title" text="Patient">
             <font>
                <Font name="System Bold" size="18.0" />
             </font>

@@ -8,14 +8,14 @@
 
 
 .tab-top .tab-header-background {
-    -fx-background-color: #4c984d;
+    -fx-background-color:  #4288f7;
     -fx-padding: 10;
     -fx-border-color: #ffffff;
     -fx-border-width: 0 0 2 0;
 }
 
 .tab-top .tab-header-area .tab {
-    -fx-background-color: #4c984d;
+    -fx-background-color:  #4288f7;
     -fx-text-fill: white;
 }
 
@@ -31,7 +31,7 @@
 }
 
 .toolbar-item {
-    -fx-border-color: #7a7;
+    -fx-border-color: #4288f7;
     -fx-border-width: 0 1px 0 0;
     -fx-pref-height: 64px;
     -fx-pref-width: 80px;
@@ -40,7 +40,7 @@
     -fx-cursor: hand;
 }
 .toolbar-item:hover > .toolbar-item-label {
-    -fx-text-fill: green;
+    -fx-text-fill:  #4288f7;
 }
 .home-item {
     -fx-padding: 2px 0 0 0;
@@ -201,7 +201,28 @@
     -fx-border-radius: 8px;
     -fx-cursor: hand;
 }
-
+.button-clear{
+    -fx-background-color: #ff9800;  /* Màu cam nhẹ */
+    -fx-text-fill: white;           /* Màu chữ trắng */
+    -fx-font-size: 14px;            /* Kích thước font */
+    -fx-font-weight: bold;          /* Chữ đậm */
+    -fx-padding: 8px 16px;          /* Khoảng cách bên trong nút */
+    -fx-background-radius: 4px;     /* Bo góc nút */
+    -fx-border-radius: 4px;         /* Bo góc viền */
+    -fx-cursor: hand;              /* Con trỏ chuột dạng tay */
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
+.button-add {
+    -fx-background-color: #2196F3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 8px 16px;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
 .button-reset:hover {
     -fx-background-color: linear-gradient(to bottom, #42A5F5, #1E88E5);
 }
@@ -211,11 +232,62 @@
 }
 
 
-
-
-#searchField{
-
-    -fx-background-radius: 18px;
+.label-1 {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;  /* Màu chữ trắng */
+    -fx-background-color: #2E86C1; /* Xanh dương nhẹ, tạo cảm giác tin tưởng */
+    -fx-padding: 8px 12px;  /* Tăng khoảng cách giúp dễ nhìn hơn */
+    -fx-border-radius: 6px;
+    -fx-background-radius: 6px;
+    -fx-alignment: center;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 5, 0, 2, 2);
+}
+.root {
+    -fx-font-family: "Arial";
+    -fx-background-color: #F4F6F6;
 }
 
+.label-form{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 0;
+}
+/* Đặt style cho tiêu đề trang với class .label-title */
+.label-title {
+    -fx-font-size: 28px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to bottom, #4A90E2, #357ABD);
+    -fx-padding: 10px 20px;
+    -fx-alignment: center;
+    -fx-border-color: #2B6BDA;
+    -fx-border-width: 0 0 3px 0;
+    -fx-border-style: solid;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+.invoice-alert .dialog-pane {
+    -fx-background-color: #fff;
+    -fx-border-color: #000;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-padding: 20px;
+}
 
+.invoice-alert .label {
+    -fx-font-family: "Courier New";
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+}
+
+.invoice-alert .vbox {
+    -fx-padding: 20px;
+}
+
+.invoice-alert .image-view {
+    -fx-border-color: #000;
+    -fx-border-width: 1px;
+    -fx-padding: 10px;
+}

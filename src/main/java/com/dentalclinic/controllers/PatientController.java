@@ -63,5 +63,20 @@ public class PatientController {
             e.printStackTrace();
         }
     }
+    public Patient findPatientByPhoneOrEmail(String phone, String email) {
+        try {
+            TypedQuery<Patient> query = em.createQuery(
+                    "SELECT p FROM Patient p WHERE p.phone = :phone OR p.email = :email", Patient.class);
+            query.setParameter("phone", phone);
+            query.setParameter("email", email);
+
+            List<Patient> result = query.getResultList();
+            return result.isEmpty() ? null : result.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }
