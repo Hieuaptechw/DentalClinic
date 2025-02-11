@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "financial_management")
-public class FinancialManagement {
+@Table(name = "financial_records")
+public class FinancialRecord
+{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long financeId;
@@ -87,7 +88,7 @@ public class FinancialManagement {
 
     @Override
     public String toString() {
-        return "FinancialManagement{" +
+        return "FinancialRecord{" +
                 "financeId=" + financeId +
                 ", patient=" + patient +
                 ", amount=" + amount +

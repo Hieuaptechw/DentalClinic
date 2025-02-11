@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox prefWidth="480.0" spacing="10.0" style="-fx-font-size: 14px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.StaffFormController">
+    <children>
+      <Label text="New Staff">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <GridPane alignment="BASELINE_LEFT" hgap="10.0" vgap="2.0">
+        <columnConstraints>
+          <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+          <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+            <RowConstraints vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="ID">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="idField" disable="true" editable="false" focusTraversable="false" promptText="New Staff" GridPane.columnIndex="1" />
+            <Separator prefWidth="200.0" GridPane.columnSpan="2147483647" GridPane.rowIndex="1">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets top="2.0" />
+               </GridPane.margin>
+            </Separator>
+            <Label text="Full Name" GridPane.rowIndex="2" />
+            <TextField fx:id="nameField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <Label text="Email Address" GridPane.rowIndex="3" />
+            <TextField fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <Label text="Phone Number" GridPane.rowIndex="4" />
+            <TextField fx:id="phoneField" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <Label text="Password" GridPane.rowIndex="5" />
+            <PasswordField fx:id="passwordField" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Label text="Role" GridPane.rowIndex="6" />
+            <ComboBox fx:id="roleBox" prefWidth="100000.0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+            <Label text="Specialty" GridPane.rowIndex="7" />
+            <TextField fx:id="specialtyField" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         </children>
+      </GridPane>
+      <HBox>
+         <children>
+            <Button mnemonicParsing="false" text="Clear" onAction="#handleClear" />
+            <Pane HBox.hgrow="ALWAYS" />
+            <Button mnemonicParsing="false" text="Create" />
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
