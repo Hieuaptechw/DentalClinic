@@ -1,5 +1,6 @@
 package com.dentalclinic.views.pages.form;
 
+import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.InventoryController;
 import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.views.pages.Page;
@@ -7,13 +8,14 @@ import jakarta.persistence.EntityManager;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 
 @Page(name="Sửa", icon="images/pen.png", fxml="form/EditInventory.fxml")
 public class EditInventoryPage {
+    @FXML
+    private Label messageLabel;
     @FXML
     private TextField editName;
 
@@ -26,18 +28,20 @@ public class EditInventoryPage {
     @FXML
     private TextField editSupplier;
 
+    @FXML
+    private Button btnAction;
+
     private Inventory inventory;
     private InventoryController inventoryController;
-   private ObservableList<Inventory> inventories;
+
 
     public EditInventoryPage(){
-        EntityManager em = com.dentalclinic.controllers.DatabaseController.getEntityManager();
+        EntityManager em = DatabaseController.getEntityManager();
         this.inventoryController = new InventoryController(em);
     }
 
-    public void setInventoryData(Inventory inventory, ObservableList<Inventory> inventories){
+    public void setInventoryData(Inventory inventory){
         this.inventory = inventory;
-        this.inventories = inventories;
         editName.setText(inventory.getItemName());
         editPrice.setText(String.valueOf(inventory.getUnitPrice()));
         editQuantity.setText(String.valueOf(inventory.getQuantity()));
@@ -47,28 +51,27 @@ public class EditInventoryPage {
     @FXML
     private void handleSave(){
         if(inventory != null){
-            inventory.setItemName(editName.getText());
-            inventory.setUnitPrice(Double.parseDouble(editPrice.getText()));
-            inventory.setQuantity(Integer.parseInt(editQuantity.getText()));
-            inventory.setSupplier(editSupplier.getText());
+                String name = editName.getText().trim();
+                String supplier = editSupplier.getText().trim();
+                String  price = editPrice.getText();
+                String quantity = editQuantity.getText();
+
+            inventory.setItemName(name);
+            inventory.setUnitPrice(Double.parseDouble(price));
+            inventory.setQuantity(Integer.parseInt(quantity));
+            inventory.setSupplier(supplier);
+
             inventoryController.updateInventory(inventory);
-
-            for (int i = 0; i < inventories.size(); i++) {
-                if (inventories.get(i).getInventoryId() == inventory.getInventoryId()) {
-                    inventories.set(i, inventory);
-                    break;
-                }
-            }
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Thông báo");
-            alert.setHeaderText("Cập nhật thành công");
-            alert.setContentText("Thông tin sản phẩm đã được cập nhật.");
-            alert.showAndWait();
+            Stage stage = (Stage) btnAction.getScene().getWindow();
+            stage.close();
+           alertMessage(Alert.AlertType.INFORMATION, "Cập nhật sản phẩm", "Sản phẩm đã được cập nhật");
         }
     }
 
-
-
-
+    public void alertMessage(Alert.AlertType type, String title, String headerText){
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(headerText);
+        alert.showAndWait();
+    }
 }

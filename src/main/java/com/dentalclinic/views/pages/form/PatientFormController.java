@@ -55,7 +55,6 @@ public class PatientFormController {
         maleRadio.setToggleGroup(genderGroup);
         femaleRadio.setToggleGroup(genderGroup);
         otherRadio.setToggleGroup(genderGroup);
-
         EntityManager em = DatabaseController.getEntityManager();
         patientController = new PatientController(em);
     }
@@ -114,6 +113,7 @@ public class PatientFormController {
         dobPicker.setValue(null);
         genderGroup.selectToggle(null);
     }
+
     public void setPatient(Patient patient) {
         this.patient = patient;
         nameField.setText(patient.getName());

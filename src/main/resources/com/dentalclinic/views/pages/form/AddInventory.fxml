@@ -29,7 +29,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="addName" prefHeight="57.0" prefWidth="190.0" />
+                <TextField fx:id="addName" prefHeight="57.0" prefWidth="190.0" promptText="Tên sản phẩm" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" left="15.0" top="15.0" />
@@ -42,7 +42,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="addPrice" prefHeight="57.0" prefWidth="190.0" />
+                <TextField fx:id="addPrice" prefHeight="57.0" prefWidth="190.0" promptText="Đơn giá" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" left="15.0" top="15.0" />
@@ -55,7 +55,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="addQuantity" prefHeight="57.0" prefWidth="190.0" />
+                <TextField fx:id="addQuantity" prefHeight="57.0" prefWidth="190.0" promptText="Số lượng" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" left="15.0" top="15.0" />
@@ -68,12 +68,17 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField fx:id="addSupplier" prefHeight="57.0" prefWidth="190.0" />
+                <TextField fx:id="addSupplier" prefHeight="57.0" prefWidth="190.0" promptText="Nhà cung cấp" />
             </children>
             <VBox.margin>
                 <Insets bottom="15.0" left="15.0" top="15.0" />
             </VBox.margin>
         </HBox>
+      <HBox prefHeight="0.0" prefWidth="442.0">
+         <children>
+            <Label fx:id="messageLabel" alignment="CENTER" prefHeight="18.0" prefWidth="442.0" textFill="RED" />
+         </children>
+      </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="442.0">
             <children>
                 <Button mnemonicParsing="false" onAction="#handleAddInventory" prefHeight="45.0" prefWidth="145.0" text="Save">

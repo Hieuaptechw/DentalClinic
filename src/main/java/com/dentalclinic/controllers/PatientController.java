@@ -49,6 +49,7 @@ public class PatientController {
             ex.printStackTrace();
         }
     }
+
     public void deletePatient(Long patientId) {
         EntityTransaction transaction = em.getTransaction();
         try {

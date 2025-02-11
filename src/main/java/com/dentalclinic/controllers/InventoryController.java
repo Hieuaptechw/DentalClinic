@@ -22,16 +22,15 @@ public class InventoryController {
 
     public void addInventory(Inventory inventory){
         EntityTransaction transaction = em.getTransaction();
-        try{
-            transaction.begin();
-            em.persist(inventory);
-            transaction.commit();
-        }catch(Exception e){
-            if(transaction.isActive()){
-                transaction.rollback();
-            }
-            throw new RuntimeException("Lỗi khi thêm sản phẩm: " + e.getMessage());
-        }
+       try{
+           transaction.begin();
+           em.persist(inventory);
+           transaction.commit();
+       }catch(Exception e){
+           if(transaction.isActive()){
+               transaction.rollback();
+           }
+       }
     }
     
     public void handleDeleteInventory(Long inventoryId){
@@ -50,7 +49,6 @@ public class InventoryController {
 
     public void updateInventory(Inventory inventory) {
         if (inventory == null) return;
-
         em.getTransaction().begin();
         try {
             em.merge(inventory);  // Cập nhật dữ liệu vào DB
@@ -60,8 +58,4 @@ public class InventoryController {
             e.printStackTrace();
         }
     }
-
-
-
-
 }

@@ -21,10 +21,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Page(name="Kho", icon="images/warehouse.png", fxml="manage/warehouse.fxml")
 public class WareHousePage extends AbstractPage {
@@ -40,25 +43,30 @@ public class WareHousePage extends AbstractPage {
     
     private InventoryController inventoryController;
 
-    public WareHousePage(){
-        EntityManager em = DatabaseController.getEntityManager();
-        this.inventoryController = new InventoryController(em);
-    }
-
     ObservableList<Inventory> productsObservableList = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(){
+        DatabaseController.init();
+        EntityManager em = DatabaseController.getEntityManager();
+        inventoryController = new InventoryController(em);
         loadInventory();
+        setupTableColumn();
+    }
+
+    public void setupTableColumn(){
         idColumn.setCellValueFactory(new PropertyValueFactory<>("inventoryId"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("itemName"));
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("unitPrice"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
         supplierColumn.setCellValueFactory(new PropertyValueFactory<>("supplier"));
+        loadActionColumn();
+    }
+
+    public void loadActionColumn(){
         actionColumn.setCellFactory(KParameter -> new TableCell<Inventory, Void>() {
             private final Button editButton;
             private final Button deleteButton;
-
             {
                 // Tạo icon sửa
                 ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/pen.png")));
@@ -101,9 +109,6 @@ public class WareHousePage extends AbstractPage {
                 }
             }
         });
-
-
-        inventoryTable.setItems(productsObservableList);
     }
 
     public void handleDelete(Inventory inventory){
@@ -112,7 +117,7 @@ public class WareHousePage extends AbstractPage {
         alert.setHeaderText("Xóa sản phẩm");
         alert.setContentText("Bạn có chắc chắn muốn xóa sản phẩm: " + inventory.getItemName() + "?");
         alert.showAndWait().ifPresent(response -> {
-            if(response == ButtonType.YES){
+            if(response == ButtonType.OK){
                 inventoryController.handleDeleteInventory(inventory.getInventoryId());
                 productsObservableList.remove(inventory);
             }
@@ -125,16 +130,18 @@ public class WareHousePage extends AbstractPage {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/EditInventory.fxml"));
             Parent root = loader.load();
             EditInventoryPage editInventoryPage = loader.getController();
-            editInventoryPage.setInventoryData(inventory, productsObservableList);
+            editInventoryPage.setInventoryData(inventory);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Sửa Sản Phẩm");
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            loadInventory();
+            System.out.println("Đã load");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 
     public void handleAddInventory(){
         try{
@@ -145,7 +152,9 @@ public class WareHousePage extends AbstractPage {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Thêm Sản Phẩm");
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            loadInventory();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -153,13 +162,15 @@ public class WareHousePage extends AbstractPage {
 
     public void loadInventory(){
         List<Inventory> inventories = inventoryController.getAllInventory();
-        productsObservableList.addAll(inventories);
+        productsObservableList.setAll(inventories);
+        inventoryTable.setItems(productsObservableList.sorted(Comparator.comparing(Inventory::getItemName)));
     }
 
 
     public TableView<Inventory> getInventoryTable(){
         return inventoryTable;
     }
+
 
 
 
