@@ -20,25 +20,25 @@
                         <TableColumn fx:id="roomBranchIdColumn" prefWidth="160.0" style="-fx-alignment: center;" text="Branch ID" />
                         <TableColumn fx:id="roomNumberColumn" prefWidth="200.0" style="-fx-alignment: center;" text="Room Number" />
                         <TableColumn fx:id="roomTypeColumn" prefWidth="180.0" style="-fx-alignment: center;" text="Room Type" />
-                        <TableColumn fx:id="createColumn" prefWidth="180.0" style="-fx-alignment: center;" text="Created at" />
-                        <TableColumn fx:id="updateColumn" prefWidth="180.0" style="-fx-alignment: center;" text="Updated at" />
-                        <TableColumn fx:id="actionColumn" prefWidth="170.0" style="-fx-alignment: center;" text="Action" />
+                        <TableColumn fx:id="roomCreateColumn" prefWidth="180.0" style="-fx-alignment: center;" text="Created at" />
+                        <TableColumn fx:id="roomUpdateColumn" prefWidth="180.0" style="-fx-alignment: center;" text="Updated at" />
+                        <TableColumn fx:id="roomActionColumn" prefWidth="170.0" style="-fx-alignment: center;" text="Action" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
-                <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="275.0" style="-fx-font-weight: bold;" text="Phòng khám">
+                <Label alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="275.0" style="-fx-font-weight: bold;-fx-font-size: 18;" text="Phòng khám">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="addButton" layoutX="252.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btn-add" text="Add New">
+                <Button fx:id="addRoomButton" layoutX="252.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btn-add" text="Add New">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <TextField fx:id="searchField" layoutX="23.0" layoutY="48.0" prefHeight="29.0" prefWidth="216.0" promptText="Enter room number to find" />
+                <TextField fx:id="roomSearchField" layoutX="23.0" layoutY="48.0" prefHeight="29.0" prefWidth="216.0" promptText="Search" />
             </children>
         </AnchorPane>
     </left>
@@ -50,27 +50,27 @@
                     <columns>
                         <TableColumn fx:id="branchIdColumn" prefWidth="75.0" style="-fx-alignment: center;" text="Branch ID" />
                         <TableColumn fx:id="branchNameColumn" prefWidth="118.0" style="-fx-alignment: center;" text="Branch Name" />
-                        <TableColumn fx:id="addressColumn" prefWidth="83.0" text="Address" />
-                        <TableColumn fx:id="phoneColumn" prefWidth="76.0" text="Phone" />
-                        <TableColumn fx:id="branchCreateAtColumn" prefWidth="105.0" style="-fx-alignment: center;" text="Create At" />
-                        <TableColumn fx:id="branchUpdateAtColumn" prefWidth="105.0" style="-fx-alignment: center;" text="Update At" />
-                        <TableColumn fx:id="branchActionColumn" prefWidth="97.0" text="Action" />
+                        <TableColumn fx:id="branchAddressColumn" prefWidth="83.0" style="-fx-alignment: center;" text="Address" />
+                        <TableColumn fx:id="branchPhoneColumn" prefWidth="76.0" style="-fx-alignment: center;" text="Phone" />
+                        <TableColumn fx:id="branchCreateColumn" prefWidth="105.0" style="-fx-alignment: center;" text="Create At" />
+                        <TableColumn fx:id="branchUpdateColumn" prefWidth="105.0" style="-fx-alignment: center;" text="Update At" />
+                        <TableColumn fx:id="branchActionColumn" prefWidth="97.0" style="-fx-alignment: center;" text="Action" />
                     </columns>
                     <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
                 </TableView>
-                <Label alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="30.0" prefWidth="257.0" style="-fx-font-weight: bold;" text="Chi nhánh">
+                <Label alignment="CENTER" layoutX="9.0" layoutY="14.0" prefHeight="30.0" prefWidth="257.0" style="-fx-font-weight: bold;-fx-font-size: 18;" text="Chi nhánh">
                     <font>
                         <Font size="18.0" />
                     </font>
                 </Label>
-                <Button fx:id="addButton1" layoutX="238.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btn-add" text="Add New">
+                <Button fx:id="addBranchButton" layoutX="238.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="92.0" styleClass="btn-add" text="Add New">
                     <cursor>
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <TextField fx:id="searchField1" layoutX="9.0" layoutY="49.0" prefHeight="29.0" prefWidth="216.0" promptText="Enter branch name to find" />
+                <TextField fx:id="branchSearchField" layoutX="9.0" layoutY="49.0" prefHeight="29.0" prefWidth="216.0" promptText="Search" />
             </children>
         </AnchorPane>
     </right>
