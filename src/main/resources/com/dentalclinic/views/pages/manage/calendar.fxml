@@ -170,7 +170,7 @@
                      </GridPane>
                      <Button layoutX="189.0" layoutY="483.0" mnemonicParsing="false" onAction="#handleAddAppointment" prefHeight="46.0" prefWidth="77.0" styleClass="button-add" text="Add" />
                      <Button layoutX="89.0" layoutY="483.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="87.0" styleClass="button-clear" text="Clear" />
-                     <TextArea layoutX="48.0" layoutY="379.0" prefHeight="88.0" prefWidth="258.0" text="⏰ Clinic Opening Hours&#10;Monday - Friday: 🕘 08:00 AM - 08:00 PM&#10;Saturday: 🕙 08:00 AM - 06:00 PM&#10;Sunday &amp; Public Holidays: ❌ Closed&#10;" />
+                     <TextArea editable="false" layoutX="48.0" layoutY="379.0" prefHeight="88.0" prefWidth="258.0" text="⏰ Clinic Opening Hours&#10;Monday - Friday: 🕘 08:00 AM - 08:00 PM&#10;Saturday: 🕙 08:00 AM - 06:00 PM&#10;Sunday &amp; Public Holidays: ❌ Closed&#10;" />
                   </children>
                </Pane>
             </children>

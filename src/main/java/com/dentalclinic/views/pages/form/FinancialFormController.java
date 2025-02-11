@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -66,8 +67,6 @@ public class FinancialFormController {
         paymentMethodCombobox.setValue(financial.getPaymentMethod());
         statusCombobox.setValue(String.valueOf(financial.getStatus()));
         staff =financial.getUpdatedBy();
-        System.out.println(patientListF.size());
-        System.out.println(staffListF.size());
 
     }
     public void setupComboBox(){
@@ -121,62 +120,117 @@ public class FinancialFormController {
 
     }
     @FXML
-    private void handleUpdate(){
-        String invoiceNumber = invoiceNumberField.getText();
-        System.out.println(invoiceNumber);
-        Double amount = Double.parseDouble(amountField.getText());
-        String description = descriptionField.getText();
-        String emailStaff = emailStaffField.getText();
-        String phonePatient = phonePatiendField.getText();
-        String paymentMethod = paymentMethodCombobox.getValue();
-
-        String status = statusCombobox.getValue();
-        TransactionType transactionType = null;
-        FinancialStatus financialStatus = null;
-        switch (status){
-            case "Pending":
-                financialStatus= (FinancialStatus.PENDING);
-                break;
-            case "Completed":
-                financialStatus=(FinancialStatus.COMPLETED);
-                break;
-            case "Cancelled":
-                financialStatus =(FinancialStatus.CANCELLED);
-                break;
-            case "Refunded":
-                financialStatus= (FinancialStatus.REFUNDED);
-                break;
-            default:
-                System.out.println("Error");
-
-        }
-        if (radioExpenses.isSelected()) {
-            transactionType = TransactionType.EXPENSE;
-        } else if (radioIncome.isSelected()) {
-            transactionType = TransactionType.INCOME;
-        }
-        if (transactionType == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please select a transaction type!", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-        Optional<Patient> selectedPatient = Optional.empty();
-        if (transactionType == TransactionType.INCOME) {
-            selectedPatient = patientListF.stream()
-                    .filter(p -> p.getPhone().equals(phonePatient))
-                    .findFirst();
-
-            if (selectedPatient.isEmpty()) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Patient not found with phone: " + phonePatient, ButtonType.OK);
-                alert.showAndWait();
+    private void handleUpdate() {
+        try {
+            String invoiceNumber = invoiceNumberField.getText().trim();
+            System.out.println(invoiceNumber);
+            if (invoiceNumber.isEmpty()) {
+                showError("Invoice Number không được để trống!");
                 return;
             }
+            String amountText = amountField.getText().trim();
+            if (amountText.isEmpty()) {
+                showError("Amount không được để trống!");
+                return;
+            }
+            Double amount;
+            try {
+                amount = Double.parseDouble(amountText);
+            } catch (NumberFormatException e) {
+                showError("Amount phải là số hợp lệ!");
+                return;
+            }
+
+            String description = descriptionField.getText().trim();
+            String emailStaff = emailStaffField.getText().trim();
+            String phonePatient = phonePatiendField.getText().trim();
+            String paymentMethod = paymentMethodCombobox.getValue();
+            if (paymentMethod == null) {
+                showError("Vui lòng chọn phương thức thanh toán!");
+                return;
+            }
+
+            String status = statusCombobox.getValue();
+            if (status == null) {
+                showError("Vui lòng chọn trạng thái!");
+                return;
+            }
+            FinancialStatus financialStatus;
+            switch (status.toLowerCase()) {
+                case "pending":
+                    financialStatus = FinancialStatus.PENDING;
+                    break;
+                case "completed":
+                    financialStatus = FinancialStatus.COMPLETED;
+                    break;
+                case "cancelled":
+                    financialStatus = FinancialStatus.CANCELLED;
+                    break;
+                case "refunded":
+                    financialStatus = FinancialStatus.REFUNDED;
+                    break;
+                default:
+                    showError("Trạng thái không hợp lệ!");
+                    return;
+            }
+            TransactionType transactionType = null;
+            if (radioExpenses.isSelected()) {
+                transactionType = TransactionType.EXPENSE;
+            } else if (radioIncome.isSelected()) {
+                transactionType = TransactionType.INCOME;
+            }
+            if (transactionType == null) {
+                showError("Vui lòng chọn loại giao dịch!");
+                return;
+            }
+            Optional<Patient> selectedPatient = Optional.empty();
+            if (transactionType == TransactionType.INCOME) {
+                selectedPatient = patientListF.stream()
+                        .filter(p -> p.getPhone().equals(phonePatient))
+                        .findFirst();
+
+                if (selectedPatient.isEmpty()) {
+                    showError("Không tìm thấy bệnh nhân với số điện thoại: " + phonePatient);
+                    return;
+                }
+            }
+            Optional<Staff> selectedStaff = staffListF.stream()
+                    .filter(staff -> staff.getEmail().equals(emailStaff))
+                    .findFirst();
+            if (selectedStaff.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Staff not found with email: " + emailStaff, ButtonType.OK);
+                alert.showAndWait();
+                System.out.println();
+                return;
+            }
+            LocalDateTime createdAt =financial.getCreatedAt();
+            Patient patient = selectedPatient.orElse(null);
+            LocalDateTime now = LocalDateTime.now();
+            Financial financialUpdate = new Financial(patient, amount, description, createdAt, now,
+                    transactionType, paymentMethod, invoiceNumber, financialStatus, selectedStaff.get());
+
+            System.out.println(financialUpdate);
+            if (financial != null) {
+                financialUpdate.setFinanceId(financial.getFinanceId());
+            }
+            financialController.updateFinancial(financialUpdate);
+            Stage stage = (Stage) invoiceNumberField.getScene().getWindow();
+            stage.close();
+            showSuccess("Cập nhật thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showError("Đã có lỗi xảy ra, vui lòng thử lại!");
         }
-        System.out.println(financialStatus);
-        Patient patient = selectedPatient.orElse(null);
-        LocalDateTime now = LocalDateTime.now();
-        Financial financialupdate = new Financial(patient,amount,description,now,now,transactionType,paymentMethod,invoiceNumber,financialStatus,staff);
-        System.out.println(financialupdate);
-        financialController.updateFinancial(financialupdate);
     }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.showAndWait();
+    }
+
+    private void showSuccess(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+        alert.showAndWait();
+    }
+
 }

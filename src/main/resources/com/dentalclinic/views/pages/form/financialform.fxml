@@ -94,7 +94,7 @@
                     </Pane>
                     <Pane prefHeight="156.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                         <children>
-                            <DatePicker fx:id="exportDateField" layoutX="14.0" layoutY="4.0" promptText="1/1/1999" />
+                            <DatePicker fx:id="exportDateField" editable="false" layoutX="14.0" layoutY="4.0" promptText="1/1/1999" />
                         </children>
                     </Pane>
                     <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

@@ -13,7 +13,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <VBox prefHeight="417.0" prefWidth="730.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.CandidatenumberFormController">
    <children>
           <Label fx:id="lblTitle" alignment="CENTER" prefHeight="56.0" prefWidth="816.0" text="Information Patient">
@@ -72,32 +71,32 @@
                         </Label>
                               <Pane prefHeight="35.0" prefWidth="222.0" GridPane.columnIndex="1">
                                   <children>
-                                      <TextField fx:id="patientNameField" layoutX="14.0" layoutY="2.0" promptText="Nguyen Van A" />
+                                      <TextField fx:id="patientNameField" editable="false" layoutX="14.0" layoutY="2.0" promptText="Nguyen Van A" />
                                   </children>
                               </Pane>
                               <Pane layoutX="186.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                   <children>
-                                      <TextField fx:id="patientPhoneField" layoutX="14.0" layoutY="10.0" promptText="0334982576" />
+                                      <TextField fx:id="patientPhoneField" editable="false" layoutX="14.0" layoutY="10.0" promptText="0334982576" />
                                   </children>
                               </Pane>
                               <Pane layoutX="186.0" layoutY="55.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                                   <children>
-                                      <TextField fx:id="patientEmailField" layoutX="14.0" layoutY="10.0" promptText="nguyenvana@gmail.com" />
+                                      <TextField fx:id="patientEmailField" editable="false" layoutX="14.0" layoutY="10.0" promptText="nguyenvana@gmail.com" />
                                   </children>
                               </Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                                   <children>
-                                      <TextArea fx:id="patientAddressArea" layoutX="14.0" layoutY="13.0" prefHeight="62.0" prefWidth="149.0" promptText="Ha Noi" />
+                                      <TextArea fx:id="patientAddressArea" editable="false" layoutX="14.0" layoutY="13.0" prefHeight="62.0" prefWidth="149.0" promptText="Ha Noi" />
                                   </children>
                               </Pane>
                               <Pane prefHeight="156.0" prefWidth="242.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                                   <children>
-                                      <DatePicker fx:id="patientDobPicker" layoutX="14.0" layoutY="28.0" promptText="1/1/1999" />
+                                      <DatePicker fx:id="patientDobPicker" editable="false" layoutX="14.0" layoutY="28.0" promptText="1/1/1999" />
                                   </children>
                               </Pane>
                               <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <TextField fx:id="patientGenderField" layoutX="14.0" layoutY="5.0" promptText="Female" />
+                              <TextField fx:id="patientGenderField" editable="false" layoutX="14.0" layoutY="5.0" promptText="Female" />
                            </children>
                               </Pane>
                           </children>
@@ -132,22 +131,22 @@
                         </Label>
                         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <TextField fx:id="roomNameField" layoutX="14.0" layoutY="2.0" promptText="101" />
+                              <TextField fx:id="roomNameField" editable="false" layoutX="14.0" layoutY="2.0" promptText="101" />
                            </children>
                         </Pane>
                         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <TextField fx:id="examTimeField" layoutX="14.0" layoutY="5.0" promptText="2025-2-8 19:20" />
+                              <TextField fx:id="examTimeField" editable="false" layoutX="14.0" layoutY="5.0" promptText="2025-2-8 19:20" />
                            </children>
                         </Pane>
                         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
-                              <TextField fx:id="doctorExaminesField" layoutX="14.0" layoutY="10.0" promptText="Dr.Lan" />
+                              <TextField fx:id="doctorExaminesField" editable="false" layoutX="14.0" layoutY="10.0" promptText="Dr.Lan" />
                            </children>
                         </Pane>
                         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                            <children>
-                              <TextArea fx:id="symptomPresentationField" layoutX="14.0" layoutY="15.0" prefHeight="85.0" prefWidth="155.0" />
+                              <TextArea fx:id="symptomPresentationField" editable="false" layoutX="14.0" layoutY="15.0" prefHeight="85.0" prefWidth="155.0" />
                            </children>
                         </Pane>
                         <Label text="Room Name :" GridPane.rowIndex="1">
@@ -172,7 +171,7 @@
                         </Label>
                         <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
                            <children>
-                              <TextField fx:id="queueNumberField" layoutX="14.0" layoutY="2.0" promptText="REG001" />
+                              <TextField fx:id="queueNumberField" editable="false" layoutX="14.0" layoutY="2.0" promptText="REG001" />
                            </children>
                         </Pane>
                      </children>

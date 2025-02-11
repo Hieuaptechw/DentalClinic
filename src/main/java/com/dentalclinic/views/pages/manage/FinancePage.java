@@ -336,7 +336,8 @@ public class FinancePage extends AbstractPage {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
-//            loadPatients();
+            loadFinancial();
+
         }catch(IOException e) {
             e.printStackTrace();
         }
