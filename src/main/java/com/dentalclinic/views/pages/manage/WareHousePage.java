@@ -5,8 +5,7 @@ import com.dentalclinic.controllers.InventoryController;
 import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.form.AddInventoryPage;
-import com.dentalclinic.views.pages.form.EditInventoryPage;
+import com.dentalclinic.views.pages.form.InventoryFormController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -127,8 +126,8 @@ public class WareHousePage extends AbstractPage {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editInventory.fxml"));
             Parent root = loader.load();
-            EditInventoryPage editInventoryPage = loader.getController();
-            editInventoryPage.setInventoryData(inventory);
+            InventoryFormController inventoryPage = loader.getController();
+            inventoryPage.setInventoryData(inventory);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Sửa Sản Phẩm");
@@ -145,7 +144,7 @@ public class WareHousePage extends AbstractPage {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addInventory.fxml"));
             Parent root = loader.load();
-            AddInventoryPage addInventoryPage = loader.getController();
+            InventoryFormController addInventoryPage = loader.getController();
             addInventoryPage.setWareHousePage(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

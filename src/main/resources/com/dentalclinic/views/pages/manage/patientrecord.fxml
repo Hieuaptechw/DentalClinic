@@ -25,12 +25,12 @@
           <children>
          <HBox alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="516.0">
             <children>
-                      <TextField fx:id="searchField" prefHeight="40.0" prefWidth="182.0" promptText="Search">
+                      <TextField fx:id="searchField"  prefHeight="40.0" prefWidth="182.0" promptText="Search">
                           <padding>
                               <Insets left="20.0" />
                           </padding>
                       </TextField>
-                      <Button fx:id="btnAddProduct" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="btn-add" text="Add Patient Record" textFill="WHITE">
+                      <Button fx:id="btnAddProduct" mnemonicParsing="false" onAction="#handleAddPatientRecord" prefHeight="40.0" prefWidth="170.0" styleClass="btn-add" text="Add Patient Record" textFill="WHITE">
                           <graphic>
                               <ImageView fitHeight="32.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
                                   <image>
