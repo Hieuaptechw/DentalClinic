@@ -71,22 +71,4 @@ public class MedicalRecordController {
             e.printStackTrace();
         }
     }
-
-    public MedicalRecord findPatientRecordByName(String name) {
-        try {
-            TypedQuery<MedicalRecord> query = em.createQuery(
-                    "SELECT m FROM MedicalRecord m WHERE m.patient.name = :name", MedicalRecord.class);
-            query.setParameter("name", name);
-
-            List<MedicalRecord> result = query.getResultList();
-            return result.isEmpty() ? null : result.get(0);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
-
-
 }

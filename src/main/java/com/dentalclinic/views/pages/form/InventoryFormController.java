@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 public class InventoryFormController {
     @FXML private TextField addName, addPrice, addQuantity, addSupplier;
     @FXML private TextField editName, editPrice, editQuantity, editSupplier;
-    @FXML private Button btnAction;
+    @FXML private Button btnAction, btnAction1;
 
     private WareHousePage wareHousePage;
     private Inventory inventory;
@@ -51,7 +51,7 @@ public class InventoryFormController {
             inventory.setSupplier(supplier);
 
             inventoryController.updateInventory(inventory);
-            closeWindow();
+            closeWindow(btnAction);
             showAlert(Alert.AlertType.INFORMATION, "Cập nhật sản phẩm", "Sản phẩm đã được cập nhật");
         }
     }
@@ -74,6 +74,7 @@ public class InventoryFormController {
             inventory.setSupplier(supplier);
 
             inventoryController.addInventory(inventory);
+            closeWindow(btnAction1);
             showAlert(Alert.AlertType.INFORMATION, "Thêm sản phẩm", "Thêm sản phẩm thành công");
 
         }catch(NumberFormatException e){
@@ -90,8 +91,8 @@ public class InventoryFormController {
         alert.showAndWait();
     }
 
-    public void closeWindow(){
-        Stage stage = (Stage) btnAction.getScene().getWindow();
+    public void closeWindow(Button name){
+        Stage stage = (Stage) name.getScene().getWindow();
         stage.close();
     }
 
