@@ -2,7 +2,6 @@ package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.InventoryController;
-import com.dentalclinic.controllers.CalendarController;
 import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
@@ -27,7 +26,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Page(name="Kho", icon="images/warehouse.png", fxml="manage/warehouse.fxml")
 public class WareHousePage extends AbstractPage {
@@ -69,9 +67,9 @@ public class WareHousePage extends AbstractPage {
             private final Button deleteButton;
             {
                 // Tạo icon sửa
-                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/pen.png")));
-                editIcon.setFitWidth(30);
-                editIcon.setFitHeight(30);
+                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
+                editIcon.setFitWidth(22);
+                editIcon.setFitHeight(22);
                 editButton = new Button("", editIcon);
                 editButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
@@ -83,9 +81,9 @@ public class WareHousePage extends AbstractPage {
                 });
 
                 // Tạo icon xóa
-                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete.png")));
-                deleteIcon.setFitWidth(30);
-                deleteIcon.setFitHeight(30);
+                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete_1.png")));
+                deleteIcon.setFitWidth(22);
+                deleteIcon.setFitHeight(22);
                 deleteButton = new Button("", deleteIcon);
                 deleteButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
@@ -127,7 +125,7 @@ public class WareHousePage extends AbstractPage {
 
     public void handleEditInventory(Inventory inventory){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/EditInventory.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editInventory.fxml"));
             Parent root = loader.load();
             EditInventoryPage editInventoryPage = loader.getController();
             editInventoryPage.setInventoryData(inventory);
@@ -145,7 +143,7 @@ public class WareHousePage extends AbstractPage {
 
     public void handleAddInventory(){
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/AddInventory.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addInventory.fxml"));
             Parent root = loader.load();
             AddInventoryPage addInventoryPage = loader.getController();
             addInventoryPage.setWareHousePage(this);

@@ -227,17 +227,14 @@
     -fx-background-color: linear-gradient(to bottom, #42A5F5, #1E88E5);
 }
 
-#btnAddProduct{
-    -fx-background-color: #69a2e4;
-}
 
 
 .label-1 {
     -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #ffffff;  /* Màu chữ trắng */
-    -fx-background-color: #2E86C1; /* Xanh dương nhẹ, tạo cảm giác tin tưởng */
-    -fx-padding: 8px 12px;  /* Tăng khoảng cách giúp dễ nhìn hơn */
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2E86C1;
+    -fx-padding: 8px 12px;
     -fx-border-radius: 6px;
     -fx-background-radius: 6px;
     -fx-alignment: center;
@@ -253,7 +250,6 @@
     -fx-font-weight: bold;
     -fx-padding: 5px 0;
 }
-/* Đặt style cho tiêu đề trang với class .label-title */
 .label-title {
     -fx-font-size: 28px;
     -fx-font-family: "Segoe UI", sans-serif;

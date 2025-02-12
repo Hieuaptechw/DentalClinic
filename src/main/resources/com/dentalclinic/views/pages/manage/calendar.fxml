@@ -19,22 +19,18 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.CalendarPage">
-   <HBox>
-      <children>
-         <Label styleClass="label-title" text="Appointments">
-            <font>
-               <Font name="System Bold" size="18.0" />
-            </font>
-            <HBox.margin>
-               <Insets left="20.0" />
-            </HBox.margin>
-         </Label>
-      </children>
-   </HBox>
+<VBox prefHeight="600.0" prefWidth="1100.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.CalendarPage">
+   <Label styleClass="label-title" text="Appointments">
+      <font>
+         <Font name="System Bold" size="18.0" />
+      </font>
+      <VBox.margin>
+         <Insets left="20.0" top="10.0" />
+      </VBox.margin>
+   </Label>
    <HBox prefHeight="613.0" prefWidth="1150.0" VBox.vgrow="ALWAYS">
       <children>
-         <VBox alignment="BOTTOM_CENTER" HBox.hgrow="ALWAYS">
+         <VBox alignment="BOTTOM_CENTER" prefHeight="523.0" prefWidth="739.0" HBox.hgrow="ALWAYS">
             <children>
                <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0">
                   <children>
@@ -70,11 +66,14 @@
                            <Insets left="20.0" />
                         </HBox.margin>
                      </TextField>
-                  </children></HBox>
+                  </children>
+                  <VBox.margin>
+                     <Insets bottom="20.0" top="20.0" />
+                  </VBox.margin></HBox>
                <TableView fx:id="tableViewAppointment" prefHeight="514.0" prefWidth="790.0" tableMenuButtonVisible="true">
                   <columns>
-                    <TableColumn fx:id="registrationNumberColumn" prefWidth="99.99999618530273" style="-fx-alignment: center;" text="Reg.Number" />
-                    <TableColumn fx:id="patientColumn" prefWidth="90.40005493164062" style="-fx-alignment: center;" text="Patient" />
+                    <TableColumn fx:id="registrationNumberColumn" prefWidth="91.0" style="-fx-alignment: center;" text="Reg.Number" />
+                    <TableColumn fx:id="patientColumn" prefWidth="63.0" style="-fx-alignment: center;" text="Patient" />
                     <TableColumn fx:id="doctorColumn" prefWidth="96.80000305175781" style="-fx-alignment: center;" text="Doctor" />
                     <TableColumn fx:id="roomColumn" prefWidth="59.2000732421875" style="-fx-alignment: center;" text="Room" />
                     <TableColumn fx:id="appointmentDateColumn" prefWidth="96.0" style="-fx-alignment: center;" text="Date" />
@@ -91,16 +90,16 @@
                <Insets bottom="20.0" left="20.0" />
             </HBox.margin>
          </VBox>
-         <VBox prefHeight="664.0" prefWidth="341.0">
+         <VBox alignment="TOP_CENTER" prefHeight="548.0" prefWidth="341.0">
             <children>
-               <Pane prefHeight="434.0" prefWidth="270.0" VBox.vgrow="ALWAYS">
+               <Pane prefHeight="512.0" prefWidth="341.0">
                   <children>
-                     <Label alignment="CENTER" layoutY="37.0" prefHeight="50.0" prefWidth="342.0" text="Add Appointments">
+                     <Label alignment="CENTER" layoutX="33.0" layoutY="21.0" prefHeight="50.0" prefWidth="286.0" styleClass="label-1" text="Add Appointments">
                         <font>
                            <Font name="System Bold" size="21.0" />
                         </font>
                      </Label>
-                     <GridPane layoutX="19.0" layoutY="108.0" prefHeight="271.0" prefWidth="315.0">
+                     <GridPane layoutX="19.0" layoutY="93.0" prefHeight="271.0" prefWidth="315.0">
                        <columnConstraints>
                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.8" minWidth="10.0" prefWidth="127.1999755859375" />
                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="224.8000366210937" minWidth="10.0" prefWidth="197.60002441406246" />
@@ -168,9 +167,9 @@
                            <Insets left="20.0" right="20.0" />
                         </padding>
                      </GridPane>
-                     <Button layoutX="189.0" layoutY="483.0" mnemonicParsing="false" onAction="#handleAddAppointment" prefHeight="46.0" prefWidth="77.0" styleClass="button-add" text="Add" />
-                     <Button layoutX="89.0" layoutY="483.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="87.0" styleClass="button-clear" text="Clear" />
-                     <TextArea editable="false" layoutX="48.0" layoutY="379.0" prefHeight="88.0" prefWidth="258.0" text="⏰ Clinic Opening Hours&#10;Monday - Friday: 🕘 08:00 AM - 08:00 PM&#10;Saturday: 🕙 08:00 AM - 06:00 PM&#10;Sunday &amp; Public Holidays: ❌ Closed&#10;" />
+                     <Button layoutX="189.0" layoutY="443.0" mnemonicParsing="false" onAction="#handleAddAppointment" prefHeight="46.0" prefWidth="77.0" styleClass="button-add" text="Add" />
+                     <Button layoutX="89.0" layoutY="443.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="87.0" styleClass="button-clear" text="Clear" />
+                     <TextArea editable="false" layoutX="48.0" layoutY="355.0" prefHeight="88.0" prefWidth="258.0" text="⏰ Clinic Opening Hours&#10;Monday - Friday: 🕘 08:00 AM - 08:00 PM&#10;Saturday: 🕙 08:00 AM - 06:00 PM&#10;Sunday &amp; Public Holidays: ❌ Closed&#10;" />
                   </children>
                </Pane>
             </children>

@@ -1,16 +1,12 @@
 package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.controllers.PatientRecordController;
-import com.dentalclinic.entities.Inventory;
+import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.form.EditInventoryPage;
 import com.dentalclinic.views.pages.form.EditPatientRecordPage;
-import jakarta.persistence.Entity;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Table;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,11 +48,11 @@ public class PatientRecordPage extends AbstractPage {
 
     private ObservableList<MedicalRecord> medicalRecordObservableList = FXCollections.observableArrayList();
 
-    private PatientRecordController patientRecordController;
+    private MedicalRecordController patientRecordController;
 
     public PatientRecordPage(){
         EntityManager em = DatabaseController.getEntityManager();
-        this.patientRecordController = new PatientRecordController(em);
+        this.patientRecordController = new MedicalRecordController(em);
     }
 
     @FXML
@@ -79,9 +75,9 @@ public class PatientRecordPage extends AbstractPage {
             private final Button deleteButton;
             {
                 // Tạo icon sửa
-                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/pen.png")));
-                editIcon.setFitWidth(30);
-                editIcon.setFitHeight(30);
+                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
+                editIcon.setFitWidth(22);
+                editIcon.setFitHeight(22);
                 editButton = new Button("", editIcon);
                 editButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
@@ -90,9 +86,9 @@ public class PatientRecordPage extends AbstractPage {
                     handleEditPatientRecord(medicalRecord);
                 });
 
-                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete.png")));
-                deleteIcon.setFitWidth(30);
-                deleteIcon.setFitHeight(30);
+                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete_1.png")));
+                deleteIcon.setFitWidth(22);
+                deleteIcon.setFitHeight(22);
                 deleteButton = new Button("", deleteIcon);
                 deleteButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
 
@@ -139,7 +135,7 @@ public class PatientRecordPage extends AbstractPage {
 
     public void handleEditPatientRecord(MedicalRecord medicalRecord){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/EditPatientRecord.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editPatientRecord.fxml"));
             Parent root = loader.load();
             EditPatientRecordPage editPatientRecordPage = loader.getController();
             editPatientRecordPage.setPatientRecordData(medicalRecord);

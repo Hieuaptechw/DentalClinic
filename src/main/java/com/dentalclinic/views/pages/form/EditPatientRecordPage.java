@@ -1,18 +1,14 @@
 package com.dentalclinic.views.pages.form;
 
 import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.controllers.PatientRecordController;
+import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.entities.MedicalRecord;
-import com.dentalclinic.entities.Patient;
 import jakarta.persistence.EntityManager;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 
 public class EditPatientRecordPage {
@@ -25,12 +21,12 @@ public class EditPatientRecordPage {
     @FXML
     private Button btnAction;
 
-    private PatientRecordController patientRecordController;
+    private MedicalRecordController patientRecordController;
     private MedicalRecord medicalRecord;
 
     public EditPatientRecordPage(){
         EntityManager em = DatabaseController.getEntityManager();
-        this.patientRecordController = new PatientRecordController(em);
+        this.patientRecordController = new MedicalRecordController(em);
     }
 
     public void setPatientRecordData(MedicalRecord medicalRecord){

@@ -12,77 +12,66 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.PatientRecordPage">
-    <Label prefHeight="50.0" prefWidth="1039.0" text="Hồ sơ bệnh án">
+<VBox prefHeight="600.0" prefWidth="1100.0" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.manage.PatientRecordPage">
+    <Label prefHeight="57.0" prefWidth="259.0" styleClass="label-title" text="Medical Record">
         <font>
             <Font name="System Bold" size="18.0" />
         </font>
         <VBox.margin>
-            <Insets left="20.0" />
+            <Insets left="20.0" top="10.0" />
         </VBox.margin>
     </Label>
-    <VBox prefHeight="513.0" VBox.vgrow="ALWAYS">
-        <children>
-            <HBox prefHeight="73.0" prefWidth="946.0">
-                <children>
-                    <VBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="226.0">
-                        <children>
-                            <TextField fx:id="searchField" prefHeight="38.0" prefWidth="250.0" promptText="Tìm kiếm" VBox.vgrow="ALWAYS">
-                                <VBox.margin>
-                                    <Insets left="20.0" />
-                                </VBox.margin>
-                                <padding>
-                                    <Insets left="20.0" />
-                                </padding>
-                            </TextField>
-                        </children>
-                    </VBox>
-                    <VBox alignment="BOTTOM_RIGHT" prefHeight="38.0" prefWidth="155.0" HBox.hgrow="ALWAYS">
-                        <children>
-                            <Button fx:id="btnAddProduct" mnemonicParsing="false" prefHeight="40.0" prefWidth="134.0" text="Thêm mới" textFill="WHITE" VBox.vgrow="ALWAYS">
-                                <VBox.margin>
-                                    <Insets right="20.0" />
-                                </VBox.margin>
-                                <graphic>
-                                    <ImageView fitHeight="32.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
-                                        <image>
-                                            <Image url="@../../../images/plus--v2.png" />
-                                        </image>
-                                    </ImageView>
-                                </graphic>
-                                <font>
-                                    <Font name="System Bold" size="12.0" />
-                                </font>
-                            </Button>
-                        </children>
-                    </VBox>
-                </children>
-                <VBox.margin>
-                    <Insets bottom="20.0" top="20.0" />
-                </VBox.margin>
-            </HBox>
-            <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
-                <VBox.margin>
-                    <Insets />
-                </VBox.margin>
-                <children>
-                    <TableView fx:id="recordTable" prefHeight="452.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
-                        <columns>
-                            <TableColumn fx:id="nameColumn" prefWidth="272.79994201660156" style="-fx-alignment: center;" text="Bệnh nhân" />
-                            <TableColumn fx:id="diagnosisColumn" prefWidth="108.800048828125" style="-fx-alignment: center;" text="Chuẩn đoán" />
-                            <TableColumn fx:id="treatmentColumn" prefWidth="178.39996337890625" style="-fx-alignment: center;" text="Điều trị" />
-                            <TableColumn fx:id="dateColumn" prefWidth="167.2000732421875" style="-fx-alignment: center;" text="Ngày khám" />
-                            <TableColumn fx:id="actionColumn" prefWidth="167.199951171875" style="-fx-alignment: center;" text="Hành động" />
-                        </columns>
-                        <columnResizePolicy>
-                            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                        </columnResizePolicy>
-                        <VBox.margin>
-                            <Insets bottom="20.0" left="20.0" right="20.0" />
-                        </VBox.margin>
-                    </TableView>
-                </children>
-            </VBox>
-        </children>
-    </VBox>
+      <HBox alignment="TOP_RIGHT" VBox.vgrow="ALWAYS">
+          <children>
+         <HBox alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="516.0">
+            <children>
+                      <TextField fx:id="searchField" prefHeight="40.0" prefWidth="182.0" promptText="Search">
+                          <padding>
+                              <Insets left="20.0" />
+                          </padding>
+                      </TextField>
+                      <Button fx:id="btnAddProduct" mnemonicParsing="false" prefHeight="40.0" prefWidth="170.0" styleClass="btn-add" text="Add Patient Record" textFill="WHITE">
+                          <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" translateX="-5.0">
+                                  <image>
+                                      <Image url="@../../../images/plus.png" />
+                                  </image>
+                              </ImageView>
+                          </graphic>
+                          <font>
+                              <Font name="System Bold" size="12.0" />
+                          </font>
+                  <HBox.margin>
+                     <Insets left="20.0" />
+                  </HBox.margin>
+                      </Button>
+            </children>
+         </HBox>
+          </children>
+          <VBox.margin>
+              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+          </VBox.margin>
+      </HBox>
+      <VBox alignment="CENTER" VBox.vgrow="ALWAYS">
+          <VBox.margin>
+              <Insets />
+          </VBox.margin>
+          <children>
+              <TableView fx:id="recordTable" prefHeight="452.0" tableMenuButtonVisible="true" VBox.vgrow="ALWAYS">
+                  <columns>
+                      <TableColumn fx:id="nameColumn" prefWidth="272.79994201660156" style="-fx-alignment: center;" text="Patient Name" />
+                      <TableColumn fx:id="diagnosisColumn" prefWidth="108.800048828125" style="-fx-alignment: center;" text="Diagnosis" />
+                      <TableColumn fx:id="treatmentColumn" prefWidth="178.39996337890625" style="-fx-alignment: center;" text="Treatment" />
+                      <TableColumn fx:id="dateColumn" prefWidth="167.2000732421875" style="-fx-alignment: center;" text="Date" />
+                      <TableColumn fx:id="actionColumn" prefWidth="167.199951171875" style="-fx-alignment: center;" text="Action" />
+                  </columns>
+                  <columnResizePolicy>
+                      <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                  </columnResizePolicy>
+                  <VBox.margin>
+                      <Insets bottom="20.0" left="20.0" right="20.0" />
+                  </VBox.margin>
+              </TableView>
+          </children>
+      </VBox>
 </VBox>

@@ -1,15 +1,14 @@
 package com.dentalclinic.controllers;
 
-import com.dentalclinic.entities.Inventory;
 import com.dentalclinic.entities.MedicalRecord;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-public class PatientRecordController {
+public class MedicalRecordController {
     private EntityManager em;
 
-    public PatientRecordController(EntityManager em){
+    public MedicalRecordController(EntityManager em){
         this.em = em;
     }
 
@@ -36,10 +35,10 @@ public class PatientRecordController {
         if (medicalRecord == null) return;
         em.getTransaction().begin();
         try {
-            em.merge(medicalRecord);  // Cập nhật dữ liệu vào DB
+            em.merge(medicalRecord);
             em.getTransaction().commit();
         } catch (Exception e) {
-            em.getTransaction().rollback();  // Hoàn tác nếu có lỗi
+            em.getTransaction().rollback();
             e.printStackTrace();
         }
     }
