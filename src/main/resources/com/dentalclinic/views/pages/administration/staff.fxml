@@ -14,22 +14,19 @@
 <?import javafx.scene.text.Font?>
 
 <VBox stylesheets="@../../../css/style.css" fx:controller="com.dentalclinic.views.pages.administration.StaffPage" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <HBox>
-      <children>
-         <Label text="Manage Patient">
-            <font>
-               <Font name="System Bold" size="18.0" />
-            </font>
-            <HBox.margin>
-               <Insets left="20.0" top="2.0" />
-            </HBox.margin>
-         </Label>
-      </children>
-   </HBox>
+   
    <VBox prefHeight="513.0" VBox.vgrow="ALWAYS">
       <children>
-         <HBox prefHeight="73.0" prefWidth="946.0" VBox.vgrow="ALWAYS">
+         <HBox VBox.vgrow="ALWAYS">
             <children>
+            <Label text="Staff">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="20.0" top="2.0" />
+               </HBox.margin>
+            </Label>
                <HBox alignment="TOP_RIGHT" prefHeight="38.0" prefWidth="517.0" HBox.hgrow="ALWAYS">
                   <children>
                      <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="103.0" text="Export CSV">
