@@ -65,7 +65,6 @@ public class PatientRecordPage extends AbstractPage {
         diagnosisColumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
         treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-
         loadActionColumn();
     }
 
