@@ -1,0 +1,18 @@
+.support-title {
+    -fx-font-size: 2em;
+    -fx-font-weight: bold;
+}
+
+.support-link {
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-text-fill: #578de5;
+    -fx-font-size: 2em;
+    -fx-cursor: hand;
+}
+.support-link:hover {
+    -fx-underline: true;
+}
+.support-link-title {
+    -fx-font-weight: bold;
+}
