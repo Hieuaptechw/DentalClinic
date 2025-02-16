@@ -60,6 +60,7 @@ public class PatientRecordFormController {
         }
     }
 
+
     @FXML
     private void handleSave(){
         if(medicalRecord != null){
@@ -74,6 +75,19 @@ public class PatientRecordFormController {
 
             closeWindow();
         }
+    }
+
+    @FXML
+    private void clearEdit(){
+        diagnoseField.clear();
+        treatmentField.clear();
+    }
+
+    @FXML
+    private void clearAdd(){
+        namePatient.clear();
+        diagnosePatient.clear();
+        treatmentField.clear();
     }
 
     public void alertMessage(Alert.AlertType type, String title, String headerText){

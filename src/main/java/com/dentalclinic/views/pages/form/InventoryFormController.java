@@ -36,6 +36,22 @@ public class InventoryFormController {
         editSupplier.setText(inventory.getSupplier());
     }
 
+    @FXML
+    private void clearAdd(){
+        addName.clear();
+        addPrice.clear();
+        addQuantity.clear();
+        addSupplier.clear();
+    }
+
+    @FXML
+    private void clearEdit(){
+        editName.clear();
+        editPrice.clear();
+        editQuantity.clear();
+        editSupplier.clear();
+    }
+
 
     @FXML
     private void handleSaveEditInventory(){

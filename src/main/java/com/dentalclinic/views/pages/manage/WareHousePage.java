@@ -3,6 +3,7 @@ package com.dentalclinic.views.pages.manage;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.InventoryController;
 import com.dentalclinic.entities.Inventory;
+import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.InventoryFormController;
@@ -47,6 +48,7 @@ public class WareHousePage extends AbstractPage {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
         inventoryController = new InventoryController(em);
+        searchField.textProperty().addListener((observable, oldValue, newValue)-> handleSearch(newValue));
         loadInventory();
         setupTableColumn();
     }
@@ -164,10 +166,42 @@ public class WareHousePage extends AbstractPage {
     }
 
 
-    public TableView<Inventory> getInventoryTable(){
-        return inventoryTable;
+    @FXML
+    public void handleSearch(String keyword){
+        String key = keyword.toLowerCase().trim();
+        if(key.isEmpty()){
+            inventoryTable.setItems(productsObservableList);
+        }else {
+            List<Inventory> filtered = productsObservableList.stream()
+                    .filter(record -> matchesSearch(record, key))
+                    .toList();
+            inventoryTable.setItems(FXCollections.observableArrayList(filtered));
+        }
     }
 
+    private boolean matchesSearch(Inventory inventory, String keyword) {
+        String fullName = inventory.getItemName().toLowerCase();
+        String[] nameParts = fullName.split("\\s+");
+
+        String[] keywords = keyword.toLowerCase().split("\\s+");
+
+        int index = 0;
+        for (String key : keywords) {
+            boolean found = false;
+            while (index < nameParts.length) {
+                if (nameParts[index].startsWith(key)) {
+                    found = true;
+                    index++;
+                    break;
+                }
+                index++;
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 

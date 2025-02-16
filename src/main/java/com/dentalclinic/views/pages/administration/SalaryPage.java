@@ -2,24 +2,30 @@ package com.dentalclinic.views.pages.administration;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.SalaryController;
-import com.dentalclinic.entities.Financial;
+import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.entities.Salary;
 import com.dentalclinic.entities.Staff;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
+import com.dentalclinic.views.pages.form.PatientRecordFormController;
+import com.dentalclinic.views.pages.form.SalaryFormController;
 import jakarta.persistence.EntityManager;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Page(name="Lương", icon="images/revenue.png", fxml="administration/salary.fxml")
@@ -131,13 +137,14 @@ public class SalaryPage extends AbstractPage {
 
                 editButton.setOnAction(event -> {
                     Salary salary = getTableView().getItems().get(getIndex());
+                    handleEditPatientRecord(salary);
                     System.out.println(salary);
 
                 });
 
                 deleteButton.setOnAction(event -> {
                     Salary salary = getTableView().getItems().get(getIndex());
-
+                    handleDelete(salary);
                 });
 
                 printButton.setOnAction(event -> {
@@ -158,6 +165,39 @@ public class SalaryPage extends AbstractPage {
             }
 
         });
+    }
+
+    public void handleDelete(Salary salary){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Xác nhận");
+        alert.setHeaderText("Xóa lương");
+        alert.setContentText("Bạn có chắc chắn muốn xóa : " + salary.getStaff().getName() + "?");
+        alert.showAndWait().ifPresent(response -> {
+            if(response == ButtonType.OK){
+                salaryController.handleDeleteSalary(salary.getSalaryId());
+                salaryObservableList.remove(salary);
+            }
+        });
+    }
+
+
+
+    public void handleEditPatientRecord(Salary salary){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editSalaryForm.fxml"));
+            Parent root = loader.load();
+            SalaryFormController salaryFormController = loader.getController();
+            salaryFormController.setSalaryDate(salary);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Sửa bệnh án");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            loadSalaryRecord();
+            System.out.println("Đã load");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dentalclinic.controllers;
 
+import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.entities.Salary;
 import com.dentalclinic.entities.Staff;
@@ -24,18 +25,6 @@ public class SalaryController {
         return query.getResultList();
     }
 
-    public List<Staff> getAllRole() {
-        try {
-            String jpql = "SELECT s FROM Staff s";
-            return em.createQuery(jpql, Staff.class).getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
-    }
-
-
-
     public Staff findStaffByEmailAndName(String email, String name) {
         try {
             String jpql = "SELECT s FROM Staff s WHERE s.email = :email AND s.name = :name";
@@ -59,7 +48,6 @@ public class SalaryController {
         }
     }
 
-
     public void handleAddSalary(Salary salary) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -80,6 +68,21 @@ public class SalaryController {
         try {
             em.getTransaction().begin();
             em.merge(salary);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            e.printStackTrace();
+        }
+    }
+
+
+    public void handleDeleteSalary(Long salaryId){
+        em.getTransaction().begin();
+        try {
+            Salary salary = em.find(Salary.class, salaryId);
+            if (salary != null) {
+                em.remove(salary);
+            }
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();

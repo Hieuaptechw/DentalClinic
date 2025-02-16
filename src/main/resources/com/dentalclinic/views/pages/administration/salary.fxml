@@ -8,6 +8,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -26,7 +28,7 @@
     </Label>
    <HBox prefHeight="100.0" prefWidth="200.0">
       <children>
-         <Label prefHeight="34.0" prefWidth="36.0" text="From: " />
+         <Label prefHeight="30.0" prefWidth="42.0" text="From: " />
          <DatePicker prefHeight="34.0" prefWidth="145.0">
             <HBox.margin>
                <Insets right="20.0" />
@@ -38,14 +40,18 @@
                <Insets />
             </HBox.margin>
          </DatePicker>
-         <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="51.0" text="Button" />
-         <Label prefHeight="34.0" prefWidth="44.0" text="Search">
+         <Button mnemonicParsing="false" prefHeight="42.0" prefWidth="51.0">
+            <graphic>
+               <ImageView fitHeight="20.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../images/filter.png" />
+                  </image>
+               </ImageView>
+            </graphic></Button>
+         <TextField prefHeight="34.0" prefWidth="188.0" promptText="Search">
             <HBox.margin>
-               <Insets left="10.0" />
-            </HBox.margin>
-         </Label>
-         <TextField prefHeight="34.0" prefWidth="188.0" />
-         <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="104.0" text="Xuất excel" />
+               <Insets left="30.0" />
+            </HBox.margin></TextField>
       </children>
       <VBox.margin>
          <Insets left="20.0" top="10.0" />
@@ -84,8 +90,8 @@
                </HBox>
                <GridPane prefHeight="262.0" prefWidth="305.0">
                  <columnConstraints>
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.4000244140625" minWidth="10.0" prefWidth="116.0" />
-                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="236.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="170.4000244140625" minWidth="10.0" prefWidth="94.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="236.0" minWidth="10.0" prefWidth="190.0" />
                  </columnConstraints>
                  <rowConstraints>
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -124,6 +130,6 @@
    </HBox>
    <stylesheets>
       <URL value="@../../../css/style.css" />
-      <URL value="@../../../css/salary.css" />
+      <URL value="@../../../css/other.css" />
    </stylesheets>
 </VBox>

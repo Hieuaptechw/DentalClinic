@@ -77,7 +77,7 @@
                 </GridPane>
                 <HBox prefHeight="38.0" prefWidth="375.0">
                     <children>
-                        <Button mnemonicParsing="false" prefHeight="34.0" prefWidth="130.0" styleClass="btn-clear" text="Clear">
+                        <Button mnemonicParsing="false" onAction="#clearAdd" prefHeight="34.0" prefWidth="130.0" styleClass="btn-clear" text="Clear">
                             <HBox.margin>
                                 <Insets left="80.0" right="40.0" />
                             </HBox.margin>adm

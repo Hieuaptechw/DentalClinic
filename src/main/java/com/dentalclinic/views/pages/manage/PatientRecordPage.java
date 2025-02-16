@@ -113,6 +113,8 @@ public class PatientRecordPage extends AbstractPage {
         });
     }
 
+    
+
     public void loadPatientRecord(){
         List<MedicalRecord> medicalRecords = patientRecordController.getAllPatientRecord();
         medicalRecordObservableList.setAll(medicalRecords);
