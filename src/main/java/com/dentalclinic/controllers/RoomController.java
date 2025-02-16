@@ -1,5 +1,6 @@
 package com.dentalclinic.controllers;
 
+import com.dentalclinic.entities.Branch;
 import com.dentalclinic.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -46,25 +47,18 @@ public class RoomController {
         }
     }
 
-    public void deleteRoom(Room room) {
+    public void deleteRoom(Long roomId) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-
-            // Cập nhật các cuộc hẹn để không còn tham chiếu đến phòng này
-            String hql = "UPDATE Appointment a SET a.room = null WHERE a.room.id = :roomId";
-            em.createQuery(hql).setParameter("roomId", room.getRoomId()).executeUpdate();
-
-            // Sau khi cập nhật các cuộc hẹn, tiến hành xóa phòng
-            Room roomToDelete = em.find(Room.class, room.getRoomId());
-            if (roomToDelete != null) {
-                em.remove(roomToDelete);
+            Room room = em.find(Room.class, roomId);
+            if (room != null) {
+                em.remove(room);
             }
-
             transaction.commit();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             transaction.rollback();
-            throw e;
+            e.printStackTrace();
         }
     }
 }
