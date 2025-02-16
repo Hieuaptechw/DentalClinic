@@ -84,7 +84,7 @@ public class PrimaryView {
             VBox box = new VBox();
             box.setAlignment(Pos.CENTER);
             box.getStyleClass().add("toolbar-item");
-            box.setOnMouseClicked((_) -> openPage(target));
+            box.setOnMouseClicked((x) -> openPage(target));
 
             System.out.println(name + ": " + icon);
             Image image = new Image(iconURL.toExternalForm());

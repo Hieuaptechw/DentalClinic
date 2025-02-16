@@ -43,7 +43,7 @@ public class LoginView {
         boolean success = DatabaseController.logIn(email, password);
         if (success) {
             try { DentalClinic.loadStage("views/primary.fxml"); }
-            catch (IOException e) {}
+            catch (IOException e) { e.printStackTrace(); }
         } else {
             showError("Email or password is incorrect");
             return;

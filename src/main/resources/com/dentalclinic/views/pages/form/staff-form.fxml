@@ -17,7 +17,7 @@
 
 <VBox prefWidth="480.0" spacing="10.0" style="-fx-font-size: 14px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.StaffFormController">
     <children>
-      <Label text="New Staff">
+      <Label fx:id="titleLabel" text="New Staff">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
@@ -70,7 +70,7 @@
          <children>
             <Button mnemonicParsing="false" text="Clear" onAction="#handleClear" />
             <Pane HBox.hgrow="ALWAYS" />
-            <Button mnemonicParsing="false" text="Create" />
+            <Button fx:id="submitButton" mnemonicParsing="false" text="Create" onAction="#handleSubmit" />
          </children>
          <VBox.margin>
             <Insets top="10.0" />

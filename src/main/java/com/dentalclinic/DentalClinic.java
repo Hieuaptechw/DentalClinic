@@ -30,7 +30,6 @@ public class DentalClinic extends Application {
     public static void loadStage(String path) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(DentalClinic.class.getResource(path));
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Dental Clinic!");
         stage.setScene(scene);
         stage.show();
     }
