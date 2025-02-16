@@ -5,7 +5,8 @@ import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.form.EditPatientRecordPage;
+import com.dentalclinic.views.pages.form.InventoryFormController;
+import com.dentalclinic.views.pages.form.PatientRecordFormController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,19 +33,16 @@ public class PatientRecordPage extends AbstractPage {
     private TableView<MedicalRecord> recordTable;
 
     @FXML
-    private TableColumn<MedicalRecord, String> nameColumn;
-
-    @FXML
-    private TableColumn<MedicalRecord, String> diagnosisColumn;
-
-    @FXML
-    private TableColumn<MedicalRecord, String> treatmentColumn;
+    private TableColumn<MedicalRecord, String> nameColumn, diagnosisColumn, treatmentColumn;
 
     @FXML
     private TableColumn<MedicalRecord, LocalDate> dateColumn;
 
     @FXML
     private TableColumn<MedicalRecord, Void> actionColumn;
+
+    @FXML
+    private TextField searchField;
 
     private ObservableList<MedicalRecord> medicalRecordObservableList = FXCollections.observableArrayList();
 
@@ -59,6 +57,7 @@ public class PatientRecordPage extends AbstractPage {
     private void initialize(){
         setupTableColumn();
         loadPatientRecord();
+        searchField.textProperty().addListener((observable, oldValue, newValue)-> handleSearch(newValue));
     }
 
     public void setupTableColumn(){
@@ -114,6 +113,8 @@ public class PatientRecordPage extends AbstractPage {
         });
     }
 
+    
+
     public void loadPatientRecord(){
         List<MedicalRecord> medicalRecords = patientRecordController.getAllPatientRecord();
         medicalRecordObservableList.setAll(medicalRecords);
@@ -137,7 +138,7 @@ public class PatientRecordPage extends AbstractPage {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editPatientRecord.fxml"));
             Parent root = loader.load();
-            EditPatientRecordPage editPatientRecordPage = loader.getController();
+            PatientRecordFormController editPatientRecordPage = loader.getController();
             editPatientRecordPage.setPatientRecordData(medicalRecord);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -151,6 +152,57 @@ public class PatientRecordPage extends AbstractPage {
         }
     }
 
+    public void handleAddPatientRecord(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addPatientRecord.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Thêm bệnh án");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            loadPatientRecord();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void handleSearch(String keyword){
+        String key = keyword.toLowerCase().trim();
+        if(key.isEmpty()){
+            recordTable.setItems(medicalRecordObservableList);
+        }else {
+            List<MedicalRecord> filtered = medicalRecordObservableList.stream()
+                    .filter(record -> matchesSearch(record, key))
+                    .toList();
+            recordTable.setItems(FXCollections.observableArrayList(filtered));
+        }
+    }
+
+    private boolean matchesSearch(MedicalRecord medicalRecord, String keyword) {
+        String fullName = medicalRecord.getPatient().getName().toLowerCase();
+        String[] nameParts = fullName.split("\\s+");
+
+        String[] keywords = keyword.toLowerCase().split("\\s+");
+
+        int index = 0;
+        for (String key : keywords) {
+            boolean found = false;
+            while (index < nameParts.length) {
+                if (nameParts[index].startsWith(key)) {
+                    found = true;
+                    index++;
+                    break;
+                }
+                index++;
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 

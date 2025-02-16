@@ -3,10 +3,10 @@ package com.dentalclinic.views.pages.manage;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.InventoryController;
 import com.dentalclinic.entities.Inventory;
+import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.form.AddInventoryPage;
-import com.dentalclinic.views.pages.form.EditInventoryPage;
+import com.dentalclinic.views.pages.form.InventoryFormController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -48,6 +48,7 @@ public class WareHousePage extends AbstractPage {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
         inventoryController = new InventoryController(em);
+        searchField.textProperty().addListener((observable, oldValue, newValue)-> handleSearch(newValue));
         loadInventory();
         setupTableColumn();
     }
@@ -127,8 +128,8 @@ public class WareHousePage extends AbstractPage {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editInventory.fxml"));
             Parent root = loader.load();
-            EditInventoryPage editInventoryPage = loader.getController();
-            editInventoryPage.setInventoryData(inventory);
+            InventoryFormController inventoryPage = loader.getController();
+            inventoryPage.setInventoryData(inventory);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Sửa Sản Phẩm");
@@ -145,7 +146,7 @@ public class WareHousePage extends AbstractPage {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addInventory.fxml"));
             Parent root = loader.load();
-            AddInventoryPage addInventoryPage = loader.getController();
+            InventoryFormController addInventoryPage = loader.getController();
             addInventoryPage.setWareHousePage(this);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
@@ -165,10 +166,42 @@ public class WareHousePage extends AbstractPage {
     }
 
 
-    public TableView<Inventory> getInventoryTable(){
-        return inventoryTable;
+    @FXML
+    public void handleSearch(String keyword){
+        String key = keyword.toLowerCase().trim();
+        if(key.isEmpty()){
+            inventoryTable.setItems(productsObservableList);
+        }else {
+            List<Inventory> filtered = productsObservableList.stream()
+                    .filter(record -> matchesSearch(record, key))
+                    .toList();
+            inventoryTable.setItems(FXCollections.observableArrayList(filtered));
+        }
     }
 
+    private boolean matchesSearch(Inventory inventory, String keyword) {
+        String fullName = inventory.getItemName().toLowerCase();
+        String[] nameParts = fullName.split("\\s+");
+
+        String[] keywords = keyword.toLowerCase().split("\\s+");
+
+        int index = 0;
+        for (String key : keywords) {
+            boolean found = false;
+            while (index < nameParts.length) {
+                if (nameParts[index].startsWith(key)) {
+                    found = true;
+                    index++;
+                    break;
+                }
+                index++;
+            }
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 

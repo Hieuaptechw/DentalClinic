@@ -185,7 +185,6 @@ public class PatientPage extends AbstractPage {
 
             tableViewPatient.setItems(FXCollections.observableArrayList(filteredList));
         }
-
         loadActionColumn();
     }
 

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="441.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.EditInventoryPage">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="504.0" prefWidth="441.0" stylesheets="@../../../css/other.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.InventoryFormController">
     <children>
         <VBox prefHeight="72.0" prefWidth="493.0">
             <children>
@@ -81,7 +81,7 @@
       </HBox>
         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="442.0">
             <children>
-                <Button fx:id="btnAction" mnemonicParsing="false" onAction="#handleSave" prefHeight="45.0" prefWidth="145.0" text="Save">
+                <Button fx:id="btnAction" mnemonicParsing="false" onAction="#handleSaveEditInventory" prefHeight="45.0" prefWidth="145.0" text="Save">
                     <font>
                         <Font size="20.0" />
                     </font>
@@ -89,7 +89,7 @@
                         <Insets right="20.0" />
                     </HBox.margin>
                 </Button>
-                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="145.0" text="Clean">
+                <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#clearEdit" prefHeight="45.0" prefWidth="145.0" text="Clean">
                     <font>
                         <Font size="20.0" />
                     </font>

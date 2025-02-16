@@ -11,7 +11,7 @@ public class Salary {
     private long salaryId;
 
     @ManyToOne
-    @JoinColumn(name = "staffId", nullable = false)
+    @JoinColumn(name = "staffId", referencedColumnName = "staffId", nullable = false)
     private Staff staff;
 
     @Column(name = "amount", nullable = false)
