@@ -1,6 +1,7 @@
 package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Branch;
+import com.dentalclinic.entities.Patient;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -14,13 +15,11 @@ public class BranchController {
         this.em = em;
     }
 
-    // Lấy tất cả các chi nhánh
     public List<Branch> getAllBranches() {
         TypedQuery<Branch> query = em.createQuery("SELECT b FROM Branch b", Branch.class);
         return query.getResultList();
     }
 
-    // Thêm mới chi nhánh
     public void addBranch(Branch branch) {
         EntityTransaction transaction = em.getTransaction();
         try {
@@ -29,41 +28,36 @@ public class BranchController {
             transaction.commit();
         } catch (RuntimeException e) {
             transaction.rollback();
-            throw e; // Ném ngoại lệ lại để bên ngoài có thể xử lý
+            throw e;
         }
     }
 
-    // Xóa chi nhánh
-    public void deleteBranch(Branch branch) {
+    public void deleteBranch(Long branchId) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            Branch branchToDelete = em.find(Branch.class, branch.getBranchId());
-            if (branchToDelete != null) {
-                // Kiểm tra nếu chi nhánh có phòng khám, không xóa nếu đang có dữ liệu liên kết
-                if (branchToDelete.getRooms() != null && !branchToDelete.getRooms().isEmpty()) {
-                    throw new IllegalArgumentException("Cannot delete branch with associated rooms.");
-                }
-                em.remove(branchToDelete);  // Xóa chi nhánh
+            Branch branch = em.find(Branch.class, branchId);
+            if (branch != null) {
+                em.remove(branch);
             }
             transaction.commit();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             transaction.rollback();
-            throw e; // Ném ngoại lệ lại để bên ngoài có thể xử lý
+            e.printStackTrace();
         }
     }
-
-    // Cập nhật chi nhánh
     public void updateBranch(Branch branch) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
-            // Merge để cập nhật thông tin chi nhánh
             em.merge(branch);
             transaction.commit();
-        } catch (RuntimeException e) {
-            transaction.rollback();
-            throw e; // Ném ngoại lệ lại để bên ngoài có thể xử lý
+            System.out.println("Cập nhật branch thành công!");
+        } catch (Exception ex) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
         }
     }
 }

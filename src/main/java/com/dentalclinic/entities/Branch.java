@@ -1,7 +1,6 @@
 package com.dentalclinic.entities;
 
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -21,18 +20,26 @@ public class Branch {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "branchId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Room> rooms;
 
-    public List<Room> getRooms() { return rooms; }
+    public Branch() {
+    }
 
-    public void setRooms(List<Room> rooms) { this.rooms = rooms; }
+    public Branch(String branchName, String address, String phone, LocalDateTime createdAt, LocalDateTime updatedAt) {
+
+        this.branchName = branchName;
+        this.address = address;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
 
     public long getBranchId() {
         return branchId;
@@ -82,6 +89,14 @@ public class Branch {
         this.updatedAt = updatedAt;
     }
 
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<Room> rooms) {
+        this.rooms = rooms;
+    }
+
     @Override
     public String toString() {
         return "Branch{" +
@@ -91,6 +106,7 @@ public class Branch {
                 ", phone='" + phone + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", rooms=" + rooms +
                 '}';
     }
 }

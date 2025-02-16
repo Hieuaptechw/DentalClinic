@@ -5,8 +5,38 @@
     -fx-text-fill: white;
 }
 
+.tab-item .tab-header-background{
+    -fx-background-color: #4c8198;;
+}
+.tab-item .tab-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-font-family: 'Arial';
+    -fx-text-fill: white;
+}
+
+.tab-item .tab-header-background {
+    -fx-background-color:  #4c8198;
+    -fx-padding: 10;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 0 0 2 0;
+}
+
+.tab-item .tab-header-area .tab {
+    -fx-background-color:  #4c8198;
+    -fx-text-fill: white;
+}
+
+.tab-item .tab-header-area .tab:selected {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+    -fx-background-radius: 5px 5px 0 0;
+}
 
 
+.tab-item .tab-header-area .tab:selected .tab-label {
+    -fx-text-fill: black;
+}
 .tab-top .tab-header-background {
     -fx-background-color:  #4288f7;
     -fx-padding: 10;
@@ -286,4 +316,137 @@
     -fx-border-color: #000;
     -fx-border-width: 1px;
     -fx-padding: 10px;
+}
+.calendar-grid {
+    -fx-background-color: #f8f9fa;
+    -fx-padding: 10px;
+    -fx-hgap: 5px;
+    -fx-vgap: 5px;
+}
+
+.calendar-header {
+    -fx-border-color: #ddd;
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+    -fx-padding: 12px;
+    -fx-min-width: 60px;
+    -fx-min-height: 60px;
+    -fx-alignment: center;
+}
+
+.calendar-day-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.calendar-cell {
+    -fx-padding: 5px;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1px;
+    -fx-min-height: 120px; /* Tăng chiều cao để hiển thị đủ nội dung */
+}
+
+.calendar-day-number {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+}
+.calendar-cell:hover {
+    -fx-background-color: #e9ecef;
+    -fx-cursor: hand;
+}
+
+.sunday {
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}
+.today {
+    -fx-background-color: #FF6347 ;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+
+}
+.today-label{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+.work-schedule-label {
+    -fx-background-color: #f0f0f0;
+    -fx-border-color: #ccc;
+    -fx-padding: 4px 8px;
+    -fx-border-radius: 5px;
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+
+}
+
+.tooltip {
+    -fx-font-size: 12px;
+    -fx-text-fill: #333;
+    -fx-background-radius: 5px;
+}
+.more-label {
+    -fx-text-fill: blue;
+    -fx-cursor: hand;
+    -fx-underline: true;
+}
+
+
+/* ====== Popup chung ====== */
+.popup-stage {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #3498db;
+    -fx-border-width: 2px;
+    -fx-border-radius: 10px;
+    -fx-padding: 15px;
+}
+
+/* ====== Tiêu đề popup ====== */
+.popup-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* ====== Nút bấm ====== */
+.popup-button {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 10px;
+    -fx-background-radius: 5px;
+}
+
+.popup-button:hover {
+    -fx-background-color: #2980b9;
+    -fx-cursor: hand;
+}
+
+/* ====== Trường nhập liệu ====== */
+.popup-textfield {
+    -fx-border-color: #bdc3c7;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+    -fx-font-size: 14px;
+}
+
+/* ====== Hiệu ứng khi nhấn vào ====== */
+.popup-textfield:focused {
+    -fx-border-color: #3498db;
+    -fx-background-color: #ecf0f1;
+}
+
+/* ====== Danh sách lịch làm việc ====== */
+.schedule-item {
+    -fx-font-size: 13px;
+    -fx-text-fill: #34495e;
+    -fx-padding: 3px;
+    -fx-background-color: #ecf0f1;
+    -fx-border-radius: 3px;
+}
+
+.schedule-item:hover {
+    -fx-background-color: #d5dbdb;
+    -fx-cursor: hand;
 }
