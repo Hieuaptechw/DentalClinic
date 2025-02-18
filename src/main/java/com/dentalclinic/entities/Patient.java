@@ -14,7 +14,6 @@ public class Patient {
     @Column(name = "name", nullable = false)
     private String name;
 
-    // Chuyển từ LocalDateTime sang LocalDate
     @Column(name = "dob")
     private LocalDate dob;
 
@@ -25,11 +24,18 @@ public class Patient {
     @Column(name = "phone")
     private String phone;
 
+    @Column(name = "identity_card", unique = true, length = 12)
+    private String identityCard;
+
     @Column(name = "address")
     private String address;
 
     @Column(name = "email", unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private PatientStatus status; // Trạng thái bệnh nhân
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -77,6 +83,14 @@ public class Patient {
         this.phone = phone;
     }
 
+    public String getIdentityCard() {
+        return identityCard;
+    }
+
+    public void setIdentityCard(String identityCard) {
+        this.identityCard = identityCard;
+    }
+
     public String getAddress() {
         return address;
     }
@@ -91,6 +105,14 @@ public class Patient {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public PatientStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PatientStatus status) {
+        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {

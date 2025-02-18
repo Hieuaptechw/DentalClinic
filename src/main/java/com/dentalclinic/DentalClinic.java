@@ -34,6 +34,18 @@ public class DentalClinic extends Application {
         stage.show();
     }
 
+    public static void loadNewStage(String path, String title, String email) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(DentalClinic.class.getResource(path));
+        Scene scene = new Scene(fxmlLoader.load());
+
+        Stage newStage = new Stage();
+        newStage.setTitle(title);
+        newStage.setScene(scene);
+        newStage.setMinWidth(800);
+        newStage.setMinHeight(600);
+        newStage.show();
+    }
+
     public static void setTitle(String title) {
         stage.setTitle(title);
     }

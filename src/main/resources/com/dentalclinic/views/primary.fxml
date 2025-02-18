@@ -54,44 +54,10 @@
                                         </HBox>
                                     </content>
                                 </Tab>
-                        <Tab text="Administration">
+                        <Tab fx:id="administrationTab" text="Administration">
                            <content>
                                <HBox fx:id="toolbarAdministrationTab" fillHeight="false">
                                </HBox>
-<!--                              <HBox fillHeight="false" minHeight="0.0" minWidth="0.0">-->
-<!--                                 <children>-->
-<!--                                    <VBox alignment="CENTER" styleClass="toolbar-item">-->
-<!--                                       <children>-->
-<!--                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">-->
-<!--                                             <image>-->
-<!--                                                <Image url="@../images/doctor.png" />-->
-<!--                                             </image>-->
-<!--                                          </ImageView>-->
-<!--                                          <Label styleClass="toolbar-item-label" text="Bác sĩ" />-->
-<!--                                       </children>-->
-<!--                                    </VBox>-->
-<!--                                    <VBox alignment="CENTER" styleClass="toolbar-item">-->
-<!--                                       <children>-->
-<!--                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">-->
-<!--                                             <image>-->
-<!--                                                <Image url="@../images/working-hours.png" />-->
-<!--                                             </image>-->
-<!--                                          </ImageView>-->
-<!--                                          <Label styleClass="toolbar-item-label" text="Lịch làm việc" />-->
-<!--                                       </children>-->
-<!--                                    </VBox>-->
-<!--                                    <VBox alignment="CENTER" styleClass="toolbar-item">-->
-<!--                                       <children>-->
-<!--                                          <ImageView fitHeight="32.0" fitWidth="32.0" styleClass="toolbar-item-image">-->
-<!--                                             <image>-->
-<!--                                                <Image url="@../images/revenue.png" />-->
-<!--                                             </image>-->
-<!--                                          </ImageView>-->
-<!--                                          <Label styleClass="toolbar-item-label" text="Lương" />-->
-<!--                                       </children>-->
-<!--                                    </VBox>-->
-<!--                                 </children>-->
-<!--                              </HBox>-->
                            </content>
                         </Tab>
                         <Tab text="Setting">

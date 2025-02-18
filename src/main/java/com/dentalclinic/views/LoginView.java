@@ -2,6 +2,8 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.controllers.DatabaseController;
+import com.dentalclinic.entities.RoleType;
+import com.dentalclinic.entities.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -33,22 +35,29 @@ public class LoginView {
         String email = emailField.getText();
         if (email == null || email.isEmpty()) {
             showError("Email is required");
+            return;
         }
+
         String password = passwordField.getText();
         if (password == null || password.isEmpty()) {
             showError("Password is required");
-        }
-        if (hasErrors) return;
-
-        boolean success = DatabaseController.logIn(email, password);
-        if (success) {
-            try { DentalClinic.loadStage("views/primary.fxml"); }
-            catch (IOException e) { e.printStackTrace(); }
-        } else {
-            showError("Email or password is incorrect");
             return;
         }
+
+        RoleType role = DatabaseController.logIn(email, password);
+        if (role != null) {
+            UserSession.setCurrentUserRole(role);
+
+            try {
+                DentalClinic.loadStage("views/primary.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showError("Email or password is incorrect");
+        }
     }
+
 
     private void showError(String error) {
         errorLabel.setText(hasErrors ? errorLabel.getText() + "\n" + error : error);

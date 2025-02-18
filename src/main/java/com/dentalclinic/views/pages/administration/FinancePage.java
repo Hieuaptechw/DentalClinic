@@ -1,13 +1,11 @@
-package com.dentalclinic.views.pages.manage;
+package com.dentalclinic.views.pages.administration;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.FinancialController;
-import com.dentalclinic.controllers.PatientController;
 import com.dentalclinic.entities.*;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.FinancialFormController;
-import com.dentalclinic.views.pages.form.PatientFormController;
 import jakarta.persistence.EntityManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -21,13 +19,11 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.controlsfx.control.tableview2.filter.filtereditor.SouthFilter;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -291,7 +287,6 @@ public class FinancePage extends AbstractPage {
         if (selectedStaff.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Staff not found with email: " + emailStaff, ButtonType.OK);
             alert.showAndWait();
-            System.out.println();
             return;
         }
         FinancialStatus financialStatus = null;

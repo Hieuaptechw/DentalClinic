@@ -2,8 +2,7 @@ package com.dentalclinic.views.pages.form;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.PatientController;
-import com.dentalclinic.entities.Gender;
-import com.dentalclinic.entities.Patient;
+import com.dentalclinic.entities.*;
 import jakarta.persistence.EntityManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -11,17 +10,15 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class PatientFormController {
 
     @FXML
-    private TextField nameField;
+    private TextField nameField, emailField, phoneField, identityField;
 
     @FXML
-    private TextField emailField;
-
-    @FXML
-    private TextField phoneField;
+    private ComboBox<PatientStatus> statusComboBox;
 
     @FXML
     private TextArea addressArea;
@@ -30,25 +27,18 @@ public class PatientFormController {
     private DatePicker dobPicker;
 
     @FXML
-    private RadioButton maleRadio;
+    private RadioButton maleRadio,femaleRadio, otherRadio;
 
     @FXML
-    private RadioButton femaleRadio;
-
-    @FXML
-    private RadioButton otherRadio;
-
-    @FXML
-    private Button btnClear;
+    private Button btnClear, btnAction;
     @FXML
     private Label lblTitle;
-    @FXML
-    private Button btnAction;
+
 
     private ToggleGroup genderGroup;
-    private Patient patient;
+    private Patient patient, selectedPatient;
     private PatientController patientController;
-    private Patient selectedPatient;
+
     @FXML
     public void initialize() {
         genderGroup = new ToggleGroup();
@@ -57,13 +47,19 @@ public class PatientFormController {
         otherRadio.setToggleGroup(genderGroup);
         EntityManager em = DatabaseController.getEntityManager();
         patientController = new PatientController(em);
+        setupComboBoxListeners();
+        loadPatientStatus();
     }
 
 
     @FXML
     private void handleAdd() {
         handleConfirmPatient();
+    }
 
+    private void loadPatientStatus() {
+        statusComboBox.getItems().clear();
+        statusComboBox.getItems().addAll(PatientStatus.values());
     }
 
 
@@ -83,6 +79,8 @@ public class PatientFormController {
         nameField.setText(patient.getName());
         emailField.setText(patient.getEmail());
         phoneField.setText(patient.getPhone());
+        identityField.setText(patient.getIdentityCard());
+        statusComboBox.setValue(patient.getStatus());
         addressArea.setText(patient.getAddress());
         dobPicker.setValue(patient.getDob());
         if (patient.getGender() == Gender.MALE) {
@@ -110,6 +108,7 @@ public class PatientFormController {
         String phone = phoneField.getText().trim();
         String address = addressArea.getText().trim();
         LocalDate dob = dobPicker.getValue();
+        PatientStatus status = statusComboBox.getValue();
 
         Gender gender = null;
         if (maleRadio.isSelected()) {
@@ -133,6 +132,7 @@ public class PatientFormController {
         patient.setAddress(address);
         patient.setDob(dob);
         patient.setGender(gender);
+        patient.setStatus(status);
         patient.setUpdatedAt(LocalDateTime.now());
 
         patientController.updatePatient(patient);
@@ -147,35 +147,31 @@ public class PatientFormController {
     private void handleConfirmPatient() {
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
+        String identity = identityField.getText().trim();
+        PatientStatus status = statusComboBox.getValue();
         String phone = phoneField.getText().trim();
         String address = addressArea.getText().trim();
         LocalDate dob = dobPicker.getValue();
 
-        Gender gender = null;
-        if (maleRadio.isSelected()) {
-            gender = Gender.MALE;
-        } else if (femaleRadio.isSelected()) {
-            gender = Gender.FEMALE;
-        } else if (otherRadio.isSelected()) {
-            gender = Gender.OTHER;
-        }
+        Gender gender = getSelectedGender();
 
-        if (email.isEmpty() || phone.isEmpty() || name.isEmpty() || address.isEmpty() || dob == null || gender == null) {
+        if (email.isEmpty() || phone.isEmpty() || name.isEmpty() || address.isEmpty() || dob == null || gender == null || status == null) {
             System.out.println("Please enter all required patient information!");
             return;
         }
 
-
-        selectedPatient = patientController.findPatientByPhoneOrEmail(phone, email);
+        selectedPatient = patientController.findPatientByIdentityCard(identity);
 
         if (selectedPatient == null) {
             selectedPatient = new Patient();
             selectedPatient.setName(name);
             selectedPatient.setEmail(email);
             selectedPatient.setPhone(phone);
+            selectedPatient.setIdentityCard(identity);
             selectedPatient.setAddress(address);
             selectedPatient.setDob(dob);
             selectedPatient.setGender(gender);
+            selectedPatient.setStatus(status); // Gán trạng thái cho bệnh nhân mới
             selectedPatient.setCreatedAt(LocalDateTime.now());
             selectedPatient.setUpdatedAt(LocalDateTime.now());
 
@@ -190,10 +186,30 @@ public class PatientFormController {
             alert.showAndWait();
             Stage stage = (Stage) btnAction.getScene().getWindow();
             stage.close();
-
         }
     }
 
+    private Gender getSelectedGender() {
+        if (maleRadio.isSelected()) {
+            return Gender.MALE;
+        } else if (femaleRadio.isSelected()) {
+            return Gender.FEMALE;
+        } else {
+            return Gender.OTHER;
+        }
+    }
+
+
+    private void setupComboBoxListeners() {
+        statusComboBox.setOnAction(event -> {
+            PatientStatus patientStatus = statusComboBox.getSelectionModel().getSelectedItem();
+            if (patientStatus != null) {
+                System.out.println("Trạng thái được chọn : " + patientStatus);
+            }
+        });
+
+
+    }
     public Patient getPatient() {
         return selectedPatient;
     }

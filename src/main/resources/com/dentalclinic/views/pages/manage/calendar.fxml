@@ -107,9 +107,9 @@
                        <rowConstraints>
                          <RowConstraints maxHeight="95.79999389648438" minHeight="10.0" prefHeight="51.7999755859375" vgrow="SOMETIMES" />
                          <RowConstraints maxHeight="192.60000457763672" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
-                         <RowConstraints maxHeight="191.20000305175782" minHeight="0.0" prefHeight="54.20001220703125" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="211.20002441406248" minHeight="10.0" prefHeight="43.79998779296875" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="211.20002441406248" minHeight="10.0" prefHeight="89.80000000000001" vgrow="SOMETIMES" />
+                         <RowConstraints maxHeight="191.20000305175782" minHeight="0.0" prefHeight="77.40001220703127" vgrow="SOMETIMES" />
+                           <RowConstraints maxHeight="211.20002441406248" minHeight="10.0" prefHeight="39.79998779296875" vgrow="SOMETIMES" />
+                           <RowConstraints maxHeight="211.20002441406248" minHeight="10.0" prefHeight="58.00000610351563" vgrow="SOMETIMES" />
                        </rowConstraints>
                         <children>
                            <Label prefHeight="18.0" prefWidth="110.0" text="Appointment Date :">
@@ -122,7 +122,7 @@
                                  <Font name="Calibri Bold" size="12.0" />
                               </font>
                            </Label>
-                           <Label text="Doctor :" GridPane.rowIndex="2">
+                           <Label text="Doctor :" GridPane.rowIndex="4">
                               <font>
                                  <Font name="Calibri Bold" size="12.0" />
                               </font>
@@ -137,27 +137,27 @@
                                  <ComboBox fx:id="comboBoxRoom" layoutX="14.0" layoutY="7.0" prefHeight="25.0" prefWidth="92.0" promptText="Room" />
                               </children>
                            </Pane>
-                           <Pane layoutX="128.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <Pane layoutX="128.0" layoutY="68.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                               <children>
                                  <ComboBox fx:id="comboBoxDoctor" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="87.0" promptText="Doctor" />
                               </children>
                            </Pane>
-                           <Pane layoutX="128.0" layoutY="115.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                           <Pane layoutX="128.0" layoutY="115.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                               <children>
-                                 <TextArea fx:id="symptomsArea" layoutX="14.0" layoutY="15.0" prefHeight="58.0" prefWidth="163.0" promptText="Đau Răng" />
+                                 <TextArea fx:id="symptomsArea" layoutX="14.0" layoutY="9.0" prefHeight="58.0" prefWidth="163.0" promptText="Đau Răng" />
                               </children>
                            </Pane>
-                           <Label layoutX="10.0" layoutY="135.0" text="Symptoms :" GridPane.rowIndex="4">
-                              <font>
-                                 <Font name="Calibri Bold" size="12.0" />
-                              </font>
-                           </Label>
                            <Pane layoutX="132.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                               <children>
                                  <TextField fx:id="timeField" layoutX="14.0" layoutY="9.0" prefHeight="25.0" prefWidth="163.0" promptText="12:00" />
                               </children>
                            </Pane>
                            <Label text="Time :" GridPane.rowIndex="1">
+                              <font>
+                                 <Font name="Calibri Bold" size="12.0" />
+                              </font>
+                           </Label>
+                           <Label text="Symptoms :" GridPane.rowIndex="2">
                               <font>
                                  <Font name="Calibri Bold" size="12.0" />
                               </font>

@@ -2,34 +2,82 @@ package com.dentalclinic.views.pages.form;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.MedicalRecordController;
-import com.dentalclinic.controllers.PatientController;
+import com.dentalclinic.controllers.MedicalRecordMedicineController;
 import com.dentalclinic.entities.MedicalRecord;
+import com.dentalclinic.entities.MedicalRecordMedicine;
 import com.dentalclinic.entities.Patient;
 import jakarta.persistence.EntityManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PatientRecordFormController {
     @FXML
     private TextField nameField,diagnoseField,treatmentField, namePatient, diagnosePatient, treatmentPatient;
-
+    @FXML
+    private Label nameLabel,genderLabel,addressLabel,dobLabel,phoneLabel,emailLabel,recordCodeLabel,dovLabel,indentityCardLabel
+            ,reasonLabel,diagnosisLabel,treatmentLabel,medicineLabel,noteLabel,followUpdatLabel,doctorLabel,signatureDoctorLabel
+            ,signaturePatientLabel,fullNameDoctorLabel,fullNamePatientLabel;
     @FXML
     private DatePicker datePatient;
 
     @FXML
     private Button btnAction;
+    private MedicalRecordMedicineController medicalRecordMedicineController;
 
     private MedicalRecordController patientRecordController;
     private MedicalRecord medicalRecord;
 
+
+    public void setPatientRecordInformation(MedicalRecord medicalRecord) {
+        String patient = medicalRecord.getPatient().getName();
+        nameLabel.setText(patient);
+        genderLabel.setText(medicalRecord.getPatient().getGender().toString());
+        addressLabel.setText(medicalRecord.getPatient().getAddress());
+        dobLabel.setText(medicalRecord.getPatient().getDob().toString());
+        indentityCardLabel.setText(medicalRecord.getPatient().getIdentityCard());
+        emailLabel.setText(medicalRecord.getPatient().getEmail());
+        dovLabel.setText(medicalRecord.getDateOfVisit().toString());
+        dobLabel.setText(medicalRecord.getPatient().getAddress());
+        phoneLabel.setText(medicalRecord.getPatient().getPhone());
+        recordCodeLabel.setText("00" + medicalRecord.getRecordId());
+        reasonLabel.setText(medicalRecord.getReason());
+        diagnosisLabel.setText(medicalRecord.getDiagnosis());
+        treatmentLabel.setText(medicalRecord.getTreatment());
+        noteLabel.setText(medicalRecord.getNotes());
+        followUpdatLabel.setText(medicalRecord.getFollowUpDate().toString());
+        List<MedicalRecordMedicine> medicalRecordMedicines =
+                medicalRecordMedicineController.getMedicinesByRecordId(medicalRecord.getRecordId());
+
+        String medicineList = medicalRecordMedicines.stream()
+                .map(m -> m.getMedicine().getName())
+                .collect(Collectors.joining(", "));
+        medicineLabel.setText(medicineList);
+        String doctor = medicalRecord.getDoctor().getName();
+        doctorLabel.setText(doctor);
+        String[] patientNameParts = patient.split(" ");
+        String signaturePatient = patientNameParts[patientNameParts.length - 1];
+
+        String[] doctorNameParts = doctor.split(" ");
+        String signatureDoctor = doctorNameParts[doctorNameParts.length - 1];
+        signatureDoctorLabel.setText(signatureDoctor);
+        signaturePatientLabel.setText(signaturePatient);
+        fullNameDoctorLabel.setText(doctor);
+        fullNamePatientLabel.setText(patient);
+
+
+
+    }
+
     public PatientRecordFormController(){
         EntityManager em = DatabaseController.getEntityManager();
         this.patientRecordController = new MedicalRecordController(em);
+        this.medicalRecordMedicineController = new MedicalRecordMedicineController(em);
     }
 
     public void setPatientRecordData(MedicalRecord medicalRecord){

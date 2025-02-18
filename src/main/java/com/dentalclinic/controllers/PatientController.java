@@ -1,6 +1,7 @@
 package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Patient;
+import com.dentalclinic.entities.PatientStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -64,12 +65,11 @@ public class PatientController {
             e.printStackTrace();
         }
     }
-    public Patient findPatientByPhoneOrEmail(String phone, String email) {
+    public Patient findPatientByIdentityCard(String identityCard) {
         try {
             TypedQuery<Patient> query = em.createQuery(
-                    "SELECT p FROM Patient p WHERE p.phone = :phone OR p.email = :email", Patient.class);
-            query.setParameter("phone", phone);
-            query.setParameter("email", email);
+                    "SELECT p FROM Patient p WHERE p.identityCard = :identityCard", Patient.class);
+            query.setParameter("identityCard", identityCard);
 
             List<Patient> result = query.getResultList();
             return result.isEmpty() ? null : result.get(0);
@@ -78,6 +78,11 @@ public class PatientController {
             return null;
         }
     }
+
+
+
+
+
 
 
 }

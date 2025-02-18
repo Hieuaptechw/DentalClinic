@@ -1,11 +1,14 @@
 package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.DatabaseController;
+import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.controllers.PatientController;
+import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.form.PatientFormController;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
+import com.dentalclinic.views.pages.form.PatientRecordTableController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +21,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -37,10 +41,10 @@ public class PatientPage extends AbstractPage {
     @FXML private TableColumn<Patient, String> nameColumn;
     @FXML private TableColumn<Patient, String> emailColumn;
     @FXML private TableColumn<Patient, String> phoneColumn;
+    @FXML private TableColumn<Patient, String> identityCardColumn;
+    @FXML private TableColumn<Patient, String> statusColumn;
     @FXML private TableColumn<Patient, String> addressColumn;
     @FXML private TableColumn<Patient, String> dobColumn;
-    @FXML private TableColumn<Patient, String> genderColumn;
-    @FXML private TableColumn<Patient, String> dateRColumn;
     @FXML private TableColumn<Patient, Void> actionColumn;
     @FXML private  TextField searchField;
     @FXML private DatePicker fromDatePicker;
@@ -49,11 +53,13 @@ public class PatientPage extends AbstractPage {
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;
+    private MedicalRecordController medicalRecordController;
 
     public void initialize() {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
         patientController = new PatientController(em);
+        medicalRecordController = new MedicalRecordController(em);
         setupTableColumns();
         loadPatients();
         searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch(newValue));
@@ -61,12 +67,12 @@ public class PatientPage extends AbstractPage {
 
     private void setupTableColumns() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
+        identityCardColumn.setCellValueFactory(new PropertyValueFactory<>("identityCard"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
         dobColumn.setCellValueFactory(new PropertyValueFactory<>("dob"));
-        dateRColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
         loadActionColumn();
 
 
@@ -76,6 +82,7 @@ public class PatientPage extends AbstractPage {
         private final Button editButton;
         private final Button deleteButton;
         private final Button viewButton;
+        private final Button addButton;
 
         {
             ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
@@ -86,17 +93,24 @@ public class PatientPage extends AbstractPage {
             deleteIcon.setFitHeight(22);
             deleteIcon.setFitWidth(22);
 
-            ImageView viewIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/eye.png")));
+            ImageView viewIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/list.png")));
             viewIcon.setFitHeight(22);
             viewIcon.setFitWidth(22);
+
+            ImageView addIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/add.png")));
+            addIcon.setFitHeight(22);
+            addIcon.setFitWidth(22);
+
 
 
             editButton = new Button("", editIcon);
             deleteButton = new Button("", deleteIcon);
             viewButton = new Button("", viewIcon);
+            addButton = new Button("", addIcon);
             editButton.getStyleClass().add("button-icon");
             deleteButton.getStyleClass().add("button-icon");
             viewButton.getStyleClass().add("button-icon");
+            addButton.getStyleClass().add("button-icon");
 
             editButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
@@ -111,6 +125,11 @@ public class PatientPage extends AbstractPage {
 
             viewButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
+               List<MedicalRecord> medicalRecordList = medicalRecordController.getMedicalRecordsByPatientId(patient.getPatientId());
+                handleShowPatientRecord(medicalRecordList);
+            });
+            addButton.setOnAction(event -> {
+                Patient patient = getTableView().getItems().get(getIndex());
                 // handleViewPatient(patient);
             });
         }
@@ -122,7 +141,7 @@ public class PatientPage extends AbstractPage {
             if (empty) {
                 setGraphic(null);
             } else {
-                setGraphic(new HBox(5, editButton , viewButton,deleteButton));
+                setGraphic(new HBox(5, editButton , viewButton,addButton,deleteButton));
             }
         }
 
@@ -169,7 +188,24 @@ public class PatientPage extends AbstractPage {
 
     }
 
+    private void handleShowPatientRecord(List <MedicalRecord> medicalRecordList) {
+        try {
 
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/medicalrecordtable.fxml"));
+
+            VBox root =(VBox) loader.load();
+            PatientRecordTableController patientRecordTableController = loader.getController();
+            patientRecordTableController.loadData(medicalRecordList);
+            Stage stage = new Stage();
+            stage.setTitle("List Patient Records");
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            loadPatients();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
     @FXML
@@ -191,10 +227,8 @@ public class PatientPage extends AbstractPage {
     private boolean matchesSearch(Patient patient, String keyword) {
         String[] keywords = keyword.split("\\s+");
 
-        String combinedData = (patient.getName() + " " +
-                patient.getEmail() + " " +
-                patient.getPhone() + " " +
-                patient.getAddress()).toLowerCase();
+        String combinedData = (patient.getIdentityCard() + " " +
+                patient.getEmail()).toLowerCase();
 
         return Arrays.stream(keywords).allMatch(combinedData::contains);
     }
