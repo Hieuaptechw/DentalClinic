@@ -1,16 +1,15 @@
 package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
-import com.dentalclinic.views.pages.AbstractPage;
+import com.dentalclinic.entities.RoleType;
+import com.dentalclinic.entities.UserSession;
+import com.dentalclinic.views.pages.administration.FinancePage;
 import com.dentalclinic.views.pages.administration.SalaryPage;
 import com.dentalclinic.views.pages.administration.StaffPage;
 import com.dentalclinic.views.pages.administration.WorkSchedulePage;
 import com.dentalclinic.views.pages.manage.*;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.setting.BackupPage;
-import com.dentalclinic.views.pages.setting.NotificationPage;
-import com.dentalclinic.views.pages.setting.SupportPage;
-import com.dentalclinic.views.pages.setting.SystemPage;
+import com.dentalclinic.views.pages.setting.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -34,46 +33,85 @@ public class PrimaryView {
     @FXML private HBox toolbarSettingTab;
     @FXML private HBox toolbarManageTab;
     @FXML private HBox toolbarAdministrationTab;
-
     @FXML private TabPane mainTabPane;
+
+    @FXML private Tab administrationTab; // Khai báo tab với fx:id đã đặt
 
     @FXML
     private void initialize() {
+        RoleType role = UserSession.getCurrentUserRole();
         Node homeItem = generateToolbarPageItem(HomePage.class);
         homeItem.getStyleClass().add("home-item");
+        System.out.println(role);
         homeItemHolder.getChildren().add(homeItem);
+        if (role == RoleType.ADMIN) {
+            toolbarManageTab.getChildren().addAll(
+                    generateToolbarPageItem(PatientPage.class),
+                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(CalendarPage.class),
+                    generateToolbarPageItem(PatientRecordPage.class),
+                    generateToolbarPageItem(RoomPage.class)
+            );
 
-        toolbarManageTab.getChildren().addAll(
-                generateToolbarPageItem(PatientPage.class),
-                generateToolbarPageItem(CandidateNumberPage.class),
-                generateToolbarPageItem(CalendarPage.class),
-                generateToolbarPageItem(PatientRecordPage.class),
-                generateToolbarPageItem(FinancePage.class),
-                generateToolbarPageItem(RoomPage.class),
-                generateToolbarPageItem(WareHousePage.class),
-                generateToolbarPageItem(DocumentPage.class)
+            toolbarAdministrationTab.getChildren().addAll(
+                    generateToolbarPageItem(StaffPage.class),
+                    generateToolbarPageItem(WorkSchedulePage.class),
+                    generateToolbarPageItem(FinancePage.class),
+                    generateToolbarPageItem(SalaryPage.class)
+            );
+
+            toolbarSettingTab.getChildren().addAll(
+                    generateToolbarPageItem(SystemPage.class),
+                    generateToolbarPageItem(NotificationPage.class),
+                    generateToolbarPageItem(BackupPage.class)
+            );
+
+        }
+
+        if (role == RoleType.DOCTOR) {
+            administrationTab.setDisable(true);
+            toolbarManageTab.getChildren().addAll(
+                    generateToolbarPageItem(PatientPage.class),
+                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(CalendarPage.class),
+                    generateToolbarPageItem(PatientRecordPage.class),
+                    generateToolbarPageItem(RoomPage.class)
+
+            );
 
 
-        );
-        toolbarAdministrationTab.getChildren().addAll(
-                generateToolbarPageItem(StaffPage.class),
-                generateToolbarPageItem(WorkSchedulePage.class),
-                generateToolbarPageItem(SalaryPage.class)
-        );
-        toolbarSettingTab.getChildren().addAll(
-                generateToolbarPageItem(SystemPage.class),
-                generateToolbarPageItem(NotificationPage.class),
-                generateToolbarPageItem(SupportPage.class),
-                generateToolbarPageItem(BackupPage.class)
-        );
+
+            toolbarSettingTab.getChildren().addAll(
+                    generateToolbarPageItem(SystemPage.class),
+                    generateToolbarPageItem(NotificationPage.class),
+                    generateToolbarPageItem(BackupPage.class)
+            );
+        }
+        if (role == RoleType.RECEPTIONIST) {
+            homeItemHolder.setDisable(true);
+            administrationTab.setDisable(true);
+            toolbarManageTab.getChildren().addAll(
+                    generateToolbarPageItem(PatientPage.class),
+                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(CalendarPage.class)
 
 
+            );
+
+
+
+            toolbarSettingTab.getChildren().addAll(
+                    generateToolbarPageItem(SystemPage.class)
+
+            );
+        }
         Tab homeTab = openPage(HomePage.class);
         homeTab.setClosable(false);
     }
 
+
     @Nullable
-    private Node generateToolbarPageItem(Class<? extends AbstractPage> target) {
+    private Node generateToolbarPageItem(Class<?> target) {
         try {
             Page page = target.getAnnotation(Page.class);
             String name = page.name();
@@ -105,7 +143,7 @@ public class PrimaryView {
         }
     }
 
-    private Tab openPage(Class<? extends AbstractPage> target) {
+    private Tab openPage(Class<?> target) {
         try {
             Page page = target.getAnnotation(Page.class);
             String name = page.name();

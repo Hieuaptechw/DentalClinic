@@ -6,6 +6,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MedicalRecordController {
@@ -18,6 +19,18 @@ public class MedicalRecordController {
     public List<MedicalRecord> getAllPatientRecord(){
         String jpql = "SELECT i FROM MedicalRecord i";
         return em.createQuery(jpql, MedicalRecord.class).getResultList();
+    }
+
+    public List<MedicalRecord> getMedicalRecordsByPatientId(Long patientId) {
+        try {
+            TypedQuery<MedicalRecord> query = em.createQuery(
+                    "SELECT m FROM MedicalRecord m WHERE m.patient.id = :patientId", MedicalRecord.class);
+            query.setParameter("patientId", patientId);
+            return query.getResultList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
     public Patient findPatientByName(String name) {

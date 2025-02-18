@@ -44,10 +44,6 @@
     -fx-padding: 10px 0;
 }
 
-.label {
-    -fx-font-size: 14px;
-    -fx-text-fill: #555;
-}
 
 .text-field, .text-area {
     -fx-pref-width: 200px;

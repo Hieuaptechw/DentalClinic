@@ -1,6 +1,7 @@
 package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Patient;
+import com.dentalclinic.entities.RoleType;
 import com.dentalclinic.entities.Staff;
 
 import jakarta.persistence.EntityManager;
@@ -31,19 +32,19 @@ public final class DatabaseController {
         return em;
     }
 
-    // TODO hash password
-    public static boolean logIn(String email, String password) {
+    public static RoleType logIn(String email, String password) {
         TypedQuery<Staff> query = em.createQuery(
-            "SELECT s FROM Staff s WHERE s.email=:email AND s.password=:password", 
-            Staff.class);
+                "SELECT s FROM Staff s WHERE s.email=:email AND s.password=:password",
+                Staff.class);
         query.setParameter("email", email);
         query.setParameter("password", password);
+
         Staff s = query.getResultList().stream().findAny().orElse(null);
         if (s != null) {
             currentUser = s;
-            return true;
-        } else {
-            return false;
+            return s.getRole(); // Trả về role của user
         }
+        return null;
     }
+
 }

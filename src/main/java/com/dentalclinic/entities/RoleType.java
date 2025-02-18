@@ -3,9 +3,7 @@ package com.dentalclinic.entities;
 public enum RoleType {
     ADMIN("Administrator"),
     DOCTOR("Doctor"),
-    RECEPTIONIST("Receptionist"),
-    NURSE("Nurse"),
-    PERSONNEL("Personnel");
+    RECEPTIONIST("Receptionist");
 
     private final String labelRole;
 

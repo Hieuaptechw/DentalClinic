@@ -69,6 +69,9 @@
 .toolbar-item:hover {
     -fx-cursor: hand;
 }
+/*.toolbar-item > .toolbar-item-label {*/
+/*    -fx-text-fill: #4288f7;*/
+/*}*/
 .toolbar-item:hover > .toolbar-item-label {
     -fx-text-fill:  #4288f7;
 }

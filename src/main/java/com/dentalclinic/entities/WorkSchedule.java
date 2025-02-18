@@ -31,17 +31,17 @@ public class WorkSchedule {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
+    public WorkSchedule() {
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
+    public WorkSchedule(Staff staff, LocalDate workingDay, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.staff = staff;
+        this.workingDay = workingDay;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
-
 
     public long getScheduleId() {
         return scheduleId;
@@ -56,9 +56,6 @@ public class WorkSchedule {
     }
 
     public void setStaff(Staff staff) {
-        if (staff.getRole() != RoleType.DOCTOR) {
-            throw new IllegalArgumentException("Chỉ có bác sĩ mới được đặt lịch làm việc.");
-        }
         this.staff = staff;
     }
 
