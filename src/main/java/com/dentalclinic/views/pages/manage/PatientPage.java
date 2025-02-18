@@ -14,6 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -125,12 +126,12 @@ public class PatientPage extends AbstractPage {
 
             viewButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
-               List<MedicalRecord> medicalRecordList = medicalRecordController.getMedicalRecordsByPatientId(patient.getPatientId());
+                List<MedicalRecord> medicalRecordList = medicalRecordController.getMedicalRecordsByPatientId(patient.getPatientId());
                 handleShowPatientRecord(medicalRecordList);
             });
             addButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
-                // handleViewPatient(patient);
+                handleShowExamination(patient);
             });
         }
 
@@ -188,11 +189,23 @@ public class PatientPage extends AbstractPage {
 
     }
 
+    private void handleShowExamination(Patient patient){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationView.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Examination");
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private void handleShowPatientRecord(List <MedicalRecord> medicalRecordList) {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/medicalrecordtable.fxml"));
-
             VBox root =(VBox) loader.load();
             PatientRecordTableController patientRecordTableController = loader.getController();
             patientRecordTableController.loadData(medicalRecordList);
@@ -276,9 +289,7 @@ public class PatientPage extends AbstractPage {
     @FXML
     private void handleEditPatient(Patient patient) {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/patientform.fxml"));
-
             AnchorPane root = loader.load();
             PatientFormController patientFormController = loader.getController();
             patientFormController.setPatient(patient);
@@ -292,5 +303,4 @@ public class PatientPage extends AbstractPage {
             ex.printStackTrace();
         }
     }
-
 }
