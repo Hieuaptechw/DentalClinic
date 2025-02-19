@@ -21,6 +21,10 @@ public class RoomController {
         return query.getResultList();
     }
 
+    public Room getRoomById(Long roomId) {
+        return em.find(Room.class, roomId);
+    }
+
     public void addRoom(Room room) {
         em.getTransaction().begin();
         em.persist(room);

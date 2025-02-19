@@ -96,14 +96,7 @@ public class Room {
 
     @Override
     public String toString() {
-        return "Room{" +
-                "roomId=" + roomId +
-                ", roomNumber='" + roomNumber + '\'' +
-                ", branch=" + (branch != null ? branch.getBranchName() : "null") +
-                ", roomType='" + roomType + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return roomType;
     }
 
 }

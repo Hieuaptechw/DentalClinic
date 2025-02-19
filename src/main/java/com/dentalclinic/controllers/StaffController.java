@@ -28,6 +28,11 @@ public class StaffController {
         return query.getResultList();
     }
 
+    public Staff getStaffById(Long staffId) {
+        return em.find(Staff.class, staffId);
+    }
+
+
     public void addStaff(Staff staff) {
         EntityTransaction transaction = em.getTransaction();
         try {
