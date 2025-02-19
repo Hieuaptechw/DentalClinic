@@ -113,7 +113,7 @@ public class ExaminationFormController {
         String doctorName = doctorBox.getValue();
         String roomType = roomBox.getValue();
         if(doctorName !=null){
-            
+
         }
 
 

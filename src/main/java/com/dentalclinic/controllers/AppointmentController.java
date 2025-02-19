@@ -39,7 +39,7 @@ public class AppointmentController {
         return query.getResultList();
     }
 
-    // Tìm bác sĩ có ít cuộc hẹn nhất
+
     public Staff getDoctorWithFewestAppointments() {
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s WHERE s.role = :role ORDER BY " +
