@@ -79,5 +79,33 @@ public class AppointmentController {
             System.out.println(ex.getMessage());
         }
     }
+    public void updateAppointment(Appointment appointment) {
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            em.merge(appointment);
+            transaction.commit();
+            System.out.println("Cập nhật appointment thành công!");
+        } catch (Exception ex) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            ex.printStackTrace();
+        }
+    }
+    public void deleteAppointment(Long appointmentId) {
+        EntityTransaction transaction = em.getTransaction();
+        try {
+            transaction.begin();
+            Appointment appointment = em.find(Appointment.class, appointmentId);
+            if (appointment != null) {
+                em.remove(appointment);
+            }
+            transaction.commit();
+        } catch (Exception e) {
+            transaction.rollback();
+            e.printStackTrace();
+        }
+    }
 
 }

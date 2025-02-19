@@ -219,7 +219,7 @@ public class PatientPage extends AbstractPage {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/appointmentform.fxml"));
             Parent root = loader.load();
             AppointmentFormController controller = loader.getController();
-            controller.setAppointment(patient);
+            controller.setPatient(patient);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Appointment");

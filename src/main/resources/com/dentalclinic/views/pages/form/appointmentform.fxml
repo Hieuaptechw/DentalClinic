@@ -50,7 +50,7 @@
                 <Label text="Số điện thoại" GridPane.columnIndex="2" />
                 <TextField fx:id="phoneField" editable="false" promptText="Nhập số điện thoại" GridPane.columnIndex="3" />
             <DatePicker fx:id="datePicker" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <DatePicker fx:id="birthPicker" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <DatePicker fx:id="birthPicker" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
             </children>
         </GridPane>
 
@@ -78,7 +78,7 @@
         </Pane>
         <Pane layoutX="20.0" layoutY="426.0" prefHeight="46.0" prefWidth="247.0">
             <children>
-                <Button fx:id="btnAction" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleAddAppointment" prefHeight="32.0" prefWidth="218.0" text="Xác nhận &amp; đăng ký lịch hẹn " />
+                <Button fx:id="btnAction" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleSaveAppointment" prefHeight="32.0" prefWidth="218.0" text="Xác nhận &amp; đăng ký lịch hẹn " />
             </children>
         </Pane>
     </children>
