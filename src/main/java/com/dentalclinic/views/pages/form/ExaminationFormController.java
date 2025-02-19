@@ -22,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+
 public class ExaminationFormController {
     @FXML
     private TextField nameField, addressField, identityField, dateField, birthField, phoneField, reasonField, symptimField;
@@ -31,6 +33,9 @@ public class ExaminationFormController {
 
     @FXML
     private ComboBox<String> doctorBox, roomBox;
+
+    private Patient selectedPatient;
+    private ExaminationRecord selectedExamination;
 
     private ExaminationRecordController examinationRecordController;
     private StaffController staffController;
@@ -62,6 +67,7 @@ public class ExaminationFormController {
         }
     }
     public void setPatientData(Patient patient) {
+        this.selectedPatient = patient;
         if (patient == null) return;
 
         nameField.setText(patient.getName());
@@ -77,6 +83,27 @@ public class ExaminationFormController {
             birthField.setText(patient.getDob().format(formatter));
         }
     }
+
+    public void setExamination(ExaminationRecord examinationRecord){
+        System.out.println(examinationRecord);
+        nameField.setText(examinationRecord.getPatient().getName());
+        addressField.setText(examinationRecord.getPatient().getAddress());
+        identityField.setText(examinationRecord.getPatient().getIdentityCard());
+        phoneField.setText(examinationRecord.getPatient().getPhone());
+        birthField.setText(examinationRecord.getPatient().getDob().toString());
+        dateField.setText(examinationRecord.getDateOfVisit().toString());
+        reasonField.setText(examinationRecord.getReason());
+        symptimField.setText(examinationRecord.getSymptoms());
+        doctorBox.setValue(examinationRecord.getStaff().getName());
+        roomBox.setValue(examinationRecord.getRoom().getRoomNumber());
+        btnAction.setDisable(true);
+        doctorBox.setDisable(true); // Vô hiệu hóa ComboBox bác sĩ
+        roomBox.setDisable(true);  // Cho phép chọn phòng
+        reasonField.setEditable(false); // Cho phép nhập lý do khám
+        symptimField.setEditable(false);
+    }
+
+
 
     @FXML
     private void handleConfirm(){
@@ -117,6 +144,7 @@ public class ExaminationFormController {
         Stage stage = (Stage) btnAction.getScene().getWindow();
         stage.close();
     }
+
 
     public void alertMessage(Alert.AlertType type, String title, String text, String content){
         Alert alert = new Alert(type);

@@ -156,4 +156,21 @@ public class ExaminationRecord {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+    @Override
+    public String toString() {
+        return "ExaminationRecord{" +
+                "examinationId=" + examinationId +
+                ", patient=" + patient +
+                ", staff=" + staff +
+                ", dateOfVisit=" + dateOfVisit +
+                ", reason='" + reason + '\'' +
+                ", symptoms='" + symptoms + '\'' +
+                ", diagnosis='" + diagnosis + '\'' +
+                ", treatment='" + treatment + '\'' +
+                ", room=" + room +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                '}';
+    }
 }
