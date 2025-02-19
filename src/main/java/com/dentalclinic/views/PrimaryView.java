@@ -47,7 +47,7 @@ public class PrimaryView {
         if (role == RoleType.ADMIN) {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
-                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(ExaminationPage.class),
                     generateToolbarPageItem(CalendarPage.class),
                     generateToolbarPageItem(PatientRecordPage.class),
                     generateToolbarPageItem(RoomPage.class)
@@ -72,7 +72,7 @@ public class PrimaryView {
             administrationTab.setDisable(true);
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
-                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(ExaminationPage.class),
                     generateToolbarPageItem(CalendarPage.class),
                     generateToolbarPageItem(PatientRecordPage.class),
                     generateToolbarPageItem(RoomPage.class)
@@ -92,7 +92,7 @@ public class PrimaryView {
             administrationTab.setDisable(true);
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
-                    generateToolbarPageItem(CandidateNumberPage.class),
+                    generateToolbarPageItem(ExaminationPage.class),
                     generateToolbarPageItem(CalendarPage.class)
 
 

@@ -36,6 +36,8 @@ public class PatientController {
         }
     }
 
+
+
     public void updatePatient(Patient patient) {
         EntityTransaction transaction = em.getTransaction();
         try {

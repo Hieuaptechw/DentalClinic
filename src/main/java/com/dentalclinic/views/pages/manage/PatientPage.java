@@ -3,7 +3,10 @@ package com.dentalclinic.views.pages.manage;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.controllers.PatientController;
+import com.dentalclinic.entities.Appointment;
 import com.dentalclinic.entities.MedicalRecord;
+import com.dentalclinic.views.pages.form.AppointmentFormController;
+import com.dentalclinic.views.pages.form.ExaminationFormController;
 import com.dentalclinic.views.pages.form.PatientFormController;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.views.pages.AbstractPage;
@@ -14,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -83,6 +87,7 @@ public class PatientPage extends AbstractPage {
         private final Button deleteButton;
         private final Button viewButton;
         private final Button addButton;
+        private final Button addAppointment;
 
         {
             ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
@@ -101,16 +106,22 @@ public class PatientPage extends AbstractPage {
             addIcon.setFitHeight(22);
             addIcon.setFitWidth(22);
 
+            ImageView appointmentIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/appointment.png")));
+            appointmentIcon.setFitHeight(22);
+            appointmentIcon.setFitWidth(22);
 
 
             editButton = new Button("", editIcon);
             deleteButton = new Button("", deleteIcon);
             viewButton = new Button("", viewIcon);
             addButton = new Button("", addIcon);
+            addAppointment = new Button("", appointmentIcon);
             editButton.getStyleClass().add("button-icon");
             deleteButton.getStyleClass().add("button-icon");
             viewButton.getStyleClass().add("button-icon");
             addButton.getStyleClass().add("button-icon");
+            addAppointment.getStyleClass().add("button-icon");
+
 
             editButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
@@ -125,12 +136,16 @@ public class PatientPage extends AbstractPage {
 
             viewButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
-               List<MedicalRecord> medicalRecordList = medicalRecordController.getMedicalRecordsByPatientId(patient.getPatientId());
+                List<MedicalRecord> medicalRecordList = medicalRecordController.getMedicalRecordsByPatientId(patient.getPatientId());
                 handleShowPatientRecord(medicalRecordList);
             });
             addButton.setOnAction(event -> {
                 Patient patient = getTableView().getItems().get(getIndex());
-                // handleViewPatient(patient);
+                handleShowExamination(patient);
+            });
+            addAppointment.setOnAction(event -> {
+                Patient patient = getTableView().getItems().get(getIndex());
+                handleShowAppointment(patient);
             });
         }
 
@@ -141,10 +156,9 @@ public class PatientPage extends AbstractPage {
             if (empty) {
                 setGraphic(null);
             } else {
-                setGraphic(new HBox(5, editButton , viewButton,addButton,deleteButton));
+                setGraphic(new HBox(5, editButton , viewButton,addButton,addAppointment, deleteButton));
             }
         }
-
     });
 }
     private void loadPatients() {
@@ -188,11 +202,40 @@ public class PatientPage extends AbstractPage {
 
     }
 
+    private void handleShowExamination(Patient patient){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationView.fxml"));
+            Parent root = loader.load();
+            ExaminationFormController controller = loader.getController();
+            controller.setPatientData(patient);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Examination");
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void handleShowAppointment(Patient patient){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/appointmentForm.fxml"));
+            Parent root = loader.load();
+            AppointmentFormController controller = loader.getController();
+            controller.setAppointment(patient);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Appointment");
+            stage.show();
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private void handleShowPatientRecord(List <MedicalRecord> medicalRecordList) {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/medicalrecordtable.fxml"));
-
             VBox root =(VBox) loader.load();
             PatientRecordTableController patientRecordTableController = loader.getController();
             patientRecordTableController.loadData(medicalRecordList);
@@ -206,6 +249,8 @@ public class PatientPage extends AbstractPage {
             ex.printStackTrace();
         }
     }
+
+
 
 
     @FXML
@@ -276,9 +321,7 @@ public class PatientPage extends AbstractPage {
     @FXML
     private void handleEditPatient(Patient patient) {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/patientform.fxml"));
-
             AnchorPane root = loader.load();
             PatientFormController patientFormController = loader.getController();
             patientFormController.setPatient(patient);
@@ -292,5 +335,4 @@ public class PatientPage extends AbstractPage {
             ex.printStackTrace();
         }
     }
-
 }
