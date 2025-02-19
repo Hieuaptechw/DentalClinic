@@ -2,6 +2,7 @@ package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.entities.PatientStatus;
+import com.dentalclinic.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -18,6 +19,10 @@ public class PatientController {
     public List<Patient> getAllPatients() {
         TypedQuery<Patient> query = em.createQuery("SELECT p FROM Patient p", Patient.class);
         return query.getResultList();
+    }
+
+    public Patient getPatientById(Long patientId) {
+        return em.find(Patient.class, patientId);
     }
 
     public void addPatient(Patient patient) {

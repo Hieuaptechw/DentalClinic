@@ -2,8 +2,11 @@ package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.ExaminationRecord;
 import com.dentalclinic.entities.Inventory;
+import com.dentalclinic.entities.Room;
+import com.dentalclinic.entities.Staff;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 
 import java.util.List;
 
@@ -19,16 +22,14 @@ public class ExaminationRecordController {
         return em.createQuery(jpql, ExaminationRecord.class).getResultList();
     }
 
-    public void saveRecord(ExaminationRecord record) {
+    public void createExaminationRecord(ExaminationRecord record) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.persist(record);
             transaction.commit();
         } catch (Exception e) {
-            if (transaction.isActive()) {
-                transaction.rollback();
-            }
+            transaction.rollback();
             e.printStackTrace();
         }
     }

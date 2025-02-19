@@ -1,13 +1,7 @@
 package com.dentalclinic.views.pages.form;
 
-import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.controllers.ExaminationRecordController;
-import com.dentalclinic.controllers.RoomController;
-import com.dentalclinic.controllers.StaffController;
-import com.dentalclinic.entities.ExaminationRecord;
-import com.dentalclinic.entities.Patient;
-import com.dentalclinic.entities.Room;
-import com.dentalclinic.entities.Staff;
+import com.dentalclinic.controllers.*;
+import com.dentalclinic.entities.*;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -32,7 +26,10 @@ public class ExaminationFormController {
     private Button btnAction;
 
     @FXML
-    private ComboBox<String> doctorBox, roomBox;
+    private ComboBox<Staff> doctorBox;
+
+    @FXML
+    private ComboBox<Room> roomBox;
 
     private Patient selectedPatient;
     private ExaminationRecord selectedExamination;
@@ -40,11 +37,13 @@ public class ExaminationFormController {
     private ExaminationRecordController examinationRecordController;
     private StaffController staffController;
     private RoomController roomController;
+    private PatientController patientController;
     public void initialize() {
         EntityManager em = DatabaseController.getEntityManager();
         staffController = new StaffController(em);
         roomController = new RoomController(em);
         examinationRecordController = new ExaminationRecordController(em);
+        patientController = new PatientController(em);
         loadDoctors();
         loadRooms();
     }
@@ -52,20 +51,22 @@ public class ExaminationFormController {
     private void loadDoctors() {
         List<Staff> doctors = staffController.getDoctors();
         if (doctors != null && !doctors.isEmpty()) {
-            doctorBox.setItems(FXCollections.observableArrayList(
-                    doctors.stream().map(Staff::getName).collect(Collectors.toList())
-            ));
+            doctorBox.setItems(FXCollections.observableArrayList(doctors));
         }
     }
+
+    private void loadBrands(){
+        List<Branch>
+    }
+
 
     private void loadRooms() {
         List<Room> rooms = roomController.getAllRooms();
         if (rooms != null && !rooms.isEmpty()) {
-            roomBox.setItems(FXCollections.observableArrayList(
-                    rooms.stream().map(Room::getRoomType).collect(Collectors.toList())
-            ));
+            roomBox.setItems(FXCollections.observableArrayList(rooms));
         }
     }
+
     public void setPatientData(Patient patient) {
         this.selectedPatient = patient;
         if (patient == null) return;
@@ -94,54 +95,40 @@ public class ExaminationFormController {
         dateField.setText(examinationRecord.getDateOfVisit().toString());
         reasonField.setText(examinationRecord.getReason());
         symptimField.setText(examinationRecord.getSymptoms());
-        doctorBox.setValue(examinationRecord.getStaff().getName());
-        roomBox.setValue(examinationRecord.getRoom().getRoomNumber());
+        doctorBox.setValue(examinationRecord.getStaff());
+        roomBox.setValue(examinationRecord.getRoom());
         btnAction.setDisable(true);
-        doctorBox.setDisable(true); // Vô hiệu hóa ComboBox bác sĩ
-        roomBox.setDisable(true);  // Cho phép chọn phòng
-        reasonField.setEditable(false); // Cho phép nhập lý do khám
+        doctorBox.setDisable(true);
+        roomBox.setDisable(true);
+        reasonField.setEditable(false);
         symptimField.setEditable(false);
     }
 
 
 
-    @FXML
-    private void handleConfirm(){
-        EntityManager em = DatabaseController.getEntityManager();
-        String symptoms = symptimField.getText().trim();
-        String reason = reasonField.getText().trim();
-        String doctorName = doctorBox.getValue();
-        String roomType = roomBox.getValue();
-        if(doctorName !=null){
+        @FXML
+        private void handleConfirm(){
+            String symptoms = symptimField.getText().trim();
+            String reason = reasonField.getText().trim();
+            Staff selectedDoctor = doctorBox.getValue();
+            Room selectedRoom = roomBox.getValue();
 
+
+            Long patientId = selectedPatient.getPatientId();
+            Patient patients = patientController.getPatientById(patientId);
+
+            ExaminationRecord record = new ExaminationRecord();
+            record.setPatient(patients);
+            record.setStaff(selectedDoctor);
+            record.setRoom(selectedRoom);
+            record.setReason(reason);
+            record.setSymptoms(symptoms);
+            record.setDateOfVisit(LocalDateTime.now());
+
+            examinationRecordController.createExaminationRecord(record);
+            alertMessage(Alert.AlertType.INFORMATION, "Thành công", "Đã lưu thông tin khám!", null);
+            closeStage();
         }
-
-
-        String patientName = nameField.getText().trim();
-        Patient patient = em.createQuery("SELECT p FROM Patient p WHERE p.name = :name", Patient.class)
-                .setParameter("name", patientName)
-                .getResultList()
-                .stream()
-                .findFirst()
-                .orElse(null);
-
-        Staff staff = em.createQuery("SELECT s FROM Staff s WHERE s.name = :name", Staff.class)
-                .setParameter("name", doctorName)
-                .getResultList()
-                .stream()
-                .findFirst().orElse(null);
-
-        Room room = em.createQuery("SELECT r FROM Room r WHERE r.roomType = :type", Room.class)
-                .setParameter("type", roomType)
-                .getResultList()
-                .stream()
-                .findFirst().orElse(null);
-
-        ExaminationRecord examinationRecord = new ExaminationRecord(patient, staff, LocalDateTime.now(), LocalDateTime.now(), reason, symptoms, room);
-        examinationRecordController.saveRecord(examinationRecord);
-        alertMessage(Alert.AlertType.INFORMATION, "Thành công", "Xác nhận", "Chuyển hồ sơ tới bác sĩ " + staff + " thành công");
-        closeStage();
-    }
 
     public void closeStage() {
         Stage stage = (Stage) btnAction.getScene().getWindow();
