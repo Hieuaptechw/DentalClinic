@@ -11,9 +11,6 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long appointmentId;
 
-    @Column(name = "registration_number", nullable = false, unique = true)
-    private String registrationNumber;
-
     @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
@@ -29,6 +26,9 @@ public class Appointment {
     @Column(name = "appointment_date", nullable = false)
     private LocalDateTime appointmentDate;
 
+    @Column(name = "reason", columnDefinition = "TEXT", nullable = false)
+    private String reason;  // New field added
+
     @Column(name = "symptoms", columnDefinition = "TEXT")
     private String symptoms;
 
@@ -40,20 +40,24 @@ public class Appointment {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     public Appointment() {}
-    public Appointment(String registrationNumber, Patient patient, Staff staff, Room room,
-                       LocalDateTime appointmentDate, String symptoms, String status,
-                       LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.registrationNumber = registrationNumber;
-        this.patient = patient;
-        setStaff(staff); // Kiểm tra role bác sĩ
-        this.room = room;
-        this.appointmentDate = appointmentDate;
-        this.symptoms = symptoms;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
+
+//    public Appointment(String registrationNumber, Patient patient, Staff staff, Room room,
+//                       LocalDateTime appointmentDate, String reason, String symptoms, String status,
+//                       LocalDateTime createdAt, LocalDateTime updatedAt) {
+//        this.registrationNumber = registrationNumber;
+//        this.patient = patient;
+//        setStaff(staff); // Ensure only doctors can take appointments
+//        this.room = room;
+//        this.appointmentDate = appointmentDate;
+//        this.reason = reason;
+//        this.symptoms = symptoms;
+//        this.status = status;
+//        this.createdAt = createdAt;
+//        this.updatedAt = updatedAt;
+//    }
+
     public long getAppointmentId() {
         return appointmentId;
     }
@@ -76,7 +80,7 @@ public class Appointment {
 
     public void setStaff(Staff staff) {
         if (staff.getRole() != RoleType.DOCTOR) {
-            throw new IllegalArgumentException("Chỉ có bác sĩ mới có thể nhận cuộc hẹn.");
+            throw new IllegalArgumentException("Only doctors can take appointments.");
         }
         this.staff = staff;
     }
@@ -95,6 +99,14 @@ public class Appointment {
 
     public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 
     public String getSymptoms() {
@@ -129,23 +141,17 @@ public class Appointment {
         this.updatedAt = updatedAt;
     }
 
-    public String getRegistrationNumber() {
-        return registrationNumber;
-    }
 
-    public void setRegistrationNumber(String registrationNumber) {
-        this.registrationNumber = registrationNumber;
-    }
 
     @Override
     public String toString() {
         return "Appointment{" +
                 "appointmentId=" + appointmentId +
-                ", registrationNumber='" + registrationNumber + '\'' +
                 ", patient=" + patient +
                 ", staff=" + staff +
                 ", room=" + room +
                 ", appointmentDate=" + appointmentDate +
+                ", reason='" + reason + '\'' +  // New field added to toString()
                 ", symptoms='" + symptoms + '\'' +
                 ", status='" + status + '\'' +
                 ", createdAt=" + createdAt +

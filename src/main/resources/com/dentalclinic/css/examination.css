@@ -1,0 +1,74 @@
+/* Định dạng chung */
+.root {
+    -fx-font-family: "Arial";
+}
+
+/* Tiêu đề */
+.hbox {
+    -fx-background-color: #2C3E50;
+    -fx-padding: 10px;
+}
+
+/* Nhãn tiêu đề */
+.hbox Label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* GridPane - Khoảng cách giữa các thành phần */
+.grid-pane {
+    -fx-hgap: 20px;
+    -fx-vgap: 15px;
+}
+
+/* Nhãn (Label) chung */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* TextField */
+.text-field {
+    -fx-pref-height: 32px;
+    -fx-border-color: #BDC3C7;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* TextField khi nhập */
+.text-field:focused {
+    -fx-border-color: #3498DB;
+    -fx-border-width: 2px;
+}
+
+/* ComboBox */
+.combo-box {
+    -fx-pref-height: 32px;
+    -fx-border-radius: 5px;
+}
+
+/* Pane chứa thông tin */
+.pane {
+    -fx-border-color: gray;
+    -fx-border-radius: 5px;
+    -fx-padding: 10px;
+    -fx-background-color: #ECF0F1;
+}
+
+/* Nút xác nhận */
+.button {
+    -fx-background-color: #27AE60;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+}
+
+.button:hover {
+    -fx-background-color: #2ECC71;
+}
+
+.button:pressed {
+    -fx-background-color: #1E8449;
+}

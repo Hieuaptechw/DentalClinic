@@ -54,7 +54,7 @@ public class CandidatenumberFormController {
         patientAddressArea.setText(appointment.getPatient().getAddress());
         patientEmailField.setText(appointment.getPatient().getEmail());
         patientDobPicker.setValue(appointment.getPatient().getDob());
-        queueNumberField.setText(appointment.getRegistrationNumber());
+       // queueNumberField.setText(appointment.getRegistrationNumber());
         roomNameField.setText(appointment.getRoom().getRoomNumber());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
         examTimeField.setText(appointment.getAppointmentDate().format(formatter));

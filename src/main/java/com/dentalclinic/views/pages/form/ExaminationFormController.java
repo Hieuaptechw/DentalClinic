@@ -112,6 +112,9 @@ public class ExaminationFormController {
         String reason = reasonField.getText().trim();
         String doctorName = doctorBox.getValue();
         String roomType = roomBox.getValue();
+        if(doctorName !=null){
+            
+        }
 
 
         String patientName = nameField.getText().trim();
