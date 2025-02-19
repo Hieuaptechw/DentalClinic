@@ -1,7 +1,9 @@
 package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Branch;
+import com.dentalclinic.entities.RoleType;
 import com.dentalclinic.entities.Room;
+import com.dentalclinic.entities.Staff;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;

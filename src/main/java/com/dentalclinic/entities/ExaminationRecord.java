@@ -46,6 +46,16 @@ public class ExaminationRecord {
     public ExaminationRecord() {
     }
 
+    public ExaminationRecord(Patient patient, Staff staff,LocalDateTime createdAt, LocalDateTime dateOfVisit, String reason, String symptoms, Room room) {
+        this.patient = patient;
+        this.staff = staff;
+        this.createdAt = createdAt;
+        this.dateOfVisit = dateOfVisit;
+        this.reason = reason;
+        this.symptoms = symptoms;
+        this.room = room;
+    }
+
     public ExaminationRecord(Patient patient, Staff staff, LocalDateTime dateOfVisit, String reason, String symptoms, String diagnosis, String treatment, Room room, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.patient = patient;
         this.staff = staff;

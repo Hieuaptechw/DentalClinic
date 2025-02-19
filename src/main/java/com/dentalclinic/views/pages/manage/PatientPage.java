@@ -4,6 +4,7 @@ import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.controllers.PatientController;
 import com.dentalclinic.entities.MedicalRecord;
+import com.dentalclinic.views.pages.form.ExaminationFormController;
 import com.dentalclinic.views.pages.form.PatientFormController;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.views.pages.AbstractPage;
@@ -193,6 +194,8 @@ public class PatientPage extends AbstractPage {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationView.fxml"));
             Parent root = loader.load();
+            ExaminationFormController controller = loader.getController();
+            controller.setPatientData(patient);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Examination");
