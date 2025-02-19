@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -84,6 +85,7 @@ public class ExaminationPage extends AbstractPage {
             private final Button deleteButton;
             private final Button viewButton;
             private final Button addButton;
+            private final HBox buttonBox;
 
 
             {
@@ -130,19 +132,27 @@ public class ExaminationPage extends AbstractPage {
                     handleShowExamination(examinationRecord);
 
                 });
-                addButton.setOnAction(event -> {
-                    ExaminationRecord examinationRecord = getTableView().getItems().get(getIndex());
-                });
+                buttonBox = new HBox(5, editButton, viewButton, deleteButton);
+                buttonBox.setAlignment(Pos.CENTER);
             }
 
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
+                RoleType role = UserSession.getCurrentUserRole();
+
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    setGraphic(new HBox(5 , viewButton,deleteButton));
+                    if (role == RoleType.ADMIN) {
+                        buttonBox.getChildren().setAll(editButton, viewButton, deleteButton);
+                    } else if (role == RoleType.DOCTOR) {
+                        buttonBox.getChildren().setAll(editButton, viewButton);
+                    } else {
+                        buttonBox.getChildren().setAll(viewButton);
+                    }
+                    setGraphic(buttonBox);
                 }
             }
 

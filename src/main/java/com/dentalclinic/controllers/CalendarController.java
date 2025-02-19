@@ -58,18 +58,5 @@ public class CalendarController {
             ex.printStackTrace();
         }
     }
-    public void deletePatient(Long appointmentId) {
-        EntityTransaction transaction = em.getTransaction();
-        try {
-            transaction.begin();
-            Appointment appointment = em.find(Appointment.class, appointmentId);
-            if (appointment != null) {
-                em.remove(appointment);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
-            e.printStackTrace();
-        }
-    }
+
 }

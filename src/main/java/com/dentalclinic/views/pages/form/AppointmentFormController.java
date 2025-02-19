@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
 import java.time.LocalDate;
@@ -28,7 +29,7 @@ public class AppointmentFormController {
     private ComboBox<Branch> branchComboBox;
     @FXML
     private ComboBox<String> roomComboBox;
-
+    private Appointment appointmentSelected;
     private Patient patientSelected;
     private List<Staff> doctorList;
     private List<Branch> branchList;
@@ -66,17 +67,96 @@ public class AppointmentFormController {
         });
         roomComboBox.getItems().addAll("VIP", "Standard");
     }
-    public void setAppointment(Patient patient) {
+    public void setAppointment(Appointment appointment) {
+        this.appointmentSelected = appointment;
+        this.patientSelected = appointment.getPatient();
+        nameField.setText(patientSelected.getName() != null ? patientSelected.getName() : "");
+        addressField.setText(patientSelected.getAddress() != null ? patientSelected.getAddress() : "");
+        identityField.setText(patientSelected.getIdentityCard() != null ? patientSelected.getIdentityCard() : "");
+        phoneField.setText(patientSelected.getPhone() != null ? patientSelected.getPhone() : "");
+        birthPicker.setValue(patientSelected.getDob());
+        if (appointment.getAppointmentDate() != null) {
+            datePicker.setValue(appointment.getAppointmentDate().toLocalDate());
+            timeField.setText(appointment.getAppointmentDate().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        } else {
+            timeField.setText("");
+        }
+        reasonField.setText(appointment.getReason() != null ? appointment.getReason() : "");
+        symptomsField.setText(appointment.getSymptoms() != null ? appointment.getSymptoms() : "");
+        if (appointment.getStaff() != null) {
+            staffComboBox.setValue(appointment.getStaff());
+        } else {
+            staffComboBox.getSelectionModel().clearSelection();
+        }
+        if (appointment.getRoom() != null) {
+            roomComboBox.setValue(appointment.getRoom().getRoomType());
+            Branch branch = appointment.getRoom().getBranch();
+            if (branch != null && branchList.contains(branch)) {
+                branchComboBox.setValue(branch);
+            } else {
+                branchComboBox.getSelectionModel().clearSelection();
+            }
+        } else {
+            roomComboBox.getSelectionModel().clearSelection();
+            branchComboBox.getSelectionModel().clearSelection();
+        }
+    }
+    public void setAppointmentView(Appointment appointment) {
+        this.appointmentSelected = appointment;
+        this.patientSelected = appointment.getPatient();
+        nameField.setText(patientSelected.getName() != null ? patientSelected.getName() : "");
+        addressField.setText(patientSelected.getAddress() != null ? patientSelected.getAddress() : "");
+        identityField.setText(patientSelected.getIdentityCard() != null ? patientSelected.getIdentityCard() : "");
+        phoneField.setText(patientSelected.getPhone() != null ? patientSelected.getPhone() : "");
+        birthPicker.setValue(patientSelected.getDob());
+        if (appointment.getAppointmentDate() != null) {
+            datePicker.setValue(appointment.getAppointmentDate().toLocalDate());
+            timeField.setText(appointment.getAppointmentDate().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
+        } else {
+            timeField.setText("");
+        }
+        reasonField.setText(appointment.getReason() != null ? appointment.getReason() : "");
+        symptomsField.setText(appointment.getSymptoms() != null ? appointment.getSymptoms() : "");
+        if (appointment.getStaff() != null) {
+            staffComboBox.setValue(appointment.getStaff());
+        } else {
+            staffComboBox.getSelectionModel().clearSelection();
+        }
+        if (appointment.getRoom() != null) {
+            roomComboBox.setValue(appointment.getRoom().getRoomType());
+            Branch branch = appointment.getRoom().getBranch();
+            if (branch != null && branchList.contains(branch)) {
+                branchComboBox.setValue(branch);
+            } else {
+                branchComboBox.getSelectionModel().clearSelection();
+            }
+        } else {
+            roomComboBox.getSelectionModel().clearSelection();
+            branchComboBox.getSelectionModel().clearSelection();
+        }
+        reasonField.setEditable(false);
+        symptomsField.setEditable(false);
+        timeField.setEditable(false);
+        staffComboBox.setDisable(true);
+        roomComboBox.setDisable(true);
+        branchComboBox.setDisable(true);
+        datePicker.setDisable(true);
+
+    }
+
+    public void setPatient(Patient patient) {
+
         this.patientSelected = patient;
         nameField.setText(patient.getName());
         addressField.setText(patient.getAddress());
         identityField.setText(patient.getIdentityCard());
         phoneField.setText(patient.getPhone());
         birthPicker.setValue(patient.getDob());
+
     }
 
     @FXML
-    public void handleAddAppointment() {
+    public void handleSaveAppointment() {
         LocalDate appointmentDate = datePicker.getValue();
         String reason = reasonField.getText();
         String time = timeField.getText();
@@ -84,13 +164,10 @@ public class AppointmentFormController {
         Staff selectedDoctor = staffComboBox.getValue();
         Branch selectedBranch = branchComboBox.getValue();
         String selectedRoomType = roomComboBox.getValue();
-
         if (appointmentDate == null || time.isEmpty() || selectedRoomType == null || selectedBranch == null) {
             showAlert("Error", "Please fill in all required fields!", Alert.AlertType.ERROR);
             return;
         }
-
-        // Nếu chưa chọn bác sĩ, tìm bác sĩ có ít cuộc hẹn nhất
         if (selectedDoctor == null) {
             selectedDoctor = appointmentController.getDoctorWithFewestAppointments();
             if (selectedDoctor == null) {
@@ -98,14 +175,11 @@ public class AppointmentFormController {
                 return;
             }
         }
-        System.out.println(selectedDoctor);
-        // Tìm phòng còn trống trong chi nhánh đã chọn
-        Room availableRoom = appointmentController.findAvailableRoom( selectedRoomType, appointmentDate);
+        Room availableRoom = appointmentController.findAvailableRoom(selectedRoomType, appointmentDate);
         if (availableRoom == null) {
             showAlert("Error", "No available rooms at this branch!", Alert.AlertType.ERROR);
             return;
         }
-        System.out.println(availableRoom);
         LocalTime appointmentTime;
         try {
             appointmentTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
@@ -113,21 +187,34 @@ public class AppointmentFormController {
             showAlert("Error", "Invalid time format! Use HH:mm", Alert.AlertType.ERROR);
             return;
         }
-
         LocalDateTime appointmentDateTime = LocalDateTime.of(appointmentDate, appointmentTime);
-        Appointment newAppointment = new Appointment();
-        newAppointment.setPatient(patientSelected);
-        newAppointment.setStaff(selectedDoctor);
-        newAppointment.setAppointmentDate(appointmentDateTime);
-        newAppointment.setReason(reason);
-        newAppointment.setStatus("Scheduled");
-        newAppointment.setSymptoms(symptoms);
-        newAppointment.setCreatedAt(LocalDateTime.now());
-        newAppointment.setUpdatedAt(LocalDateTime.now());
-        newAppointment.setRoom(availableRoom);
-        appointmentController.addAppointment(newAppointment);
-        showAlert("Success", "Appointment scheduled successfully!", Alert.AlertType.INFORMATION);
-
+        if (appointmentSelected != null) {
+            appointmentSelected.setAppointmentDate(appointmentDateTime);
+            appointmentSelected.setReason(reason);
+            appointmentSelected.setSymptoms(symptoms);
+            appointmentSelected.setStaff(selectedDoctor);
+            appointmentSelected.setRoom(availableRoom);
+            appointmentSelected.setUpdatedAt(LocalDateTime.now());
+            appointmentController.updateAppointment(appointmentSelected);
+            showAlert("Success", "Appointment updated successfully!", Alert.AlertType.INFORMATION);
+            Stage stage = (Stage) staffComboBox.getScene().getWindow();
+            stage.close();
+        } else {
+            Appointment newAppointment = new Appointment();
+            newAppointment.setPatient(patientSelected);
+            newAppointment.setStaff(selectedDoctor);
+            newAppointment.setAppointmentDate(appointmentDateTime);
+            newAppointment.setReason(reason);
+            newAppointment.setStatus("Scheduled");
+            newAppointment.setSymptoms(symptoms);
+            newAppointment.setCreatedAt(LocalDateTime.now());
+            newAppointment.setUpdatedAt(LocalDateTime.now());
+            newAppointment.setRoom(availableRoom);
+            appointmentController.addAppointment(newAppointment);
+            showAlert("Success", "Appointment scheduled successfully!", Alert.AlertType.INFORMATION);
+            Stage stage = (Stage) staffComboBox.getScene().getWindow();
+            stage.close();
+        }
     }
 
 

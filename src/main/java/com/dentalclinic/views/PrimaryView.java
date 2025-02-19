@@ -48,7 +48,7 @@ public class PrimaryView {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
                     generateToolbarPageItem(ExaminationPage.class),
-                    generateToolbarPageItem(CalendarPage.class),
+                    generateToolbarPageItem(AppointmentPage.class),
                     generateToolbarPageItem(PatientRecordPage.class),
                     generateToolbarPageItem(RoomPage.class)
             );
@@ -73,7 +73,7 @@ public class PrimaryView {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
                     generateToolbarPageItem(ExaminationPage.class),
-                    generateToolbarPageItem(CalendarPage.class),
+                    generateToolbarPageItem(AppointmentPage.class),
                     generateToolbarPageItem(PatientRecordPage.class),
                     generateToolbarPageItem(RoomPage.class)
 
@@ -93,7 +93,7 @@ public class PrimaryView {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
                     generateToolbarPageItem(ExaminationPage.class),
-                    generateToolbarPageItem(CalendarPage.class)
+                    generateToolbarPageItem(AppointmentPage.class)
 
 
             );
