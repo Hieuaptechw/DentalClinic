@@ -13,11 +13,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="288.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.AppointmentFormController">
+<AnchorPane prefHeight="288.0" prefWidth="663.0" stylesheets="@../../../css/examination.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.form.AppointmentFormController">
     <children>
         <HBox prefHeight="40.0" prefWidth="900.0" style="-fx-background-color: #2C3E50; -fx-padding: 10;">
             <children>
-                <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Thông tin bệnh nhân" />
+                <Label style="-fx-text-fill: white; -fx-font-size: 16px; -fx-font-weight: bold;" text="Đăng ký lịch hẹn" />
             </children>
         </HBox>
 
@@ -43,7 +43,7 @@
                 <Label text="Căn cước công dân" GridPane.rowIndex="2" />
                 <TextField fx:id="identityField" editable="false" promptText="Nhập CCCD" GridPane.columnIndex="1" GridPane.rowIndex="2" />
 
-                <Label text="Ngày Khám" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label text="Ngày hẹn" GridPane.columnIndex="2" GridPane.rowIndex="2" />
 
                 <Label text="Năm sinh" GridPane.columnIndex="2" GridPane.rowIndex="1" />
 
@@ -56,27 +56,29 @@
 
         <Pane layoutX="20.0" layoutY="256.0" prefHeight="151.0" prefWidth="860.0" style="-fx-border-color: gray; -fx-border-radius: 5; -fx-padding: 10;">
             <children>
-                <Label layoutX="6.0" layoutY="10.0" prefHeight="17.0" prefWidth="70.0" text="Ngày hẹn">
+                <Label layoutX="6.0" layoutY="10.0" prefHeight="17.0" prefWidth="109.0" text="Lí do">
                     <padding>
                         <Insets left="10.0" />
                     </padding></Label>
-                <TextField fx:id="appointmentField" layoutX="14.0" layoutY="30.0" prefHeight="38.0" prefWidth="200.0" promptText="Nhập lý do khám" />
+                <TextField fx:id="reasonField" layoutX="14.0" layoutY="30.0" prefHeight="38.0" prefWidth="200.0" promptText="Nhập lý do khám" />
 
                 <Label layoutX="247.0" layoutY="10.0" text="Thời gian" />
-                <TextField fx:id="timeField" layoutX="247.0" layoutY="30.0" prefHeight="38.0" prefWidth="158.0" promptText="Thời gian" />
+                <TextField fx:id="timeField" layoutX="247.0" layoutY="30.0" prefHeight="38.0" prefWidth="158.0" promptText="12:00" />
 
                 <Label layoutX="14.0" layoutY="80.0" text="Bác sĩ phụ trách" />
-                <ComboBox fx:id="doctorBox" layoutX="14.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
+                <ComboBox fx:id="staffComboBox" layoutX="14.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
 
                 <Label layoutX="247.0" layoutY="80.0" text="Phòng khám" />
-                <ComboBox fx:id="roomBox" layoutX="247.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
+                <ComboBox fx:id="roomComboBox" layoutX="247.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
             <Label layoutX="456.0" layoutY="10.0" text="Triệu chứng" />
             <TextField fx:id="symptomsField" layoutX="456.0" layoutY="27.0" prefHeight="38.0" prefWidth="200.0" promptText="Nhập triệu chứng sơ bộ" />
+            <ComboBox fx:id="branchComboBox" layoutX="456.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
+            <Label layoutX="459.0" layoutY="80.0" text="Chi nhánh" />
             </children>
         </Pane>
-        <Pane layoutX="20.0" layoutY="426.0" prefHeight="46.0" prefWidth="200.0">
+        <Pane layoutX="20.0" layoutY="426.0" prefHeight="46.0" prefWidth="247.0">
             <children>
-                <Button fx:id="btnAction" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="180.0" text="Xác nhận &amp; đăng ký lịch hẹn " />
+                <Button fx:id="btnAction" layoutX="10.0" layoutY="7.0" mnemonicParsing="false" onAction="#handleAddAppointment" prefHeight="32.0" prefWidth="218.0" text="Xác nhận &amp; đăng ký lịch hẹn " />
             </children>
         </Pane>
     </children>

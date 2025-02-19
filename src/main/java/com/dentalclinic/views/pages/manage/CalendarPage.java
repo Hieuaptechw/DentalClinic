@@ -190,8 +190,7 @@ public class CalendarPage extends AbstractPage {
     private boolean matchesSearch(Appointment appointment, String keyword) {
         String[] keywords = keyword.split("\\s+");
 
-        String combinedData = (appointment.getRegistrationNumber() + " " +
-                appointment.getStaff().getName() + " " +
+        String combinedData = (appointment.getStaff().getName() + " " +
                 appointment.getRoom().getRoomNumber() + " " +
                 appointment.getPatient().getName() + " " +
                 appointment.getStatus() + " " +
@@ -202,7 +201,7 @@ public class CalendarPage extends AbstractPage {
 
     private void handleDeleteAppointment(Appointment appointment) {
         String message = "Appointment Information:\n" +
-                "Registration Number: " + appointment.getRegistrationNumber() + "\n" +
+                "Registration Number: " + appointment.getAppointmentId() + "\n" +
                 "Patient: " + appointment.getPatient().getName() + "\n" +
                 "Doctor: " + appointment.getStaff().getName() + "\n" +
                 "Room: " + appointment.getRoom().getRoomNumber() + "\n" +
@@ -327,40 +326,33 @@ public class CalendarPage extends AbstractPage {
                 System.out.println("No patient selected!");
                 return;
             }
-            int maxRegNumber = appointmentList.stream()
-                    .map(Appointment::getRegistrationNumber)
-                    .filter(num -> num.matches("\\d+"))
-                    .mapToInt(Integer::parseInt)
-                    .max()
-                    .orElse(0);
-            String registrationNumber = String.format("%03d", maxRegNumber + 1);
-            System.out.println(registrationNumber+"ddadaasdsa");
+
 
             String status = "Pending";
 
             LocalDateTime now = LocalDateTime.now();
 
-            Appointment newAppointment = new Appointment(
-                    registrationNumber, selectedPatient, selectedDoctor, selectedRoom,
-                    appointmentDateTime, symptoms, status, now, now
-            );
+//            Appointment newAppointment = new Appointment(
+//                    registrationNumber, selectedPatient, selectedDoctor, selectedRoom,
+//                    appointmentDateTime, symptoms, status, now, now
+//            );
+//
+//            System.out.println("New Appointment: " + newAppointment);
+//            calendarController.addAppointment(newAppointment);
+//            String message = "New Appointment Created:\n" +
+//                    "Registration Number: " + newAppointment.getRegistrationNumber() + "\n" +
+//                    "Patient: " + newAppointment.getPatient().getName() + "\n" +
+//                    "Doctor: " + newAppointment.getStaff().getName() + "\n" +
+//                    "Room: " + newAppointment.getRoom().getRoomNumber() + "\n" +
+//                    "Appointment Date & Time: " + newAppointment.getAppointmentDate() + "\n" +
+//                    "Symptoms: " + newAppointment.getSymptoms() + "\n" +
+//                    "Status: " + newAppointment.getStatus();
 
-            System.out.println("New Appointment: " + newAppointment);
-            calendarController.addAppointment(newAppointment);
-            String message = "New Appointment Created:\n" +
-                    "Registration Number: " + newAppointment.getRegistrationNumber() + "\n" +
-                    "Patient: " + newAppointment.getPatient().getName() + "\n" +
-                    "Doctor: " + newAppointment.getStaff().getName() + "\n" +
-                    "Room: " + newAppointment.getRoom().getRoomNumber() + "\n" +
-                    "Appointment Date & Time: " + newAppointment.getAppointmentDate() + "\n" +
-                    "Symptoms: " + newAppointment.getSymptoms() + "\n" +
-                    "Status: " + newAppointment.getStatus();
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
-            alert.setTitle("Appointment Details");
-            alert.setHeaderText("Appointment Successfully Created");
-            alert.showAndWait();
-            loadData();
+//            Alert alert = new Alert(Alert.AlertType.INFORMATION, message, ButtonType.OK);
+//            alert.setTitle("Appointment Details");
+//            alert.setHeaderText("Appointment Successfully Created");
+//            alert.showAndWait();
+//            loadData();
 
         } catch (IOException e) {
             e.printStackTrace();

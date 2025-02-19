@@ -3,7 +3,6 @@ package com.dentalclinic.views.pages.manage;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.controllers.PatientController;
-import com.dentalclinic.entities.Appointment;
 import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.form.AppointmentFormController;
 import com.dentalclinic.views.pages.form.ExaminationFormController;
@@ -32,8 +31,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -219,7 +216,7 @@ public class PatientPage extends AbstractPage {
 
     private void handleShowAppointment(Patient patient){
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/appointmentForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/appointmentform.fxml"));
             Parent root = loader.load();
             AppointmentFormController controller = loader.getController();
             controller.setAppointment(patient);
