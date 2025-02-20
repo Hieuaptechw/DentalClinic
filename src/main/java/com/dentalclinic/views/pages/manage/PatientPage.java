@@ -4,6 +4,8 @@ import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.controllers.PatientController;
 import com.dentalclinic.entities.MedicalRecord;
+import com.dentalclinic.entities.RoleType;
+import com.dentalclinic.entities.UserSession;
 import com.dentalclinic.views.pages.form.AppointmentFormController;
 import com.dentalclinic.views.pages.form.ExaminationFormController;
 import com.dentalclinic.views.pages.form.PatientFormController;
@@ -16,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -35,7 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Page(name = "Bệnh nhân", icon = "images/patient.png", fxml = "manage/patient.fxml")
+@Page(name = "Patient", icon = "images/patient.png", fxml = "manage/patient.fxml")
 public class PatientPage extends AbstractPage {
 
     @FXML private TableView<Patient> tableViewPatient;
@@ -85,7 +88,7 @@ public class PatientPage extends AbstractPage {
         private final Button viewButton;
         private final Button addButton;
         private final Button addAppointment;
-
+        private final HBox buttonBox;
         {
             ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
             editIcon.setFitHeight(22);
@@ -144,16 +147,27 @@ public class PatientPage extends AbstractPage {
                 Patient patient = getTableView().getItems().get(getIndex());
                 handleShowAppointment(patient);
             });
+            buttonBox = new HBox(5, editButton , viewButton,addButton,addAppointment, deleteButton);
+            buttonBox.setAlignment(Pos.CENTER);
         }
 
 
         @Override
         protected void updateItem(Void item, boolean empty) {
             super.updateItem(item, empty);
+            RoleType role = UserSession.getCurrentUserRole();
+
             if (empty) {
                 setGraphic(null);
             } else {
-                setGraphic(new HBox(5, editButton , viewButton,addButton,addAppointment, deleteButton));
+                if (role == RoleType.ADMIN) {
+                    buttonBox.getChildren().setAll(editButton , viewButton,addButton,addAppointment, deleteButton);
+                } else if (role == RoleType.DOCTOR) {
+                    buttonBox.getChildren().setAll(editButton, viewButton);
+                } else {
+                    buttonBox.getChildren().setAll(editButton , viewButton,addButton,addAppointment);
+                }
+                setGraphic(buttonBox);
             }
         }
     });
@@ -201,7 +215,7 @@ public class PatientPage extends AbstractPage {
 
     private void handleShowExamination(Patient patient){
         try{
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationform.fxml"));
             Parent root = loader.load();
             ExaminationFormController controller = loader.getController();
             controller.setPatientData(patient);

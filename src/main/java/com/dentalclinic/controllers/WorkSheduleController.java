@@ -1,6 +1,6 @@
 package com.dentalclinic.controllers;
 
-import com.dentalclinic.entities.Branch;
+
 import com.dentalclinic.entities.Room;
 import com.dentalclinic.entities.WorkSchedule;
 import jakarta.persistence.EntityManager;

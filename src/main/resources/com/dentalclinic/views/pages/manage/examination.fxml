@@ -42,6 +42,7 @@
          <TableColumn fx:id="doctorColumn" prefWidth="124.0" text="Doctor" />
          <TableColumn fx:id="roomColumn" prefWidth="167.2000732421875" text="Room" />
          <TableColumn fx:id="dateColumn" prefWidth="156.00006103515625" text="Date of visit" />
+         <TableColumn fx:id="statusColumn" prefWidth="156.00006103515625" text="Status" />
          <TableColumn fx:id="actionColumn" prefWidth="139.19989013671875" text="Action" />
       </columns>
       <VBox.margin>

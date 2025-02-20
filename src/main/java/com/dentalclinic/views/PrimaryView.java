@@ -2,9 +2,10 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.entities.RoleType;
+import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.UserSession;
 import com.dentalclinic.views.pages.administration.FinancePage;
-import com.dentalclinic.views.pages.administration.SalaryPage;
+import com.dentalclinic.views.pages.administration.RoomPage;
 import com.dentalclinic.views.pages.administration.StaffPage;
 import com.dentalclinic.views.pages.administration.WorkSchedulePage;
 import com.dentalclinic.views.pages.manage.*;
@@ -24,6 +25,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class PrimaryView {
@@ -35,11 +37,13 @@ public class PrimaryView {
     @FXML private HBox toolbarAdministrationTab;
     @FXML private TabPane mainTabPane;
 
-    @FXML private Tab administrationTab; // Khai báo tab với fx:id đã đặt
+    @FXML private Tab administrationTab;
 
     @FXML
     private void initialize() {
-        RoleType role = UserSession.getCurrentUserRole();
+        checkLogin();
+        Staff user =UserSession.getCurrentUser();
+        RoleType role = user.getRole();
         Node homeItem = generateToolbarPageItem(HomePage.class);
         homeItem.getStyleClass().add("home-item");
         System.out.println(role);
@@ -48,24 +52,19 @@ public class PrimaryView {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
                     generateToolbarPageItem(ExaminationPage.class),
-                    generateToolbarPageItem(AppointmentPage.class),
-                    generateToolbarPageItem(PatientRecordPage.class),
-                    generateToolbarPageItem(RoomPage.class)
+                    generateToolbarPageItem(AppointmentPage.class)
             );
 
             toolbarAdministrationTab.getChildren().addAll(
                     generateToolbarPageItem(StaffPage.class),
                     generateToolbarPageItem(WorkSchedulePage.class),
                     generateToolbarPageItem(FinancePage.class),
-                    generateToolbarPageItem(SalaryPage.class)
+                    generateToolbarPageItem(RoomPage.class)
             );
-
             toolbarSettingTab.getChildren().addAll(
                     generateToolbarPageItem(SystemPage.class),
-                    generateToolbarPageItem(NotificationPage.class),
                     generateToolbarPageItem(BackupPage.class)
             );
-
         }
 
         if (role == RoleType.DOCTOR) {
@@ -73,17 +72,10 @@ public class PrimaryView {
             toolbarManageTab.getChildren().addAll(
                     generateToolbarPageItem(PatientPage.class),
                     generateToolbarPageItem(ExaminationPage.class),
-                    generateToolbarPageItem(AppointmentPage.class),
-                    generateToolbarPageItem(PatientRecordPage.class),
-                    generateToolbarPageItem(RoomPage.class)
-
+                    generateToolbarPageItem(AppointmentPage.class)
             );
-
-
-
             toolbarSettingTab.getChildren().addAll(
                     generateToolbarPageItem(SystemPage.class),
-                    generateToolbarPageItem(NotificationPage.class),
                     generateToolbarPageItem(BackupPage.class)
             );
         }
@@ -108,8 +100,26 @@ public class PrimaryView {
         Tab homeTab = openPage(HomePage.class);
         homeTab.setClosable(false);
     }
+    @FXML
+    private void handleLogout() {
+        UserSession.clearSession();
 
+        try {
+            DentalClinic.loadStage("views/login.fxml");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
+    private void checkLogin(){
+        if (UserSession.getCurrentUser() == null) {
+            try {
+                DentalClinic.loadStage("views/login.fxml");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Nullable
     private Node generateToolbarPageItem(Class<?> target) {
         try {

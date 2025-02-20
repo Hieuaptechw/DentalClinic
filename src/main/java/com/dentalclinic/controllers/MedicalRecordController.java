@@ -44,7 +44,7 @@ public class MedicalRecordController {
         }
     }
 
-    public void handleAddPatientRecord(MedicalRecord medicalRecord){
+    public void handleAddMedicalRecord(MedicalRecord medicalRecord){
         EntityTransaction transaction = em.getTransaction();
         try{
             transaction.begin();

@@ -17,7 +17,7 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name = "staff_id", nullable = false)
-    private Staff staff;
+    private Staff staff;  // Người tạo lịch (thường là lễ tân)
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
@@ -27,36 +27,20 @@ public class Appointment {
     private LocalDateTime appointmentDate;
 
     @Column(name = "reason", columnDefinition = "TEXT", nullable = false)
-    private String reason;  // New field added
+    private String reason;
 
     @Column(name = "symptoms", columnDefinition = "TEXT")
     private String symptoms;
 
-    @Column(name = "status")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private AppointmentStatus status = AppointmentStatus.PENDING;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    public Appointment() {}
-
-//    public Appointment(String registrationNumber, Patient patient, Staff staff, Room room,
-//                       LocalDateTime appointmentDate, String reason, String symptoms, String status,
-//                       LocalDateTime createdAt, LocalDateTime updatedAt) {
-//        this.registrationNumber = registrationNumber;
-//        this.patient = patient;
-//        setStaff(staff); // Ensure only doctors can take appointments
-//        this.room = room;
-//        this.appointmentDate = appointmentDate;
-//        this.reason = reason;
-//        this.symptoms = symptoms;
-//        this.status = status;
-//        this.createdAt = createdAt;
-//        this.updatedAt = updatedAt;
-//    }
 
     public long getAppointmentId() {
         return appointmentId;
@@ -79,9 +63,6 @@ public class Appointment {
     }
 
     public void setStaff(Staff staff) {
-        if (staff.getRole() != RoleType.DOCTOR) {
-            throw new IllegalArgumentException("Only doctors can take appointments.");
-        }
         this.staff = staff;
     }
 
@@ -117,11 +98,11 @@ public class Appointment {
         this.symptoms = symptoms;
     }
 
-    public String getStatus() {
+    public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 
@@ -139,23 +120,5 @@ public class Appointment {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "Appointment{" +
-                "appointmentId=" + appointmentId +
-                ", patient=" + patient +
-                ", staff=" + staff +
-                ", room=" + room +
-                ", appointmentDate=" + appointmentDate +
-                ", reason='" + reason + '\'' +  // New field added to toString()
-                ", symptoms='" + symptoms + '\'' +
-                ", status='" + status + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
     }
 }

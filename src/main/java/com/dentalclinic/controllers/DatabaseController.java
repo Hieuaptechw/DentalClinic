@@ -42,9 +42,22 @@ public final class DatabaseController {
         Staff s = query.getResultList().stream().findAny().orElse(null);
         if (s != null) {
             currentUser = s;
-            return s.getRole(); // Trả về role của user
+            return s.getRole();
         }
         return null;
+    }
+    public static Staff user(String email, String password) {
+        TypedQuery<Staff> query = em.createQuery(
+                "SELECT s FROM Staff s WHERE s.email=:email AND s.password=:password",
+                Staff.class);
+        query.setParameter("email", email);
+        query.setParameter("password", password);
+
+        Staff s = query.getResultList().stream().findAny().orElse(null);
+        if (s != null) {
+            currentUser = s;
+        }
+        return s;
     }
 
 }

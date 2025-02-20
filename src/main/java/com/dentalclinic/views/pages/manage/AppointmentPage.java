@@ -40,7 +40,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Page(name = "Lịch hẹn", icon = "images/calendar.png", fxml = "manage/calendar.fxml")
+@Page(name = "Appointment", icon = "images/calendar.png", fxml = "manage/calendar.fxml")
 public class AppointmentPage extends AbstractPage {
 
     @FXML private TableView<Appointment> tableViewAppointment;
@@ -145,9 +145,9 @@ public class AppointmentPage extends AbstractPage {
                     if (role == RoleType.ADMIN) {
                         buttonBox.getChildren().setAll(editButton, viewButton, deleteButton);
                     } else if (role == RoleType.DOCTOR) {
-                        buttonBox.getChildren().setAll(editButton, viewButton);
+                        buttonBox.getChildren().setAll( viewButton);
                     } else {
-                        buttonBox.getChildren().setAll(viewButton);
+                        buttonBox.getChildren().setAll(viewButton,editButton);
                     }
                     setGraphic(buttonBox);
                 }

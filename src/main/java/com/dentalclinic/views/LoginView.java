@@ -3,6 +3,7 @@ package com.dentalclinic.views;
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.entities.RoleType;
+import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.UserSession;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
@@ -30,6 +31,7 @@ public class LoginView {
 
     @FXML
     private void handleLogIn() {
+        clearError();
         if (hasErrors) return;
 
         String email = emailField.getText();
@@ -43,10 +45,11 @@ public class LoginView {
             showError("Password is required");
             return;
         }
+        Staff user = DatabaseController.user(email, password);
+        if (user != null) {
+            UserSession.setCurrentUser(user);
 
-        RoleType role = DatabaseController.logIn(email, password);
-        if (role != null) {
-            UserSession.setCurrentUserRole(role);
+            System.out.println("Login successful! User ID: " + user.getStaffId() + ", Role: " + user.getRole());
 
             try {
                 DentalClinic.loadStage("views/primary.fxml");
@@ -55,9 +58,9 @@ public class LoginView {
             }
         } else {
             showError("Email or password is incorrect");
+            System.out.println("Login failed for email: " + email);
         }
     }
-
 
     private void showError(String error) {
         errorLabel.setText(hasErrors ? errorLabel.getText() + "\n" + error : error);

@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class MedicalRecordMedicine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;  // Khóa chính tự động tăng
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "medical_record_id", nullable = false)
@@ -17,14 +17,12 @@ public class MedicalRecordMedicine {
     @JoinColumn(name = "medicine_id", nullable = false)
     private Medicine medicine;
 
-    @Column(name = "instructions") // Hướng dẫn sử dụng
+    @Column(name = "instructions")
     private String instructions;
 
-    // Constructors
     public MedicalRecordMedicine() {}
 
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }

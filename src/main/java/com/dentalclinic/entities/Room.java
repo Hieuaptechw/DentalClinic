@@ -13,9 +13,6 @@ public class Room {
     @Column(name = "room_number", nullable = false)
     private String roomNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "branch_id", nullable = false)
-    private Branch branch;
 
     @Column(name = "room_type")
     private String roomType;
@@ -29,22 +26,6 @@ public class Room {
     public Room() {
     }
 
-    public Room(String roomNumber, Branch branch, String roomType, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.roomNumber = roomNumber;
-        this.branch = branch;
-        this.roomType = roomType;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
-    public Room(long roomId, String roomNb, Branch selectedBranch, String selectedRoomType, LocalDateTime createdAt, LocalDateTime now) {
-        this.roomId = roomId;
-        this.roomNumber = roomNumber;
-        this.branch = branch;
-        this.roomType = roomType;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
 
     public long getRoomId() {
         return roomId;
@@ -62,13 +43,6 @@ public class Room {
         this.roomNumber = roomNumber;
     }
 
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
 
     public String getRoomType() {
         return roomType;
@@ -98,5 +72,4 @@ public class Room {
     public String toString() {
         return roomType;
     }
-
 }

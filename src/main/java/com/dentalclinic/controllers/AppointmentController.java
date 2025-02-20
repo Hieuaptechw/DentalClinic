@@ -1,7 +1,6 @@
 package com.dentalclinic.controllers;
 
 import com.dentalclinic.entities.Appointment;
-import com.dentalclinic.entities.Branch;
 import com.dentalclinic.entities.Room;
 import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.RoleType;
@@ -10,6 +9,7 @@ import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class AppointmentController {
@@ -34,12 +34,6 @@ public class AppointmentController {
         return query.getResultList();
     }
 
-    public List<Branch> getBranches() {
-        TypedQuery<Branch> query = em.createQuery("SELECT b FROM Branch b", Branch.class);
-        return query.getResultList();
-    }
-
-
     public Staff getDoctorWithFewestAppointments() {
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s WHERE s.role = :role ORDER BY " +
@@ -52,18 +46,22 @@ public class AppointmentController {
     }
 
 
-    public Room findAvailableRoom(String roomType, LocalDate date) {
+    public Room findAvailableRoom(String roomType, LocalDateTime dateTime) {
         TypedQuery<Room> query = em.createQuery(
                 "SELECT r FROM Room r WHERE r.roomType = :roomType " +
-                        "AND NOT EXISTS (SELECT a FROM Appointment a WHERE a.room = r AND DATE(a.appointmentDate) = :date)",
+                        "AND NOT EXISTS (SELECT a FROM Appointment a WHERE a.room = r " +
+                        "AND a.appointmentDate = :dateTime)", // So sánh trực tiếp LocalDateTime
                 Room.class);
+
         query.setParameter("roomType", roomType);
-        query.setParameter("date", date);
+        query.setParameter("dateTime", dateTime);
         query.setMaxResults(1);
 
         List<Room> result = query.getResultList();
         return result.isEmpty() ? null : result.get(0);
     }
+
+
     public void addAppointment(Appointment appointment) {
         EntityTransaction transaction = em.getTransaction();
         try {

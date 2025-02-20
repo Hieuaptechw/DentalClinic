@@ -72,8 +72,8 @@
                 <ComboBox fx:id="roomComboBox" layoutX="247.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
             <Label layoutX="456.0" layoutY="10.0" text="Triệu chứng" />
             <TextField fx:id="symptomsField" layoutX="456.0" layoutY="27.0" prefHeight="38.0" prefWidth="200.0" promptText="Nhập triệu chứng sơ bộ" />
-            <ComboBox fx:id="branchComboBox" layoutX="456.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
-            <Label layoutX="459.0" layoutY="80.0" text="Chi nhánh" />
+            <ComboBox fx:id="statusComboBox" layoutX="456.0" layoutY="100.0" prefHeight="38.0" prefWidth="180.0" promptText="Lựa chọn" />
+            <Label layoutX="455.0" layoutY="78.0" text="Status" />
             </children>
         </Pane>
         <Pane layoutX="20.0" layoutY="426.0" prefHeight="46.0" prefWidth="247.0">

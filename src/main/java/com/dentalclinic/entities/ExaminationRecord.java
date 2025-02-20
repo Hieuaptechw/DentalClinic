@@ -11,12 +11,16 @@ public class ExaminationRecord {
     private long examinationId;
 
     @ManyToOne
+    @JoinColumn(name = "appointment_id", nullable = true) // Có thể NULL nếu không có lịch trước
+    private Appointment appointment;
+
+    @ManyToOne
     @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     @ManyToOne
     @JoinColumn(name = "staff_id", nullable = false)
-    private Staff staff;
+    private Staff staff;  // Bác sĩ thực hiện khám
 
     @Column(name = "date_of_visit", nullable = false)
     private LocalDateTime dateOfVisit;
@@ -35,7 +39,11 @@ public class ExaminationRecord {
 
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
-    private Room room; // Thay đổi từ String sang Room
+    private Room room;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private ExaminationStatus status = ExaminationStatus.ONGOING;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -43,38 +51,20 @@ public class ExaminationRecord {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    public ExaminationRecord() {
-    }
-
-    public ExaminationRecord(Patient patient, Staff staff,LocalDateTime createdAt, LocalDateTime dateOfVisit, String reason, String symptoms, Room room) {
-        this.patient = patient;
-        this.staff = staff;
-        this.createdAt = createdAt;
-        this.dateOfVisit = dateOfVisit;
-        this.reason = reason;
-        this.symptoms = symptoms;
-        this.room = room;
-    }
-
-    public ExaminationRecord(Patient patient, Staff staff, LocalDateTime dateOfVisit, String reason, String symptoms, String diagnosis, String treatment, Room room, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.patient = patient;
-        this.staff = staff;
-        this.dateOfVisit = dateOfVisit;
-        this.reason = reason;
-        this.symptoms = symptoms;
-        this.diagnosis = diagnosis;
-        this.treatment = treatment;
-        this.room = room;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
     public long getExaminationId() {
         return examinationId;
     }
 
     public void setExaminationId(long examinationId) {
         this.examinationId = examinationId;
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     public Patient getPatient() {
@@ -141,6 +131,14 @@ public class ExaminationRecord {
         this.room = room;
     }
 
+    public ExaminationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ExaminationStatus status) {
+        this.status = status;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -157,20 +155,5 @@ public class ExaminationRecord {
         this.updatedAt = updatedAt;
     }
 
-    @Override
-    public String toString() {
-        return "ExaminationRecord{" +
-                "examinationId=" + examinationId +
-                ", patient=" + patient +
-                ", staff=" + staff +
-                ", dateOfVisit=" + dateOfVisit +
-                ", reason='" + reason + '\'' +
-                ", symptoms='" + symptoms + '\'' +
-                ", diagnosis='" + diagnosis + '\'' +
-                ", treatment='" + treatment + '\'' +
-                ", room=" + room +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
-    }
+    // Getters & Setters
 }

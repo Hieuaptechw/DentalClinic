@@ -22,7 +22,6 @@ public class Medicine {
     @ManyToMany(mappedBy = "medicines")
     private Set<MedicalRecord> medicalRecords;
 
-    // Getters and Setters
     public Long getMedicineId() {
         return medicineId;
     }

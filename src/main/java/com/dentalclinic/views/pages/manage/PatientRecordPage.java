@@ -5,7 +5,6 @@ import com.dentalclinic.controllers.MedicalRecordController;
 import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
-import com.dentalclinic.views.pages.form.InventoryFormController;
 import com.dentalclinic.views.pages.form.PatientRecordFormController;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
