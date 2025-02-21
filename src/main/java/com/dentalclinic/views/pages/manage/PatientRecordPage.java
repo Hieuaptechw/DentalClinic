@@ -6,7 +6,6 @@ import com.dentalclinic.entities.MedicalRecord;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.PatientRecordFormController;
-import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,114 +25,78 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@Page(name="Bệnh án", icon="images/records.png", fxml="manage/patientrecord.fxml")
+@Page(name = "Bệnh án", icon = "images/records.png", fxml = "manage/patientrecord.fxml")
 public class PatientRecordPage extends AbstractPage {
-    @FXML
-    private TableView<MedicalRecord> recordTable;
+    @FXML private TableView<MedicalRecord> recordTable;
+    @FXML private TableColumn<MedicalRecord, String> nameColumn, diagnosisColumn, treatmentColumn;
+    @FXML private TableColumn<MedicalRecord, LocalDate> dateColumn;
+    @FXML private TableColumn<MedicalRecord, Void> actionColumn;
+    @FXML private TextField searchField;
 
-    @FXML
-    private TableColumn<MedicalRecord, String> nameColumn, diagnosisColumn, treatmentColumn;
+    private final ObservableList<MedicalRecord> medicalRecordObservableList = FXCollections.observableArrayList();
 
-    @FXML
-    private TableColumn<MedicalRecord, LocalDate> dateColumn;
+    private final MedicalRecordController patientRecordController;
 
-    @FXML
-    private TableColumn<MedicalRecord, Void> actionColumn;
-
-    @FXML
-    private TextField searchField;
-
-    private ObservableList<MedicalRecord> medicalRecordObservableList = FXCollections.observableArrayList();
-
-    private MedicalRecordController patientRecordController;
-
-    public PatientRecordPage(){
-        EntityManager em = DatabaseController.getEntityManager();
-        this.patientRecordController = new MedicalRecordController(em);
+    public PatientRecordPage() {
+        this.patientRecordController = new MedicalRecordController(DatabaseController.getEntityManager());
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         setupTableColumn();
         loadPatientRecord();
-        searchField.textProperty().addListener((observable, oldValue, newValue)-> handleSearch(newValue));
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch(newValue));
     }
 
-    public void setupTableColumn(){
+    public void setupTableColumn() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("patient"));
         diagnosisColumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
         treatmentColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("createdAt"));
-        loadActionColumn();
+        actionColumn.setCellFactory(col -> createActionCell());
     }
 
-    public void loadActionColumn(){
-        actionColumn.setCellFactory(KParameter -> new TableCell<MedicalRecord, Void>(){
-            private final Button editButton;
-            private final Button deleteButton;
+    private TableCell<MedicalRecord, Void> createActionCell() {
+        return new TableCell<>() {
+            private final Button editButton = createButton("/com/dentalclinic/images/edit.png", event -> handleEditPatientRecord(getTableView().getItems().get(getIndex())));
+            private final Button deleteButton = createButton("/com/dentalclinic/images/delete_1.png", event -> handleDelete(getTableView().getItems().get(getIndex())));
             {
-                // Tạo icon sửa
-                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
-                editIcon.setFitWidth(22);
-                editIcon.setFitHeight(22);
-                editButton = new Button("", editIcon);
-                editButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-
-                editButton.setOnAction(event -> {
-                    MedicalRecord medicalRecord = getTableView().getItems().get(getIndex());
-                    handleEditPatientRecord(medicalRecord);
-                });
-
-                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete_1.png")));
-                deleteIcon.setFitWidth(22);
-                deleteIcon.setFitHeight(22);
-                deleteButton = new Button("", deleteIcon);
-                deleteButton.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
-
-                deleteButton.setOnAction(event -> {
-                    MedicalRecord medicalRecord = getTableView().getItems().get(getIndex());
-                    if (medicalRecord != null) {
-                        handleDelete(medicalRecord);
-                    }
-                });
+                HBox box = new HBox(10, editButton, deleteButton);
+                box.setAlignment(Pos.CENTER);
+                setGraphic(box);
             }
-
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                if (empty) {
-                    setGraphic(null);
-                } else {
-                    HBox box = new HBox(10, editButton, deleteButton);
-                    box.setAlignment(Pos.CENTER);
-                    setGraphic(box);
-                }
+                setGraphic(empty ? null : getGraphic());
             }
-        });
+        };
     }
 
-    
+    public Button createButton(String imagePath, javafx.event.EventHandler<javafx.event.ActionEvent> action) {
+        ImageView icon = new ImageView(new Image(getClass().getResourceAsStream(imagePath)));
+        icon.setFitWidth(22);
+        icon.setFitHeight(22);
+        Button button = new Button("", icon);
+        button.setStyle("-fx-background-color: transparent; -fx-cursor: hand;");
+        button.setOnAction(action);
+        return button;
+    }
 
-    public void loadPatientRecord(){
+    public void loadPatientRecord() {
         List<MedicalRecord> medicalRecords = patientRecordController.getAllPatientRecord();
         medicalRecordObservableList.setAll(medicalRecords);
         recordTable.setItems(medicalRecordObservableList);
     }
 
-    public void handleDelete(MedicalRecord medicalRecord){
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Xác nhận");
-        alert.setHeaderText("Xóa bệnh án");
-        alert.setContentText("Bạn có chắc chắn muốn xóa : " + medicalRecord.getPatient() + "?");
-        alert.showAndWait().ifPresent(response -> {
-            if(response == ButtonType.OK){
-                patientRecordController.handleDeletePatientRecord(medicalRecord.getRecordId());
-                medicalRecordObservableList.remove(medicalRecord);
-            }
-        });
+    private void handleDelete(MedicalRecord medicalRecord) {
+        if (showAlert("Confirmation", "Delete Medical Record", "Are you sure you want to delete: " + medicalRecord.getPatient() + "?", Alert.AlertType.CONFIRMATION)) {
+            patientRecordController.handleDeletePatientRecord(medicalRecord.getRecordId());
+            medicalRecordObservableList.remove(medicalRecord);
+        }
     }
 
-    public void handleEditPatientRecord(MedicalRecord medicalRecord){
+    public void handleEditPatientRecord(MedicalRecord medicalRecord) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/editPatientRecord.fxml"));
             Parent root = loader.load();
@@ -141,37 +104,37 @@ public class PatientRecordPage extends AbstractPage {
             editPatientRecordPage.setPatientRecordData(medicalRecord);
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Sửa bệnh án");
+            stage.setTitle("Edit Medical Record");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             loadPatientRecord();
-            System.out.println("Đã load");
+            System.out.println("Loaded");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void handleAddPatientRecord(){
-        try{
+    public void handleAddPatientRecord() {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/addPatientRecord.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.setTitle("Thêm bệnh án");
+            stage.setTitle("Add Medical Record");
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();
             loadPatientRecord();
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    public void handleSearch(String keyword){
+    public void handleSearch(String keyword) {
         String key = keyword.toLowerCase().trim();
-        if(key.isEmpty()){
+        if (key.isEmpty()) {
             recordTable.setItems(medicalRecordObservableList);
-        }else {
+        } else {
             List<MedicalRecord> filtered = medicalRecordObservableList.stream()
                     .filter(record -> matchesSearch(record, key))
                     .toList();
@@ -203,8 +166,12 @@ public class PatientRecordPage extends AbstractPage {
         return true;
     }
 
-
-
-
+    private boolean showAlert(String title, String header, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        return alert.showAndWait().filter(response -> response == ButtonType.OK).isPresent();
+    }
 
 }

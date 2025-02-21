@@ -3,6 +3,7 @@ package com.dentalclinic.views.pages.form;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.PatientController;
 import com.dentalclinic.entities.*;
+import com.dentalclinic.validation.PatientValidator;
 import jakarta.persistence.EntityManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -62,8 +63,6 @@ public class PatientFormController {
         statusComboBox.getItems().addAll(PatientStatus.values());
     }
 
-
-
     @FXML
     private void handleClear() {
         nameField.clear();
@@ -102,7 +101,6 @@ public class PatientFormController {
             alert.showAndWait();
             return;
         }
-
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String phone = phoneField.getText().trim();
@@ -144,6 +142,7 @@ public class PatientFormController {
         stage.close();
     }
 
+    @FXML
     private void handleConfirmPatient() {
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
@@ -152,11 +151,13 @@ public class PatientFormController {
         String phone = phoneField.getText().trim();
         String address = addressArea.getText().trim();
         LocalDate dob = dobPicker.getValue();
-
         Gender gender = getSelectedGender();
 
-        if (email.isEmpty() || phone.isEmpty() || name.isEmpty() || address.isEmpty() || dob == null || gender == null || status == null) {
-            System.out.println("Please enter all required patient information!");
+        String validationMessage = PatientValidator.validatePatientData(name, email, identity, phone, address, dob, gender, status);
+
+        if (validationMessage != null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, validationMessage, ButtonType.OK);
+            alert.showAndWait();
             return;
         }
 
@@ -171,7 +172,7 @@ public class PatientFormController {
             selectedPatient.setAddress(address);
             selectedPatient.setDob(dob);
             selectedPatient.setGender(gender);
-            selectedPatient.setStatus(status); // Gán trạng thái cho bệnh nhân mới
+            selectedPatient.setStatus(status);
             selectedPatient.setCreatedAt(LocalDateTime.now());
             selectedPatient.setUpdatedAt(LocalDateTime.now());
 
@@ -180,7 +181,6 @@ public class PatientFormController {
             alert.showAndWait();
             Stage stage = (Stage) btnAction.getScene().getWindow();
             stage.close();
-
         } else {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient already exists!", ButtonType.OK);
             alert.showAndWait();
@@ -188,6 +188,7 @@ public class PatientFormController {
             stage.close();
         }
     }
+
 
     private Gender getSelectedGender() {
         if (maleRadio.isSelected()) {

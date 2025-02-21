@@ -44,23 +44,15 @@ import java.util.stream.Collectors;
 public class AppointmentPage extends AbstractPage {
 
     @FXML private TableView<Appointment> tableViewAppointment;
-    @FXML private TableColumn<Appointment, String> reasonColumn;
-    @FXML private TableColumn<Appointment, String> patientColumn;
-    @FXML private TableColumn<Appointment, String> patientIndentityCardColumn;
-    @FXML private TableColumn<Appointment, String> doctorColumn;
-    @FXML private TableColumn<Appointment, String> roomColumn;
+    @FXML private TableColumn<Appointment, String> reasonColumn, patientColumn, patientIndentityCardColumn, doctorColumn, roomColumn, statusColumn, symptomsColumn;
     @FXML private TableColumn<Appointment, LocalDateTime> appointmentDateColumn;
-    @FXML private TableColumn<Appointment, String> statusColumn;
-    @FXML private TableColumn<Appointment, String> symptomsColumn;
     @FXML private TableColumn<Appointment, Void> actionColumn;
     @FXML private ComboBox<Room> comboBoxRoom;
     @FXML private ComboBox<Staff> comboBoxDoctor;
     @FXML private DatePicker datePickerAppointment;
     @FXML private TextArea symptomsArea;
-    @FXML private TextField timeField;
-    @FXML private TextField searchField;
-    @FXML private DatePicker fromDatePicker;
-    @FXML private DatePicker toDatePicker;
+    @FXML private TextField timeField, searchField;
+    @FXML private DatePicker fromDatePicker, toDatePicker;
     private List<Room> roomList;
     private List<Staff> doctorList;
     private AppointmentController appointmentController;

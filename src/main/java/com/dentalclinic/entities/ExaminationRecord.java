@@ -51,6 +51,19 @@ public class ExaminationRecord {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public ExaminationRecord() {
+    }
+
+    public ExaminationRecord(Patient patient, Staff staff, LocalDateTime dateOfVisit, String reason, ExaminationStatus status, String symptoms, Room room) {
+        this.patient = patient;
+        this.staff = staff;
+        this.dateOfVisit = dateOfVisit;
+        this.reason = reason;
+        this.status = status;
+        this.symptoms = symptoms;
+        this.room = room;
+    }
+
     public long getExaminationId() {
         return examinationId;
     }

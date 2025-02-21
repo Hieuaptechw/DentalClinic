@@ -174,8 +174,8 @@ public class ExaminationPage extends AbstractPage {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationformresult.fxml"));
                 ScrollPane root = (ScrollPane) loader.load();
                 ExaminationFormController controller = loader.getController();
-                controller.setExamination(examinationRecord);
-
+                boolean upDate = true;
+                controller.setExamination(examinationRecord,upDate);
                 Stage stage = new Stage();
                 stage.setTitle("Edit");
                 stage.setScene(new Scene(root));
@@ -191,8 +191,9 @@ public class ExaminationPage extends AbstractPage {
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/examinationform.fxml"));
             Parent root = loader.load();
+            boolean upDate = true;
             ExaminationFormController controller = loader.getController();
-            controller.setExamination(examinationRecord);
+            controller.setExamination(examinationRecord,upDate);
             Stage stage = new Stage();
             stage.setTitle("Edit");
             stage.setScene(new Scene(root));

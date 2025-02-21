@@ -2,9 +2,9 @@ package com.dentalclinic.views;
 
 import com.dentalclinic.DentalClinic;
 import com.dentalclinic.controllers.DatabaseController;
-import com.dentalclinic.entities.RoleType;
 import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.UserSession;
+import com.dentalclinic.validation.LocalValidator;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -12,14 +12,15 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.util.List;
 
 public class LoginView {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private CheckBox rememberMeCheckbox;
-    
     @FXML private Label errorLabel;
-    private boolean hasErrors;
+
+    private LocalValidator loginValidator = new LocalValidator();
 
     @FXML
     private void initialize() {
@@ -32,44 +33,42 @@ public class LoginView {
     @FXML
     private void handleLogIn() {
         clearError();
-        if (hasErrors) return;
 
         String email = emailField.getText();
-        if (email == null || email.isEmpty()) {
-            showError("Email is required");
+        String password = passwordField.getText();
+
+        List<String> errors = loginValidator.validateInput(email, password);
+
+        if (!errors.isEmpty()) {
+            showError(String.join("\n", errors));
             return;
         }
 
-        String password = passwordField.getText();
-        if (password == null || password.isEmpty()) {
-            showError("Password is required");
-            return;
-        }
         Staff user = DatabaseController.user(email, password);
         if (user != null) {
             UserSession.setCurrentUser(user);
-
             System.out.println("Login successful! User ID: " + user.getStaffId() + ", Role: " + user.getRole());
-
-            try {
-                DentalClinic.loadStage("views/primary.fxml");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            loadPrimary();
         } else {
             showError("Email or password is incorrect");
             System.out.println("Login failed for email: " + email);
         }
     }
 
+    private void loadPrimary(){
+        try{
+            DentalClinic.loadStage("views/primary.fxml");
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     private void showError(String error) {
-        errorLabel.setText(hasErrors ? errorLabel.getText() + "\n" + error : error);
+        errorLabel.setText(error);
         errorLabel.setVisible(true);
-        hasErrors = true;
     }
 
     private void clearError() {
         errorLabel.setVisible(false);
-        hasErrors = false;
     }
 }
