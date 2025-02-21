@@ -42,18 +42,11 @@ import java.util.stream.Collectors;
 public class PatientPage extends AbstractPage {
 
     @FXML private TableView<Patient> tableViewPatient;
-    @FXML private TableColumn<Patient, String> nameColumn;
-    @FXML private TableColumn<Patient, String> emailColumn;
-    @FXML private TableColumn<Patient, String> phoneColumn;
-    @FXML private TableColumn<Patient, String> identityCardColumn;
-    @FXML private TableColumn<Patient, String> statusColumn;
-    @FXML private TableColumn<Patient, String> addressColumn;
-    @FXML private TableColumn<Patient, String> dobColumn;
+    @FXML private TableColumn<Patient, String> nameColumn, emailColumn, phoneColumn,identityCardColumn, statusColumn, addressColumn, dobColumn;
     @FXML private TableColumn<Patient, Void> actionColumn;
     @FXML private  TextField searchField;
     @FXML private DatePicker fromDatePicker;
     @FXML private DatePicker toDatePicker;
-
 
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;
@@ -314,9 +307,7 @@ public class PatientPage extends AbstractPage {
     private void handleAddPatient() {
         System.out.println("Đang gọi handleAddPatient()...");
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/patientform.fxml"));
-
             AnchorPane root = loader.load();
             PatientFormController patientFormController = loader.getController();
             Stage stage = new Stage();

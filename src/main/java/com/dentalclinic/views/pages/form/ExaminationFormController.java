@@ -31,8 +31,8 @@ public class ExaminationFormController {
     @FXML private ComboBox<PatientStatus> patientStatusComboBox;
     @FXML
     private DatePicker dateField;
-@FXML
-private Button addMedicineButton;
+    @FXML
+    private Button addMedicineButton;
 
     @FXML
     private Button btnAction;
@@ -68,7 +68,7 @@ private Staff user;
 
         if (user.getRole() == RoleType.DOCTOR) {
             addMedicineButton.setOnAction(event -> addSelectedMedicine());
-            loadMedicineData(); // Gọi sau khi đã khởi tạo medicineController
+            loadMedicineData();
             searchMedicine.textProperty().addListener((observable, oldValue, newValue) -> {
                 filterMedicineList(newValue);
             });
@@ -151,8 +151,13 @@ private Staff user;
         statusComboBox.setDisable(true);
         patientStatusComboBox.setDisable(true);
     }
-    public void setExamination(ExaminationRecord examinationRecord){
-        this.selectedExamination = examinationRecord;
+    public void setExamination(ExaminationRecord examinationRecord,boolean upDate){
+        if(upDate){
+
+            this.selectedExamination = examinationRecord;
+            statusComboBox.setValue(examinationRecord.getStatus());
+        }
+
         this.selectedPatient = examinationRecord.getPatient();
         nameField.setText(examinationRecord.getPatient().getName());
         addressField.setText(examinationRecord.getPatient().getAddress());
@@ -166,10 +171,8 @@ private Staff user;
         symptimField.setText(examinationRecord.getSymptoms());
         doctorBox.setValue(examinationRecord.getStaff());
         roomBox.setValue(examinationRecord.getRoom().toString());
-        statusComboBox.setValue(examinationRecord.getStatus());
+
     }
-
-
 
     @FXML
     public void handleSaveExamination() {
@@ -191,8 +194,6 @@ private Staff user;
                 return;
             }
         }
-
-
         LocalTime examinationTime;
         try {
             examinationTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"));
@@ -225,7 +226,7 @@ private Staff user;
             examinationRecord.setStaff(selectedDoctor);
             examinationRecord.setDateOfVisit(examinationDateTime);
             examinationRecord.setReason(reason);
-            selectedExamination.setStatus(selectedStatus);
+            examinationRecord.setStatus(selectedStatus);
             examinationRecord.setSymptoms(symptoms);
             examinationRecord.setCreatedAt(LocalDateTime.now());
             examinationRecord.setUpdatedAt(LocalDateTime.now());
@@ -238,6 +239,7 @@ private Staff user;
     }
 
     public void handleAddMedicalRecord() {
+
         String diagnosis = diagnosisField.getText().trim();
         String treatment = treatmentField.getText().trim();
         LocalDate fob = followUpdatePicker.getValue();
