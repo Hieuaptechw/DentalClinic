@@ -1,14 +1,12 @@
 package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.AppointmentController;
-import com.dentalclinic.controllers.CalendarController;
 import com.dentalclinic.controllers.DatabaseController;
+import com.dentalclinic.controllers.ExaminationRecordController;
 import com.dentalclinic.entities.*;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.AppointmentFormController;
-import com.dentalclinic.views.pages.form.CalendarFormController;
-import com.dentalclinic.views.pages.form.PatientFormController;
 import jakarta.persistence.EntityManager;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -22,22 +20,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.StringConverter;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Page(name = "Appointment", icon = "images/calendar.png", fxml = "manage/calendar.fxml")
@@ -46,24 +38,21 @@ public class AppointmentPage extends AbstractPage {
     @FXML private TableView<Appointment> tableViewAppointment;
     @FXML private TableColumn<Appointment, String> reasonColumn, patientColumn, patientIndentityCardColumn, doctorColumn, roomColumn, statusColumn, symptomsColumn;
     @FXML private TableColumn<Appointment, LocalDateTime> appointmentDateColumn;
+    @FXML private TableColumn<Appointment, Void> checkInColumn;
     @FXML private TableColumn<Appointment, Void> actionColumn;
-    @FXML private ComboBox<Room> comboBoxRoom;
-    @FXML private ComboBox<Staff> comboBoxDoctor;
-    @FXML private DatePicker datePickerAppointment;
-    @FXML private TextArea symptomsArea;
-    @FXML private TextField timeField, searchField;
-    @FXML private DatePicker fromDatePicker, toDatePicker;
-    private List<Room> roomList;
-    private List<Staff> doctorList;
+    @FXML private ComboBox<AppointmentStatus> statusComboBox;
+    @FXML private TextField  searchField;
     private AppointmentController appointmentController;
+    private ExaminationRecordController examinationRecordController;
     private ObservableList<Appointment> appointmentList = FXCollections.observableArrayList();
-
     public void initialize() {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
         appointmentController = new AppointmentController(em);
+        examinationRecordController = new ExaminationRecordController(em);
         setupTableColumns();
         loadData();
+        statusComboBox.setOnAction(event -> loadData());
         searchField.textProperty().addListener((observable, oldValue, newValue) -> handleSearch(newValue));
     }
 
@@ -75,10 +64,128 @@ public class AppointmentPage extends AbstractPage {
         roomColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getRoom().getRoomNumber()));
         appointmentDateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
         symptomsColumn.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        statusComboBox.getItems().addAll(AppointmentStatus.values());
+        loadCheckInColumn();
         loadActionColumn();
 
     }
+    private void loadCheckInColumn() {
+        checkInColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button arrivedButton;
+            private final Button absentButton;
+            private final Button contactButton;
+            private final Label statusLabel;
+
+            {
+                ImageView tickIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/check.png")));
+                tickIcon.setFitHeight(22);
+                tickIcon.setFitWidth(22);
+                ImageView xIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/x.png")));
+                xIcon.setFitHeight(22);
+                xIcon.setFitWidth(22);
+                arrivedButton = new Button("", tickIcon);
+                arrivedButton.getStyleClass().add("button-icon");
+                absentButton = new Button("", xIcon);
+                absentButton.getStyleClass().add("button-icon");
+
+                contactButton = new Button("Call / Email");
+                contactButton.getStyleClass().add("button-contact");
+
+                statusLabel = new Label();
+                statusLabel.getStyleClass().add("status-label");
+                arrivedButton.setOnAction(event -> {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+                    handleCheckInAppointment(appointment, true);
+                });
+
+                absentButton.setOnAction(event -> {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+                    handleCheckInAppointment(appointment, false);
+                });
+
+                contactButton.setOnAction(event -> {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+      //              sendReminderToPatient(appointment);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+
+                    if (appointment != null) {
+                        HBox buttonContainer = new HBox(10);
+                        buttonContainer.setAlignment(Pos.CENTER);
+
+                        switch (appointment.getStatus()) {
+                            case PENDING:
+                                buttonContainer.getChildren().addAll(arrivedButton, absentButton);
+                                break;
+                            case ARRIVED:
+                                statusLabel.setText("Arrived");
+                                buttonContainer.getChildren().add(statusLabel);
+                                break;
+                            case COMPLETED:
+                                statusLabel.setText("Completed");
+                                buttonContainer.getChildren().add(statusLabel);
+                                break;
+                            case NO_SHOW:
+                                buttonContainer.getChildren().add(contactButton);
+                                break;
+                        }
+                        setGraphic(buttonContainer);
+                    } else {
+                        setGraphic(null);
+                    }
+                }
+            }
+        });
+    }
+
+    private void handleCheckInAppointment(Appointment appointment, boolean checkIn) {
+        if (appointment == null) return;
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        String headerText = checkIn ? "Are you sure the patient has arrived?" : "Are you sure the patient has not arrived?";
+        confirmAlert.setTitle("Confirm Check-in");
+        confirmAlert.setHeaderText(headerText);
+        confirmAlert.setContentText("Name: " + appointment.getPatient().getName());
+
+        ButtonType buttonYes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmAlert.getButtonTypes().setAll(buttonYes, buttonNo);
+
+        confirmAlert.showAndWait().ifPresent(response -> {
+            if (response == buttonYes) {
+                appointment.setStatus(checkIn ? AppointmentStatus.ARRIVED : AppointmentStatus.NO_SHOW);
+                appointmentController.updateAppointment(appointment);
+                if (checkIn) {
+                    ExaminationRecord newExam = new ExaminationRecord();
+                    newExam.setAppointment(appointment);
+                    newExam.setPatient(appointment.getPatient());
+                    newExam.setDateOfVisit(LocalDateTime.now());
+                    newExam.setReason(appointment.getReason());
+                    newExam.setStatus(ExaminationStatus.ONGOING);
+                    newExam.setRoom(appointment.getRoom());
+                    newExam.setStaff(appointment.getStaff());
+                    newExam.setSymptoms(appointment.getSymptoms());
+                    newExam.setCreatedAt(LocalDateTime.now());
+                    newExam.setUpdatedAt(LocalDateTime.now());
+                    examinationRecordController.createExaminationRecord(newExam);
+                }
+                loadData();
+                Alert updateAlert = new Alert(Alert.AlertType.INFORMATION);
+                updateAlert.setTitle("Appointment Updated");
+                updateAlert.setHeaderText(null);
+                updateAlert.setContentText("Appointment status updated successfully!");
+                updateAlert.showAndWait();
+            }
+        });
+    }
+
     private void loadActionColumn() {
         actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton;
@@ -147,36 +254,7 @@ public class AppointmentPage extends AbstractPage {
         });
     }
 
-    @FXML
-    private void handleFilter(){
-        if (fromDatePicker.getValue() == null || toDatePicker.getValue() == null) {
-            tableViewAppointment.setItems(FXCollections.observableArrayList(appointmentList));
-            loadActionColumn();
-            return;
-        }
-        LocalDate fromDate = fromDatePicker.getValue();
-        LocalDate toDate = toDatePicker.getValue();
-        if (toDate.isBefore(fromDate)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "End date must be greater than or equal to the start date!", ButtonType.OK);
-            alert.showAndWait();
 
-            return;
-        }
-        List<Appointment> filterList = appointmentList.stream()
-                .filter(a->{
-                    LocalDateTime appointmentDate = a.getAppointmentDate();
-                    return !appointmentDate.toLocalDate().isBefore(fromDate) && appointmentDate.toLocalDate().isAfter(toDate);
-                }).toList();
-        tableViewAppointment.setItems(FXCollections.observableArrayList(filterList));
-        loadActionColumn();
-        if (filterList.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "No appointment found within this time period!", ButtonType.OK);
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Found " + filterList.size() + " Appointment!", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
     @FXML
     private void handleSearch(String keyword) {
         String trimmedKeyword = keyword.toLowerCase().trim();
@@ -267,11 +345,21 @@ public class AppointmentPage extends AbstractPage {
         }
     }
     private void loadData(){
+        AppointmentStatus selectedStatus = statusComboBox.getValue();
         List<Appointment> appointments = appointmentController.getAppointments().stream()
                 .sorted(Comparator.comparing(Appointment::getAppointmentDate).reversed())
                 .collect(Collectors.toList());
 
-        appointmentList.setAll(appointments);
+        List<Appointment> filteredAppointments = appointments.stream()
+                .filter(a -> a.getStatus() == selectedStatus)
+                .toList();
+
+        if (selectedStatus == null) {
+            appointmentList.setAll(appointments);
+        } else {
+            appointmentList.setAll(filteredAppointments);
+        }
+
         tableViewAppointment.setItems(appointmentList);
 
     }

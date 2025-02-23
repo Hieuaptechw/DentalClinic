@@ -35,7 +35,7 @@ public class PatientFormController {
     @FXML
     private Label lblTitle;
 
-
+private PatientValidator patientValidator;
     private ToggleGroup genderGroup;
     private Patient patient, selectedPatient;
     private PatientController patientController;
@@ -43,6 +43,7 @@ public class PatientFormController {
     @FXML
     public void initialize() {
         genderGroup = new ToggleGroup();
+        patientValidator = new PatientValidator();
         maleRadio.setToggleGroup(genderGroup);
         femaleRadio.setToggleGroup(genderGroup);
         otherRadio.setToggleGroup(genderGroup);
@@ -97,17 +98,21 @@ public class PatientFormController {
     @FXML
     private void handleUpdate() {
         if (patient == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Patient not found for update!", ButtonType.OK);
-            alert.showAndWait();
+            patientValidator.showAlert("Error", "Patient not found for update!");
             return;
         }
         String name = nameField.getText().trim();
         String email = emailField.getText().trim();
         String phone = phoneField.getText().trim();
         String address = addressArea.getText().trim();
+        String identity = identityField.getText().trim();
         LocalDate dob = dobPicker.getValue();
         PatientStatus status = statusComboBox.getValue();
-
+        if (name.isEmpty() || email.isEmpty() ||
+                phone.isEmpty() || status == null ||identity.isEmpty() || identityField.getText().isEmpty() || dob == null || address.isEmpty() ) {
+            patientValidator.showAlert("Error", "All fields except specialty are required!");
+            return;
+        }
         Gender gender = null;
         if (maleRadio.isSelected()) {
             gender = Gender.MALE;
@@ -117,10 +122,28 @@ public class PatientFormController {
             gender = Gender.OTHER;
         }
 
-        if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty() || dob == null || gender == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in all required information!", ButtonType.OK);
-            alert.showAndWait();
+        if (!patientValidator.isValidName(nameField.getText())) {
+            patientValidator.showAlert("Error", "Name can only contain letters!");
             return;
+        }
+        if (!patientValidator.isValidEmail(emailField.getText())) {
+            patientValidator.showAlert("Error", "Invalid email format!");
+            return;
+        }
+        if (!patientValidator.isValidIndentityCard(identityField.getText())) {
+            patientValidator.showAlert("Error", "Invalid id card format!");
+            return;
+        }
+        if (!patientValidator.isValidPhone(phoneField.getText())) {
+            patientValidator.showAlert("Error", "Invalid phone number!");
+            return;
+        }
+        if (!patientValidator.isValidAddress(nameField.getText())) {
+            patientValidator.showAlert("Error", "Name can only contain letters!");
+            return;
+        }
+        if(patientController.checkIdentityCardExists(identityField.getText())) {
+            patientValidator.showAlert("Error", "Identity Card already exists!");
         }
 
 
@@ -130,16 +153,15 @@ public class PatientFormController {
         patient.setAddress(address);
         patient.setDob(dob);
         patient.setGender(gender);
+        patient.setIdentityCard(identity);
         patient.setStatus(status);
         patient.setUpdatedAt(LocalDateTime.now());
 
         patientController.updatePatient(patient);
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient updated successfully!", ButtonType.OK);
-        alert.showAndWait();
-
-        Stage stage = (Stage) btnAction.getScene().getWindow();
+        patientValidator.showAlert("Success", "Patient updated successfully!");
+        Stage stage = (Stage) emailField.getScene().getWindow();
         stage.close();
+
     }
 
     @FXML
@@ -152,16 +174,40 @@ public class PatientFormController {
         String address = addressArea.getText().trim();
         LocalDate dob = dobPicker.getValue();
         Gender gender = getSelectedGender();
-
-        String validationMessage = PatientValidator.validatePatientData(name, email, identity, phone, address, dob, gender, status);
-
-        if (validationMessage != null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, validationMessage, ButtonType.OK);
-            alert.showAndWait();
+        if (name.isEmpty() || email.isEmpty() ||
+                phone.isEmpty() || status == null ||identity.isEmpty() || identityField.getText().isEmpty() || dob == null || address.isEmpty() ) {
+            patientValidator.showAlert("Error", "All fields except specialty are required!");
             return;
         }
 
+        if (!patientValidator.isValidName(nameField.getText())) {
+            patientValidator.showAlert("Error", "Name can only contain letters!");
+            return;
+        }
+        if (!patientValidator.isValidEmail(emailField.getText())) {
+            patientValidator.showAlert("Error", "Invalid email format!");
+            return;
+        }
+        if (!patientValidator.isValidIndentityCard(identityField.getText())) {
+            patientValidator.showAlert("Error", "Invalid id card format!");
+            return;
+        }
+        if (!patientValidator.isValidPhone(phoneField.getText())) {
+            patientValidator.showAlert("Error", "Invalid phone number!");
+            return;
+        }
+        if (!patientValidator.isValidAddress(addressArea.getText())) {
+            patientValidator.showAlert("Error", "Invalid address format!");
+            return;
+        }
+        if(patientController.checkIdentityCardExists(identityField.getText())) {
+            patientValidator.showAlert("Error", "Identity Card already exists!");
+        }
         selectedPatient = patientController.findPatientByIdentityCard(identity);
+        if (!patientValidator.isValidBirthDay(dobPicker.getValue())) {
+            patientValidator.showAlert("Error", "Invalid birth date! Must be older than 5 years.");
+            return;
+        }
 
         if (selectedPatient == null) {
             selectedPatient = new Patient();
@@ -177,14 +223,12 @@ public class PatientFormController {
             selectedPatient.setUpdatedAt(LocalDateTime.now());
 
             patientController.addPatient(selectedPatient);
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient has been added!", ButtonType.OK);
-            alert.showAndWait();
-            Stage stage = (Stage) btnAction.getScene().getWindow();
+            patientValidator.showAlert("Success", "Patient has been added!");
+            Stage stage = (Stage) emailField.getScene().getWindow();
             stage.close();
         } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Patient already exists!", ButtonType.OK);
-            alert.showAndWait();
-            Stage stage = (Stage) btnAction.getScene().getWindow();
+            patientValidator.showAlert("Error", "Patient already exists!");
+            Stage stage = (Stage) emailField.getScene().getWindow();
             stage.close();
         }
     }
@@ -208,8 +252,6 @@ public class PatientFormController {
                 System.out.println("Trạng thái được chọn : " + patientStatus);
             }
         });
-
-
     }
     public Patient getPatient() {
         return selectedPatient;

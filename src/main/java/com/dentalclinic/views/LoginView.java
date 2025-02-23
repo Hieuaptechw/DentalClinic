@@ -6,10 +6,7 @@ import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.UserSession;
 import com.dentalclinic.validation.LocalValidator;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,10 +41,15 @@ public class LoginView {
             return;
         }
 
+
         Staff user = DatabaseController.user(email, password);
         if (user != null) {
             UserSession.setCurrentUser(user);
-            System.out.println("Login successful! User ID: " + user.getStaffId() + ", Role: " + user.getRole());
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Login Successful");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Welcome, " + user.getName() + "!\nRole: " + user.getRole());
+            successAlert.showAndWait();
             loadPrimary();
         } else {
             showError("Email or password is incorrect");

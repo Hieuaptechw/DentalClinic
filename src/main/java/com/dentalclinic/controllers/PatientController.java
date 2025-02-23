@@ -87,6 +87,20 @@ public class PatientController {
     }
 
 
+    public boolean checkIdentityCardExists(String identityCard) {
+        try {
+            TypedQuery<Long> query = em.createQuery(
+                    "SELECT COUNT(p) FROM Patient p WHERE p.identityCard = :identityCard", Long.class
+            );
+            query.setParameter("identityCard", identityCard);
+
+            Long count = query.getSingleResult();
+            return count > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 
 

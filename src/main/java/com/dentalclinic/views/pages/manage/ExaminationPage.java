@@ -175,7 +175,7 @@ public class ExaminationPage extends AbstractPage {
                 ScrollPane root = (ScrollPane) loader.load();
                 ExaminationFormController controller = loader.getController();
                 boolean upDate = true;
-                controller.setExamination(examinationRecord,upDate);
+                controller.setExaminationE(examinationRecord,upDate);
                 Stage stage = new Stage();
                 stage.setTitle("Edit");
                 stage.setScene(new Scene(root));

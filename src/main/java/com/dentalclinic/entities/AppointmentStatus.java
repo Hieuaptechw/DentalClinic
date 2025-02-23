@@ -4,7 +4,8 @@ public enum AppointmentStatus {
     PENDING("Pending Confirmation"),
     ARRIVED("Patient Arrived"),
     CANCELLED("Cancelled"),
-    COMPLETED("Completed");
+    COMPLETED("Completed"),
+    NO_SHOW("No Show");
 
     private final String label;
 

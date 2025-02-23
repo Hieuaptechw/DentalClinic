@@ -3,6 +3,7 @@ package com.dentalclinic.views.pages.form;
 import com.dentalclinic.controllers.AppointmentController;
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.entities.*;
+import com.dentalclinic.validation.AppointmentValidator;
 import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,6 +32,7 @@ public class AppointmentFormController {
     private ComboBox<AppointmentStatus> statusComboBox;
     @FXML
     private Button btnAction;
+    private AppointmentValidator appointmentValidator;
     private Appointment appointmentSelected;
     private Patient patientSelected;
     private List<Staff> doctorList;
@@ -62,6 +64,7 @@ public class AppointmentFormController {
         identityField.setText(patientSelected.getIdentityCard() != null ? patientSelected.getIdentityCard() : "");
         phoneField.setText(patientSelected.getPhone() != null ? patientSelected.getPhone() : "");
         birthPicker.setValue(patientSelected.getDob());
+        roomComboBox.setValue(appointment.getRoom().getRoomType());
         if (appointment.getAppointmentDate() != null) {
             datePicker.setValue(appointment.getAppointmentDate().toLocalDate());
             timeField.setText(appointment.getAppointmentDate().toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm")));
@@ -85,6 +88,7 @@ public class AppointmentFormController {
         } else {
             statusComboBox.getSelectionModel().clearSelection();
         }
+        birthPicker.setDisable(true);
     }
     public void setAppointmentView(Appointment appointment) {
         this.appointmentSelected = appointment;
@@ -137,6 +141,7 @@ public class AppointmentFormController {
         identityField.setText(patient.getIdentityCard());
         phoneField.setText(patient.getPhone());
         birthPicker.setValue(patient.getDob());
+        birthPicker.setDisable(true);
 
     }
 
@@ -148,9 +153,26 @@ public class AppointmentFormController {
         String symptoms = symptomsField.getText();
         Staff selectedDoctor = staffComboBox.getValue();
         String selectedRoomType = roomComboBox.getValue();
+
         AppointmentStatus selectedStatus = statusComboBox.getValue();
         if (appointmentDate == null || time.isEmpty() || selectedRoomType == null ) {
-            showAlert("Error", "Please fill in all required fields!", Alert.AlertType.ERROR);
+            AppointmentValidator.showAlert("Error", "Please fill in all required fields!");
+            return;
+        }
+        if (!AppointmentValidator.isValidReason(reason)) {
+            AppointmentValidator.showAlert("Error", "Reason must be at least 5 characters!");
+            return;
+        }
+        if (!AppointmentValidator.isValidDate(appointmentDate)) {
+            AppointmentValidator.showAlert("Error", "Date must not be in the past!");
+            return;
+        }
+        if (!AppointmentValidator.isValidSymptoms(symptoms)) {
+            AppointmentValidator.showAlert("Error", "Symptoms must be at least 5 characters!");
+            return;
+        }
+        if (!AppointmentValidator.isValidTime(time)) {
+            AppointmentValidator.showAlert("Error", "Invalid time format! Use HH:mm");
             return;
         }
         if (selectedDoctor == null) {
@@ -170,12 +192,12 @@ public class AppointmentFormController {
             return;
         }
         LocalDateTime appointmentDateTime = LocalDateTime.of(appointmentDate, appointmentTime);
-        Room availableRoom = appointmentController.findAvailableRoom(selectedRoomType, appointmentDateTime);
-        if (availableRoom == null) {
-            showAlert("Error", "No available rooms at this branch!", Alert.AlertType.ERROR);
-            return;
+        Room availableRoom;
+        if (appointmentSelected != null && selectedRoomType.equals(appointmentSelected.getRoom().getRoomType())) {
+            availableRoom = appointmentSelected.getRoom();
+        } else {
+            availableRoom = appointmentController.findAvailableRoom(selectedRoomType, appointmentDateTime);
         }
-        System.out.println(availableRoom);
         if (appointmentSelected != null) {
             appointmentSelected.setAppointmentDate(appointmentDateTime);
             appointmentSelected.setReason(reason);
@@ -206,8 +228,6 @@ public class AppointmentFormController {
             stage.close();
         }
     }
-
-
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

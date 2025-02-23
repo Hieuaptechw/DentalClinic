@@ -7,6 +7,7 @@ import com.dentalclinic.entities.Gender;
 import com.dentalclinic.entities.Patient;
 import com.dentalclinic.entities.RoleType;
 import com.dentalclinic.entities.Staff;
+import com.dentalclinic.validation.StaffValidator;
 import jakarta.persistence.EntityManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -23,15 +24,20 @@ public class StaffFormController {
     @FXML private TextField emailField;
     @FXML private TextField phoneField;
     @FXML private PasswordField passwordField;
+    @FXML private PasswordField confirmPasswordField;
     @FXML private ComboBox<RoleType> roleBox;
     @FXML private TextField specialtyField;
     @FXML private Button submitButton;
+    @FXML private StaffValidator staffValidator;
 
-
+private StaffController staffController;
     private Staff currentStaff = new Staff();
 
     @FXML
     private void initialize() {
+        EntityManager em = DatabaseController.getEntityManager();
+        staffController = new StaffController(em);
+        staffValidator = new StaffValidator();
         roleBox.getItems().setAll(RoleType.values());
         roleBox.setPlaceholder(new Label("Select role..."));
     }
@@ -39,10 +45,7 @@ public class StaffFormController {
     public void setStaff(Staff staff) {
         titleLabel.setText("Edit Staff");
         submitButton.setText("Update");
-
         passwordField.setPromptText("Set to change password");
-
-        idField.setText(Long.toString(staff.getStaffId()));
         nameField.setText(staff.getName());
         emailField.setText(staff.getEmail());
         phoneField.setText(staff.getPhone());
@@ -64,28 +67,63 @@ public class StaffFormController {
 
     @FXML
     private void handleSubmit() {
-        try {
-            currentStaff.setName(nameField.getText());
-            currentStaff.setEmail(emailField.getText());
-            currentStaff.setPhone(phoneField.getText());
-            currentStaff.setRole(roleBox.getValue());
-            currentStaff.setSpecialty(specialtyField.getText());
-    
-            String password = passwordField.getText();
-            if (password != null && !password.isEmpty()) {
-                currentStaff.setPassword(password);
-            }
-    
-            StaffController controller = new StaffController(DatabaseController.getEntityManager());
-            boolean isNew = idField.getText() == null || idField.getText().isEmpty();
-            if (isNew) controller.addStaff(currentStaff);
-            else controller.updateStaff(currentStaff);
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, (isNew ? "Successfully added staff" : "Successfully updated staff"), ButtonType.OK);
-            alert.showAndWait();
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "An error occurred", ButtonType.OK);
-            alert.showAndWait();
+        if (nameField.getText().isEmpty() || emailField.getText().isEmpty() ||
+                phoneField.getText().isEmpty() || roleBox.getValue() == null) {
+            staffValidator.showAlert("Error", "All fields except specialty are required!");
+            return;
         }
+        if (!staffValidator.isValidName(nameField.getText())) {
+            staffValidator.showAlert("Error", "Name can only contain letters!");
+            return;
+        }
+        if (!staffValidator.isValidEmail(emailField.getText())) {
+            staffValidator.showAlert("Error", "Invalid email format!");
+            return;
+        }
+
+        if (!staffValidator.isValidPhone(phoneField.getText())) {
+            staffValidator.showAlert("Error", "Invalid phone number!");
+            return;
+        }
+
+        if (currentStaff.getStaffId() == 0 && staffController.isEmailExists(emailField.getText())) {
+            staffValidator.showAlert("Error", "Email already exists!");
+            return;
+        }
+
+        String password = passwordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        if (!password.isEmpty() && !staffValidator.isValidPassword(password, confirmPassword)) {
+            return;
+        }
+
+        if (!password.isEmpty()) {
+            String hashedPassword = DatabaseController.hashPassword(password);
+            currentStaff.setPassword(hashedPassword);
+        }
+
+        currentStaff.setName(nameField.getText());
+        currentStaff.setEmail(emailField.getText());
+        currentStaff.setPhone(phoneField.getText());
+        currentStaff.setSpecialty(specialtyField.getText());
+        currentStaff.setRole(roleBox.getValue());
+
+        if (currentStaff.getStaffId() == 0) {
+            currentStaff.setCreatedAt(LocalDateTime.now());
+            currentStaff.setUpdatedAt(LocalDateTime.now());
+            staffController.addStaff(currentStaff);
+            staffValidator.showAlert("Success", "Staff added successfully!");
+        } else {
+            currentStaff.setUpdatedAt(LocalDateTime.now());
+            staffController.updateStaff(currentStaff);
+            staffValidator.showAlert("Success", "Staff updated successfully!");
+        }
+
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage.close();
     }
+
+
+
 }

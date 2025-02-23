@@ -47,7 +47,7 @@ public class PatientPage extends AbstractPage {
     @FXML private  TextField searchField;
     @FXML private DatePicker fromDatePicker;
     @FXML private DatePicker toDatePicker;
-
+    @FXML private CheckBox checkBoxDate;
     private ObservableList<Patient> patientList = FXCollections.observableArrayList();
     private PatientController patientController;
     private MedicalRecordController medicalRecordController;
@@ -215,7 +215,8 @@ public class PatientPage extends AbstractPage {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Examination");
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         }catch(IOException e){
             e.printStackTrace();
         }
@@ -230,7 +231,8 @@ public class PatientPage extends AbstractPage {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Appointment");
-            stage.show();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
         }catch(IOException e){
             e.printStackTrace();
         }

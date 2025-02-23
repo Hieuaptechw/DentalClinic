@@ -436,7 +436,6 @@
     -fx-cursor: hand;
 }
 
-/* ====== Trường nhập liệu ====== */
 .popup-textfield {
     -fx-border-color: #bdc3c7;
     -fx-border-width: 1px;
@@ -445,13 +444,11 @@
     -fx-font-size: 14px;
 }
 
-/* ====== Hiệu ứng khi nhấn vào ====== */
 .popup-textfield:focused {
     -fx-border-color: #3498db;
     -fx-background-color: #ecf0f1;
 }
 
-/* ====== Danh sách lịch làm việc ====== */
 .schedule-item {
     -fx-font-size: 13px;
     -fx-text-fill: #34495e;
@@ -464,3 +461,18 @@
     -fx-background-color: #d5dbdb;
     -fx-cursor: hand;
 }
+.button-icon {
+    -fx-background-color: transparent;
+    -fx-border-color: none;
+}
+
+.button-contact {
+    -fx-background-color: #ffcc00;
+    -fx-text-fill: black;
+}
+
+.status-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: green;
+}
+

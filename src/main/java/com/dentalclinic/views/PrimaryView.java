@@ -4,7 +4,6 @@ import com.dentalclinic.DentalClinic;
 import com.dentalclinic.entities.RoleType;
 import com.dentalclinic.entities.Staff;
 import com.dentalclinic.entities.UserSession;
-import com.dentalclinic.views.pages.administration.FinancePage;
 import com.dentalclinic.views.pages.administration.RoomPage;
 import com.dentalclinic.views.pages.administration.StaffPage;
 import com.dentalclinic.views.pages.administration.WorkSchedulePage;
@@ -58,7 +57,6 @@ public class PrimaryView {
             toolbarAdministrationTab.getChildren().addAll(
                     generateToolbarPageItem(StaffPage.class),
                     generateToolbarPageItem(WorkSchedulePage.class),
-                    generateToolbarPageItem(FinancePage.class),
                     generateToolbarPageItem(RoomPage.class)
             );
             toolbarSettingTab.getChildren().addAll(

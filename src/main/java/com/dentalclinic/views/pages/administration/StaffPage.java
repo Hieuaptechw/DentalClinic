@@ -9,8 +9,7 @@ import java.util.stream.Collectors;
 
 import com.dentalclinic.controllers.DatabaseController;
 import com.dentalclinic.controllers.StaffController;
-import com.dentalclinic.entities.Patient;
-import com.dentalclinic.entities.Staff;
+import com.dentalclinic.entities.*;
 import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.PatientFormController;
@@ -74,17 +73,40 @@ public class StaffPage extends AbstractPage {
         phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
         roleColumn.setCellValueFactory(new PropertyValueFactory<>("role"));
         specialtyColumn.setCellValueFactory(new PropertyValueFactory<>("specialty"));
-        actionColumn.setCellFactory(KParameter -> new TableCell<Staff, Void>() {
+        loadActionColumn();
+    }
+
+    private void loadActionColumn(){
+        actionColumn.setCellFactory(param -> new TableCell<>() {
             private final Button editButton;
             private final Button deleteButton;
+            private final Button addButton;
+            private final HBox buttonBox;
+
 
             {
-                // Tạo icon sửa
-                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/pen.png")));
-                editIcon.setFitWidth(20);
-                editIcon.setFitHeight(20);
-                editButton = new Button("", editIcon); // Nút không có text, chỉ có icon
-                editButton.setStyle("-fx-cursor: hand;");
+                ImageView editIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/edit.png")));
+                editIcon.setFitHeight(22);
+                editIcon.setFitWidth(22);
+
+                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete_1.png")));
+                deleteIcon.setFitHeight(22);
+                deleteIcon.setFitWidth(22);
+
+
+                ImageView addIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/add.png")));
+                addIcon.setFitHeight(22);
+                addIcon.setFitWidth(22);
+
+
+
+
+                editButton = new Button("", editIcon);
+                deleteButton = new Button("", deleteIcon);
+                addButton = new Button("", addIcon);
+                editButton.getStyleClass().add("button-icon");
+                deleteButton.getStyleClass().add("button-icon");
+                addButton.getStyleClass().add("button-icon");
 
                 editButton.setOnAction(event -> {
                     Staff staff = getTableRow().getItem();
@@ -93,78 +115,41 @@ public class StaffPage extends AbstractPage {
                     }
                 });
 
-                // Tạo icon xóa
-                ImageView deleteIcon = new ImageView(new Image(getClass().getResourceAsStream("/com/dentalclinic/images/delete.png")));
-                deleteIcon.setFitWidth(20);
-                deleteIcon.setFitHeight(20);
-                deleteButton = new Button("", deleteIcon);
-                deleteButton.setStyle("-fx-cursor: hand;");
-
                 deleteButton.setOnAction(event -> {
                     Staff staff = getTableRow().getItem();
                     if (staff != null) {
                         handleDeleteStaff(staff);
                     }
+
                 });
+
+                buttonBox = new HBox(5, editButton,deleteButton);
+                buttonBox.setAlignment(Pos.CENTER);
             }
+
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
+                RoleType role = UserSession.getCurrentUserRole();
+
                 if (empty) {
                     setGraphic(null);
                 } else {
-                    HBox box = new HBox(10, editButton, deleteButton);
-                    box.setAlignment(Pos.CENTER);
-                    setGraphic(box);
+                    if (role == RoleType.ADMIN) {
+                        buttonBox.getChildren().setAll(editButton, deleteButton);
+                    }
+                    setGraphic(buttonBox);
                 }
             }
+
         });
     }
-
     private void loadStaffs() {
-        List<Staff> patients = staffController.getAllStaff();
-        System.out.println("Số lượng bệnh nhân: " + patients.size());
-//        patients.forEach(System.out::println);
-        staffList.setAll(patients);
+        List<Staff> staff = staffController.getAllStaff();
+        staffList.setAll(staff);
         tableViewPatient.setItems(staffList);
     }
-
-    @FXML
-    private void handleFilter() {
-        System.out.println("Đang lọc...");
-
-        if (fromDatePicker.getValue() == null || toDatePicker.getValue() == null) {
-            tableViewPatient.setItems(FXCollections.observableArrayList(staffList));
-            return;
-        }
-
-        LocalDate fromDate = fromDatePicker.getValue();
-        LocalDate toDate = toDatePicker.getValue();
-        if (toDate.isBefore(fromDate)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu!", ButtonType.OK);
-            alert.showAndWait();
-            return;
-        }
-        List<Staff> filteredList = staffList.stream()
-                .filter(patient -> {
-                    LocalDateTime createdAt = patient.getCreatedAt();
-                    return !createdAt.toLocalDate().isBefore(fromDate) && !createdAt.toLocalDate().isAfter(toDate);
-                })
-                .collect(Collectors.toList());
-
-        tableViewPatient.setItems(FXCollections.observableArrayList(filteredList));
-
-        if (filteredList.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Không tìm thấy bệnh nhân nào trong khoảng thời gian này!", ButtonType.OK);
-            alert.showAndWait();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Tìm thấy " + filteredList.size() + " bệnh nhân!", ButtonType.OK);
-            alert.showAndWait();
-        }
-    }
-
-
 
 
     @FXML
@@ -197,19 +182,19 @@ public class StaffPage extends AbstractPage {
 
     private void handleDeleteStaff(Staff staff) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Xác nhận xóa");
-        alert.setHeaderText("Bạn có chắc chắn muốn xóa bệnh nhân này?");
-        alert.setContentText("Tên: " + staff.getName());
+        alert.setTitle("Delete Confirmation");
+        alert.setHeaderText("Are you sure you want to delete this staff member?");
+        alert.setContentText("Name: " + staff.getName());
 
-        ButtonType buttonYes = new ButtonType("Có", ButtonBar.ButtonData.OK_DONE);
-        ButtonType buttonNo = new ButtonType("Không", ButtonBar.ButtonData.CANCEL_CLOSE);
+        ButtonType buttonYes = new ButtonType("Yes", ButtonBar.ButtonData.OK_DONE);
+        ButtonType buttonNo = new ButtonType("No", ButtonBar.ButtonData.CANCEL_CLOSE);
         alert.getButtonTypes().setAll(buttonYes, buttonNo);
 
         alert.showAndWait().ifPresent(response -> {
             if (response == buttonYes) {
                 staffController.deleteStaff(staff.getStaffId());
                 loadStaffs();
-                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Xóa bệnh nhân thành công!", ButtonType.OK);
+                Alert alert1 = new Alert(Alert.AlertType.INFORMATION, "Staff deleted successfully!", ButtonType.OK);
                 alert1.showAndWait();
             }
         });

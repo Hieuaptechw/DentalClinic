@@ -32,8 +32,6 @@ public class MedicalRecord {
     @Column(name = "treatment")
     private String treatment;
 
-    @Column(name = "prescribed_medications")
-    private String prescribedMedications;
 
     @Column(name = "follow_up_date")
     private LocalDate followUpDate;
@@ -114,14 +112,6 @@ public class MedicalRecord {
         this.treatment = treatment;
     }
 
-    public String getPrescribedMedications() {
-        return prescribedMedications;
-    }
-
-    public void setPrescribedMedications(String prescribedMedications) {
-        this.prescribedMedications = prescribedMedications;
-    }
-
     public LocalDate getFollowUpDate() {
         return followUpDate;
     }
@@ -180,7 +170,6 @@ public class MedicalRecord {
                 ", symptoms='" + symptoms + '\'' +
                 ", diagnosis='" + diagnosis + '\'' +
                 ", treatment='" + treatment + '\'' +
-                ", prescribedMedications='" + prescribedMedications + '\'' +
                 ", followUpDate=" + followUpDate +
                 ", notes='" + notes + '\'' +
                 ", reason='" + reason + '\'' +

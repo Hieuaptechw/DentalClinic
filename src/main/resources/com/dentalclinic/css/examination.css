@@ -9,26 +9,28 @@
     -fx-padding: 10px;
 }
 
-/* Nhãn tiêu đề */
+
 .hbox Label {
     -fx-text-fill: white;
     -fx-font-size: 16px;
     -fx-font-weight: bold;
 }
 
-/* GridPane - Khoảng cách giữa các thành phần */
 .grid-pane {
     -fx-hgap: 20px;
     -fx-vgap: 15px;
 }
 
-/* Nhãn (Label) chung */
+
 .label {
     -fx-font-size: 14px;
     -fx-font-weight: bold;
 }
 
-/* TextField */
+.check-box{
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
 .text-field {
     -fx-pref-height: 32px;
     -fx-border-color: #BDC3C7;

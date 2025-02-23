@@ -5,6 +5,7 @@ import com.dentalclinic.entities.Staff;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class StaffController {
         }
     }
 
-    public void updateStaff(Staff staff) {
+    public  void  updateStaff(Staff staff) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
@@ -63,7 +64,14 @@ public class StaffController {
             ex.printStackTrace();
         }
     }
-
+    public boolean isEmailExists(String email) {
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(s) FROM Staff s WHERE s.email = :email", Long.class
+        );
+        query.setParameter("email", email);
+        Long count = query.getSingleResult();
+        return count > 0;
+    }
     public void deleteStaff(Long staffId) {
         EntityTransaction transaction = em.getTransaction();
         try {

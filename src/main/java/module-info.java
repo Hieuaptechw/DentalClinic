@@ -10,6 +10,7 @@ module com.dentalclinic {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires mysql.connector.java;
+    requires jbcrypt;
 
 
     exports com.dentalclinic;

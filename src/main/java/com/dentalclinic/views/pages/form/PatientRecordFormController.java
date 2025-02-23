@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,43 +36,38 @@ public class PatientRecordFormController {
 
 
     public void setPatientRecordInformation(MedicalRecord medicalRecord) {
-        String patient = medicalRecord.getPatient().getName();
-        nameLabel.setText(patient);
-        genderLabel.setText(medicalRecord.getPatient().getGender().toString());
-        addressLabel.setText(medicalRecord.getPatient().getAddress());
-        dobLabel.setText(medicalRecord.getPatient().getDob().toString());
-        indentityCardLabel.setText(medicalRecord.getPatient().getIdentityCard());
-        emailLabel.setText(medicalRecord.getPatient().getEmail());
-        dovLabel.setText(medicalRecord.getDateOfVisit().toString());
-        dobLabel.setText(medicalRecord.getPatient().getAddress());
-        phoneLabel.setText(medicalRecord.getPatient().getPhone());
-        recordCodeLabel.setText("00" + medicalRecord.getRecordId());
-        reasonLabel.setText(medicalRecord.getReason());
-        diagnosisLabel.setText(medicalRecord.getDiagnosis());
-        treatmentLabel.setText(medicalRecord.getTreatment());
-        noteLabel.setText(medicalRecord.getNotes());
-        followUpdatLabel.setText(medicalRecord.getFollowUpDate().toString());
+
+        nameLabel.setText(medicalRecord.getPatient().getName() != null ? medicalRecord.getPatient().getName() : "N/A");
+        genderLabel.setText(medicalRecord.getPatient().getGender() != null ? medicalRecord.getPatient().getGender().toString() : "N/A");
+        addressLabel.setText(medicalRecord.getPatient().getAddress() != null ? medicalRecord.getPatient().getAddress() : "N/A");
+        dobLabel.setText(medicalRecord.getPatient().getDob() != null ? medicalRecord.getPatient().getDob().toString() : "N/A");
+        indentityCardLabel.setText(medicalRecord.getPatient().getIdentityCard() != null ? medicalRecord.getPatient().getIdentityCard() : "N/A");
+        emailLabel.setText(medicalRecord.getPatient().getEmail() != null ? medicalRecord.getPatient().getEmail() : "N/A");
+        dovLabel.setText(medicalRecord.getDateOfVisit() != null ? medicalRecord.getDateOfVisit().toString() : "N/A");
+        phoneLabel.setText(medicalRecord.getPatient().getPhone() != null ? medicalRecord.getPatient().getPhone() : "N/A");
+        recordCodeLabel.setText(medicalRecord.getRecordId() > 0 ? "00" + medicalRecord.getRecordId() : "N/A");
+        reasonLabel.setText(medicalRecord.getReason() != null ? medicalRecord.getReason() : "N/A");
+        diagnosisLabel.setText(medicalRecord.getDiagnosis() != null ? medicalRecord.getDiagnosis() : "N/A");
+        treatmentLabel.setText(medicalRecord.getTreatment() != null ? medicalRecord.getTreatment() : "N/A");
+        noteLabel.setText(medicalRecord.getNotes() != null ? medicalRecord.getNotes() : "N/A");
+        followUpdatLabel.setText(medicalRecord.getFollowUpDate() != null ? medicalRecord.getFollowUpDate().toString() : "N/A");
         List<MedicalRecordMedicine> medicalRecordMedicines =
                 medicalRecordMedicineController.getMedicinesByRecordId(medicalRecord.getRecordId());
-
-        String medicineList = medicalRecordMedicines.stream()
-                .map(m -> m.getMedicine().getName())
-                .collect(Collectors.joining(", "));
+        String medicineList = (medicalRecordMedicines != null && !medicalRecordMedicines.isEmpty()) ?
+                medicalRecordMedicines.stream().map(m -> m.getMedicine().getName()).collect(Collectors.joining(", ")) : "N/A";
         medicineLabel.setText(medicineList);
-        String doctor = medicalRecord.getDoctor().getName();
+        String doctor = (medicalRecord.getDoctor() != null) ? medicalRecord.getDoctor().getName() : "N/A";
         doctorLabel.setText(doctor);
-        String[] patientNameParts = patient.split(" ");
-        String signaturePatient = patientNameParts[patientNameParts.length - 1];
+        String[] patientNameParts = medicalRecord.getPatient().getName().split(" ");
+        String signaturePatient = patientNameParts.length > 0 ? patientNameParts[patientNameParts.length - 1] : "N/A";
 
         String[] doctorNameParts = doctor.split(" ");
-        String signatureDoctor = doctorNameParts[doctorNameParts.length - 1];
+        String signatureDoctor = doctorNameParts.length > 0 ? doctorNameParts[doctorNameParts.length - 1] : "N/A";
+
         signatureDoctorLabel.setText(signatureDoctor);
         signaturePatientLabel.setText(signaturePatient);
         fullNameDoctorLabel.setText(doctor);
-        fullNamePatientLabel.setText(patient);
-
-
-
+        fullNamePatientLabel.setText(medicalRecord.getPatient().getName());
     }
 
     public PatientRecordFormController(){
