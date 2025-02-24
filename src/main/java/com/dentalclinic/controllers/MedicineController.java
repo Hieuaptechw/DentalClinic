@@ -22,9 +22,9 @@ public class MedicineController {
         try {
             TypedQuery<Medicine> query = em.createQuery("SELECT m FROM Medicine m WHERE m.name = :name", Medicine.class);
             query.setParameter("name", name);
-            return query.getSingleResult();  // Trả về kết quả đầu tiên
+            return query.getSingleResult();
         } catch (NoResultException e) {
-            return null; // Nếu không tìm thấy thuốc, trả về null
+            return null;
         }
     }
 

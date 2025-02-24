@@ -72,7 +72,8 @@ public class WorkScheduleFormController {
         LocalDate workingDays = LocalDate.parse(workingDay.getValue().toString());
 
         if (start.isEmpty() || end.isEmpty() || email.isEmpty() || workingDays.isBefore(LocalDate.now())) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Vui lòng điền đầy đủ thông tin.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Please fill in all required information.", ButtonType.OK);
+
             alert.showAndWait();
             return;
         }
@@ -82,7 +83,8 @@ public class WorkScheduleFormController {
                 .findFirst();
 
         if (optionalStaff.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Không tìm thấy nhân viên với email: " + email, ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No staff member found with email: " + email, ButtonType.OK);
+
             alert.showAndWait();
             return;
         }
@@ -95,13 +97,13 @@ public class WorkScheduleFormController {
             startLocalTime = LocalTime.parse(start);
             endLocalTime = LocalTime.parse(end);
         } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Định dạng thời gian không hợp lệ. Vui lòng sử dụng định dạng HH:mm.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid time format. Please use HH:mm format.", ButtonType.OK);
             alert.showAndWait();
             return;
         }
 
         if (!startLocalTime.isBefore(endLocalTime)) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Thời gian bắt đầu phải trước thời gian kết thúc.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Start time must be before end time.", ButtonType.OK);
             alert.showAndWait();
             return;
         }
@@ -118,7 +120,7 @@ public class WorkScheduleFormController {
             );
             workSchedule.setScheduleId(currentWorkSchedule.getScheduleId());
             workSheduleController.updateWorkSchedule(workSchedule);
-            showAlert("Cập nhật thành công!");
+            showAlert("Update successful!");
         } else {
             workSchedule = new WorkSchedule(
                     selectedStaff,
@@ -129,7 +131,7 @@ public class WorkScheduleFormController {
                     LocalDateTime.now()
             );
             workSheduleController.addWorkSchedule(workSchedule);
-            showAlert("Thêm lịch làm việc thành công!");
+            showAlert("Work schedule added successfully!");
         }
 
         closeForm();

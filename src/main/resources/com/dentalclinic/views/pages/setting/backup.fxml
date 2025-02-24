@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../../../css/style.css" fx:controller="com.dentalclinic.views.pages.setting.BackupPage" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <Label>This is nbackup kham page</Label>
+
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #c2deef;" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.setting.BackupPage">
+   <ImageView fitHeight="600.0" fitWidth="1118.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../images/404-status-code.png" />
+      </image>
+   </ImageView>
 </VBox>

@@ -5,6 +5,7 @@ import com.dentalclinic.entities.PatientStatus;
 import com.dentalclinic.entities.Room;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.util.List;
@@ -20,7 +21,23 @@ public class PatientController {
         TypedQuery<Patient> query = em.createQuery("SELECT p FROM Patient p", Patient.class);
         return query.getResultList();
     }
+    public List<Patient> getLatestPatients() {
+        TypedQuery<Patient> query = em.createQuery(
+                "SELECT p FROM Patient p ORDER BY p.createdAt DESC", Patient.class);
+        query.setMaxResults(5);
+        return query.getResultList();
+    }
 
+    public long countPatients() {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(p) FROM Patient p", Long.class);
+        return query.getSingleResult();
+    }
+    public List<Object[]> getPatientsPerMonth() {
+        String sql = "SELECT MONTH(p.createdAt) as month, COUNT(p.id) as count " +
+                "FROM Patient p GROUP BY MONTH(p.createdAt) ORDER BY MONTH(p.createdAt)";
+        Query query = em.createQuery(sql);
+        return query.getResultList();
+    }
     public Patient getPatientById(Long patientId) {
         return em.find(Patient.class, patientId);
     }
@@ -31,7 +48,7 @@ public class PatientController {
             transaction.begin();
             em.persist(patient);
             transaction.commit();
-            System.out.println("Thêm bệnh nhân thành công!");
+            System.out.println("Patient added successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -41,15 +58,13 @@ public class PatientController {
         }
     }
 
-
-
     public void updatePatient(Patient patient) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.merge(patient);
             transaction.commit();
-            System.out.println("Cập nhật bệnh nhân thành công!");
+            System.out.println("Patient updated successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -57,6 +72,7 @@ public class PatientController {
             ex.printStackTrace();
         }
     }
+
 
     public void deletePatient(Long patientId) {
         EntityTransaction transaction = em.getTransaction();

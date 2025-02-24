@@ -2,6 +2,7 @@ package com.dentalclinic.views.pages.manage;
 
 import com.dentalclinic.controllers.AppointmentController;
 import com.dentalclinic.controllers.DatabaseController;
+import com.dentalclinic.controllers.EmailController;
 import com.dentalclinic.controllers.ExaminationRecordController;
 import com.dentalclinic.entities.*;
 import com.dentalclinic.views.pages.AbstractPage;
@@ -36,9 +37,10 @@ import java.util.stream.Collectors;
 public class AppointmentPage extends AbstractPage {
 
     @FXML private TableView<Appointment> tableViewAppointment;
-    @FXML private TableColumn<Appointment, String> reasonColumn, patientColumn, patientIndentityCardColumn, doctorColumn, roomColumn, statusColumn, symptomsColumn;
+    @FXML private TableColumn<Appointment, String>  patientColumn, patientIndentityCardColumn, doctorColumn, roomColumn, statusColumn, symptomsColumn;
     @FXML private TableColumn<Appointment, LocalDateTime> appointmentDateColumn;
     @FXML private TableColumn<Appointment, Void> checkInColumn;
+    @FXML private TableColumn<Appointment, Void> semdEmailColumn;
     @FXML private TableColumn<Appointment, Void> actionColumn;
     @FXML private ComboBox<AppointmentStatus> statusComboBox;
     @FXML private TextField  searchField;
@@ -48,6 +50,7 @@ public class AppointmentPage extends AbstractPage {
     public void initialize() {
         DatabaseController.init();
         EntityManager em = DatabaseController.getEntityManager();
+        statusComboBox.setValue(AppointmentStatus.PENDING);
         appointmentController = new AppointmentController(em);
         examinationRecordController = new ExaminationRecordController(em);
         setupTableColumns();
@@ -57,7 +60,6 @@ public class AppointmentPage extends AbstractPage {
     }
 
     private void setupTableColumns() {
-        reasonColumn.setCellValueFactory(new PropertyValueFactory<>("reason"));
         patientIndentityCardColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getPatient().getIdentityCard()));
         patientColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getPatient().getName()));
         doctorColumn.setCellValueFactory((row) -> new SimpleStringProperty(row.getValue().getStaff().getName()));
@@ -66,9 +68,34 @@ public class AppointmentPage extends AbstractPage {
         symptomsColumn.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
         statusComboBox.getItems().addAll(AppointmentStatus.values());
         loadCheckInColumn();
+        loadSendEmailColumn();
         loadActionColumn();
 
     }
+    private void loadSendEmailColumn() {
+        semdEmailColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button contactButton = new Button("Send Email");
+
+            {
+                contactButton.getStyleClass().add("button-contact");
+                contactButton.setOnAction(event -> {
+                    Appointment appointment = getTableView().getItems().get(getIndex());
+                    sendReminderToPatient(appointment);
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    setGraphic(contactButton);
+                }
+            }
+        });
+    }
+
     private void loadCheckInColumn() {
         checkInColumn.setCellFactory(param -> new TableCell<>() {
             private final Button arrivedButton;
@@ -105,7 +132,7 @@ public class AppointmentPage extends AbstractPage {
 
                 contactButton.setOnAction(event -> {
                     Appointment appointment = getTableView().getItems().get(getIndex());
-      //              sendReminderToPatient(appointment);
+                      sendReminderToPatient(appointment);
                 });
             }
 
@@ -125,17 +152,17 @@ public class AppointmentPage extends AbstractPage {
                             case PENDING:
                                 buttonContainer.getChildren().addAll(arrivedButton, absentButton);
                                 break;
-                            case ARRIVED:
-                                statusLabel.setText("Arrived");
-                                buttonContainer.getChildren().add(statusLabel);
-                                break;
                             case COMPLETED:
                                 statusLabel.setText("Completed");
+                                statusLabel.getStyleClass().add("status-completed");
                                 buttonContainer.getChildren().add(statusLabel);
+
                                 break;
-                            case NO_SHOW:
-                                buttonContainer.getChildren().add(contactButton);
-                                break;
+                            case CANCELLED:
+                                statusLabel.setText("Cancelled");
+                                statusLabel.getStyleClass().add("status-cancelled");
+                                buttonContainer.getChildren().add(statusLabel);
+
                         }
                         setGraphic(buttonContainer);
                     } else {
@@ -144,6 +171,37 @@ public class AppointmentPage extends AbstractPage {
                 }
             }
         });
+    }
+    private void sendReminderToPatient(Appointment appointment) {
+        String emailContent;
+        String subject;
+
+        if (appointment.getStatus() == AppointmentStatus.PENDING) {
+            emailContent = EmailController.getAppointmentReminderTemplate(
+                    appointment.getPatient().getName(),
+                    appointment.getAppointmentDate().toLocalDate().toString(),
+                    appointment.getAppointmentDate().toLocalTime().toString()
+            );
+            subject = "📌 Dental Appointment Reminder";
+        } else {
+            emailContent = EmailController.getMissedAppointmentTemplate(
+                    appointment.getPatient().getName(),
+                    appointment.getAppointmentDate().toLocalDate().toString(),
+                    appointment.getAppointmentDate().toLocalTime().toString()
+            );
+            subject = "⚠️ Missed Appointment Notification";
+        }
+
+        boolean isSent = EmailController.sendEmail(appointment.getPatient().getEmail(), subject, emailContent);
+
+        Alert alert = new Alert(isSent ? Alert.AlertType.INFORMATION : Alert.AlertType.ERROR);
+        alert.setTitle(isSent ? "Success" : "Error");
+        alert.setHeaderText(null);
+        alert.setContentText(isSent ?
+                "Email has been successfully sent to: " + appointment.getPatient().getName() :
+                "Failed to send email. Please check again.");
+
+        alert.showAndWait();
     }
 
     private void handleCheckInAppointment(Appointment appointment, boolean checkIn) {
@@ -160,7 +218,7 @@ public class AppointmentPage extends AbstractPage {
 
         confirmAlert.showAndWait().ifPresent(response -> {
             if (response == buttonYes) {
-                appointment.setStatus(checkIn ? AppointmentStatus.ARRIVED : AppointmentStatus.NO_SHOW);
+                appointment.setStatus(checkIn ? AppointmentStatus.COMPLETED : AppointmentStatus.CANCELLED);
                 appointmentController.updateAppointment(appointment);
                 if (checkIn) {
                     ExaminationRecord newExam = new ExaminationRecord();

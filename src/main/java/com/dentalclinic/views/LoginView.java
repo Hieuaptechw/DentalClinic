@@ -21,6 +21,7 @@ public class LoginView {
 
     @FXML
     private void initialize() {
+        System.out.println(DatabaseController.hashPassword("123456"));
         DentalClinic.setTitle("Hello! - DentalClinic");
         emailField.textProperty().addListener((prop, from, to) -> clearError());
         passwordField.textProperty().addListener((prop, from, to) -> clearError());

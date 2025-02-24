@@ -61,7 +61,7 @@ public class WorkSheduleController {
             transaction.begin();
             em.merge(workSchedule);
             transaction.commit();
-            System.out.println("Cập nhật lịch làm việc thành công!");
+            System.out.println("Work schedule updated successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -69,5 +69,6 @@ public class WorkSheduleController {
             ex.printStackTrace();
         }
     }
+
 
 }

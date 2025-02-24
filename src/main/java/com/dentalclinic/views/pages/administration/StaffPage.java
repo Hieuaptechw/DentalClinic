@@ -40,7 +40,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-@Page(name="Nhận sự", icon="images/staff.png", fxml="administration/staff.fxml")
+@Page(name="Staff", icon="images/staff.png", fxml="administration/staff.fxml")
 public class StaffPage extends AbstractPage {
 
     @FXML private TableView<Staff> tableViewPatient;
@@ -214,7 +214,7 @@ public class StaffPage extends AbstractPage {
             loadStaffs();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Không thể load file FXML: " + ex.getMessage());
+
         }
     }
     @FXML
@@ -234,7 +234,6 @@ public class StaffPage extends AbstractPage {
             loadStaffs();
         } catch (IOException ex) {
             ex.printStackTrace();
-            System.out.println("Không thể load file FXML: " + ex.getMessage());
         }
     }
 }

@@ -307,7 +307,6 @@ public class PatientPage extends AbstractPage {
 
     @FXML
     private void handleAddPatient() {
-        System.out.println("Đang gọi handleAddPatient()...");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/dentalclinic/views/pages/form/patientform.fxml"));
             AnchorPane root = loader.load();

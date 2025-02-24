@@ -13,7 +13,7 @@ import java.awt.Desktop;
 import javafx.fxml.FXML;
 
 
-@Page(name="Hỗ trợ", icon="images/customer-service.png", fxml="setting/support.fxml")
+@Page(name="Support", icon="images/customer-service.png", fxml="setting/support.fxml")
 public class SupportPage extends AbstractPage {
 
     @FXML

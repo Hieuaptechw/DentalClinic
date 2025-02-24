@@ -3,6 +3,7 @@ package com.dentalclinic.controllers;
 import com.dentalclinic.entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 import java.time.LocalDate;
@@ -20,18 +21,29 @@ public class ExaminationRecordController {
         String jpql = "SELECT i FROM ExaminationRecord i";
         return em.createQuery(jpql, ExaminationRecord.class).getResultList();
     }
+    public List<Object[]> getExaminationsPerDoctor() {
+        String sql = "SELECT s.name, COUNT(e.id) " +
+                "FROM ExaminationRecord e JOIN e.staff s " +
+                "GROUP BY s.name ORDER BY COUNT(e.id) DESC";
+        Query query = em.createQuery(sql);
+        return query.getResultList();
+    }
     public List<ExaminationRecord> getAllExaminationListOfDoctor(Long staffId) {
         String jpql = "SELECT i FROM ExaminationRecord i WHERE i.staff.id = :staffId";
         return em.createQuery(jpql, ExaminationRecord.class)
                 .setParameter("staffId", staffId)
                 .getResultList();
     }
+    public long countExamination() {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(p) FROM ExaminationRecord p", Long.class);
+        return query.getSingleResult();
+    }
 
     public Room findAvailableRoom(String roomType, LocalDateTime dateTime) {
         TypedQuery<Room> query = em.createQuery(
                 "SELECT r FROM Room r WHERE r.roomType = :roomType " +
                         "AND NOT EXISTS (SELECT a FROM ExaminationRecord a WHERE a.room = r " +
-                        "AND a.dateOfVisit = :dateTime)", // So sánh trực tiếp LocalDateTime
+                        "AND a.dateOfVisit = :dateTime)",
                 Room.class);
 
         query.setParameter("roomType", roomType);

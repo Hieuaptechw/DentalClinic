@@ -101,7 +101,6 @@ public class WorkScheduleController {
 
                 viewButton.setOnAction(event -> {
                     WorkSchedule schedule = getTableView().getItems().get(getIndex());
-                    // Xử lý xem chi tiết lịch làm việc cho schedule nếu cần
                 });
             }
 

@@ -12,7 +12,8 @@ module com.dentalclinic {
     requires mysql.connector.java;
     requires jbcrypt;
 
-
+    requires java.base;
+    requires jakarta.mail;
     exports com.dentalclinic;
     exports com.dentalclinic.controllers;
     opens com.dentalclinic.entities;

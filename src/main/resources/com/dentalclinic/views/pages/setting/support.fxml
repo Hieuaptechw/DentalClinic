@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" stylesheets="@../../../css/style.css, @../../../css/support.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.setting.SupportPage">
-   <children>
-      <Label text="Get Support" styleClass="support-title" />
-      <HBox alignment="CENTER" spacing="30.0">
-         <children>
-            <VBox>
-               <children>
-                  <Label text="Phone" styleClass="support-link-title" />
-                  <Button styleClass="support-link" mnemonicParsing="false" onAction="#handleCallPhone" text="555-1212-9876" />
-               </children>
-            </VBox>
-            <VBox>
-               <children>
-                  <Label text="Email" styleClass="support-link-title" />
-                  <Button styleClass="support-link" mnemonicParsing="false" onAction="#handleSendEmail" text="support@dentalclinic.com" />
-               </children>
-            </VBox>
-         </children>
-      </HBox>
-   </children>
-   <padding>
-      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-   </padding>
+<VBox alignment="TOP_CENTER" prefHeight="600.0" prefWidth="1100.0" style="-fx-background-color: #c2deef;" stylesheets="@../../../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dentalclinic.views.pages.setting.BackupPage">
+   <ImageView fitHeight="600.0" fitWidth="1118.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../../../images/404-status-code.png" />
+      </image>
+   </ImageView>
 </VBox>

@@ -44,20 +44,21 @@ public class MedicalRecordController {
         }
     }
 
-    public void handleAddMedicalRecord(MedicalRecord medicalRecord){
+    public void handleAddMedicalRecord(MedicalRecord medicalRecord) {
         EntityTransaction transaction = em.getTransaction();
-        try{
+        try {
             transaction.begin();
             em.persist(medicalRecord);
             transaction.commit();
-            System.out.println("Thêm bệnh án thành công");
-        }catch(Exception e){
-            if(transaction.isActive()){
+            System.out.println("Medical record added successfully");
+        } catch (Exception e) {
+            if (transaction.isActive()) {
                 transaction.rollback();
             }
             e.printStackTrace();
         }
     }
+
 
     public void updatePatientRecord(MedicalRecord medicalRecord) {
         if (medicalRecord == null) return;

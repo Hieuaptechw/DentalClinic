@@ -24,6 +24,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public class PatientRecordTableController {
@@ -51,18 +52,39 @@ public class PatientRecordTableController {
 
     @FXML
     private void initialize() {
-        medicalRecordsObservableList = FXCollections.observableArrayList(); // Khởi tạo danh sách quan sát
+        medicalRecordsObservableList = FXCollections.observableArrayList();
         setupTableColumns();
     }
 
     private void setupTableColumns() {
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateOfVisit"));
-        doctorNameColumn.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getDoctor().getName()));
-        diagnosisColumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
-        followUpDateColumn.setCellValueFactory(new PropertyValueFactory<>("followUpDate"));
-        notesColumn.setCellValueFactory(new PropertyValueFactory<>("notes"));
-        symptomTypeColumn.setCellValueFactory(new PropertyValueFactory<>("symptoms"));
-        treatmentTypeColumn.setCellValueFactory(new PropertyValueFactory<>("treatment"));
+        dateColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getDateOfVisit()))
+        );
+
+        doctorNameColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getDoctor() != null ? c.getValue().getDoctor().getName() : null))
+        );
+
+        diagnosisColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getDiagnosis()))
+        );
+
+        followUpDateColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getFollowUpDate()))
+        );
+
+        notesColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getNotes()))
+        );
+
+        symptomTypeColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getSymptoms()))
+        );
+
+        treatmentTypeColumn.setCellValueFactory(c ->
+                new SimpleStringProperty(formatValue(c.getValue().getTreatment()))
+        );
+
         loadActionColumn();
     }
 
@@ -153,14 +175,9 @@ public class PatientRecordTableController {
         }
     }
     public static void printNode(Node node) {
-        if (node == null) {
-            System.out.println("Node không hợp lệ để in.");
-            return;
-        }
 
         PrinterJob job = PrinterJob.createPrinterJob();
         if (job == null || !job.showPrintDialog(null)) {
-            System.out.println("Không thể tạo PrinterJob hoặc người dùng đã hủy in.");
             return;
         }
         PageLayout pageLayout = job.getPrinter().getDefaultPageLayout();
@@ -191,5 +208,18 @@ public class PatientRecordTableController {
 
 
 
+    private String formatValue(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return "N/A";
+        }
+        return value;
+    }
+
+    private String formatValue(LocalDate date) {
+        if (date == null) {
+            return "N/A";
+        }
+        return date.toString();
+    }
 
 }

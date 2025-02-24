@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.List;
 
-@Page(name = "Lịch làm việc", icon = "images/working-hours.png", fxml = "administration/workschedule.fxml")
+@Page(name = "Work Schedule", icon = "images/working-hours.png", fxml = "administration/workschedule.fxml")
 public class WorkSchedulePage extends AbstractPage {
 
     @FXML
@@ -103,7 +103,7 @@ public class WorkSchedulePage extends AbstractPage {
                         scheduleBox.getChildren().add(scheduleLabel);
                     }
                     if (schedulesForDay.size() > maxSchedulesToShow) {
-                        Label moreLabel = new Label("Xem thêm...");
+                        Label moreLabel = new Label("See more...");
                         moreLabel.getStyleClass().add("more-label");
                         moreLabel.setOnMouseClicked(event -> showEditSchedulePopup(currentDate, schedulesForDay));
                         scheduleBox.getChildren().add(moreLabel);
@@ -146,7 +146,7 @@ public class WorkSchedulePage extends AbstractPage {
             workScheduleFormController.setDate(date);
             workScheduleFormController.setSchedules(schedulesForDay);
             Stage stage = new Stage();
-            stage.setTitle("Chi tiết lịch làm việc ngày " + date);
+            stage.setTitle("Work Schedule Details for " + date);
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.showAndWait();

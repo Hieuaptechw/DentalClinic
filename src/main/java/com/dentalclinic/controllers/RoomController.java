@@ -42,9 +42,9 @@ public class RoomController {
         try {
             transaction.begin();
             if (room.getRoomId() == 0) {
-                em.persist(room);  // Nếu là phòng mới, thêm mới
+                em.persist(room);
             } else {
-                em.merge(room);  // Nếu là phòng đã có, cập nhật
+                em.merge(room);
             }
             transaction.commit();
         } catch (RuntimeException e) {

@@ -49,7 +49,6 @@ private PatientValidator patientValidator;
         otherRadio.setToggleGroup(genderGroup);
         EntityManager em = DatabaseController.getEntityManager();
         patientController = new PatientController(em);
-        setupComboBoxListeners();
         loadPatientStatus();
     }
 
@@ -242,16 +241,6 @@ private PatientValidator patientValidator;
         } else {
             return Gender.OTHER;
         }
-    }
-
-
-    private void setupComboBoxListeners() {
-        statusComboBox.setOnAction(event -> {
-            PatientStatus patientStatus = statusComboBox.getSelectionModel().getSelectedItem();
-            if (patientStatus != null) {
-                System.out.println("Trạng thái được chọn : " + patientStatus);
-            }
-        });
     }
     public Patient getPatient() {
         return selectedPatient;

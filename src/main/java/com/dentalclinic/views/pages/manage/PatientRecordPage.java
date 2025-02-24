@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
-@Page(name = "Bệnh án", icon = "images/records.png", fxml = "manage/patientrecord.fxml")
+@Page(name = "Medical Record", icon = "images/records.png", fxml = "manage/patientrecord.fxml")
 public class PatientRecordPage extends AbstractPage {
     @FXML private TableView<MedicalRecord> recordTable;
     @FXML private TableColumn<MedicalRecord, String> nameColumn, diagnosisColumn, treatmentColumn;

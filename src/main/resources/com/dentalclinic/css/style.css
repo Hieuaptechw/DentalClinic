@@ -476,3 +476,14 @@
     -fx-text-fill: green;
 }
 
+.status-completed {
+    -fx-font-size: 14px;
+    -fx-text-fill: green;
+    -fx-font-weight: bold;
+}
+
+.status-cancelled {
+    -fx-font-size: 14px;
+    -fx-text-fill: red;
+    -fx-font-weight: bold;
+}

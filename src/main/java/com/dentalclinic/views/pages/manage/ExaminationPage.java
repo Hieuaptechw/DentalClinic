@@ -7,6 +7,8 @@ import com.dentalclinic.views.pages.AbstractPage;
 import com.dentalclinic.views.pages.Page;
 import com.dentalclinic.views.pages.form.ExaminationFormController;
 import jakarta.persistence.EntityManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +24,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.*;
@@ -48,6 +51,9 @@ public class ExaminationPage extends AbstractPage {
         examinationRecordController = new ExaminationRecordController(em);
         setupTableView();
         loadData();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(10), e -> loadData()));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
 
     private void loadData() {
@@ -61,7 +67,6 @@ public class ExaminationPage extends AbstractPage {
                         .sorted(Comparator.comparing(ExaminationRecord::getDateOfVisit))
                         .toList();
 
-        System.out.println("Số lượng hồ sơ: " + examinationRecordList.size());
 
         examinationPageObservableList.setAll(examinationRecordList);
         tableExamination.setItems(examinationPageObservableList);

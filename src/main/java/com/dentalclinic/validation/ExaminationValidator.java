@@ -18,6 +18,12 @@ public class ExaminationValidator {
     public static boolean isValidSymptoms(String symptoms) {
         return symptoms != null && !symptoms.trim().isEmpty() && symptoms.length() >= 5;
     }
+    public static boolean isValidTreatment(String treatment) {
+        return treatment != null && !treatment.trim().isEmpty() && treatment.length() >= 5;
+    }
+    public static boolean isValidNote(String note) {
+        return note != null && !note.trim().isEmpty() && note.length() >= 5;
+    }
     public static boolean isValidTime(String time) {
         if (time == null || time.trim().isEmpty()) {
             return false;

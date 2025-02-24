@@ -35,7 +35,7 @@ public class CalendarController {
             transaction.begin();
             em.persist(appointment);
             transaction.commit();
-            System.out.println("Thêm lịch hẹn thành công!");
+            System.out.println("Appointment added successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -44,13 +44,14 @@ public class CalendarController {
             System.out.println(ex.getMessage());
         }
     }
+
     public void updateAppointment(Appointment appointment) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.merge(appointment);
             transaction.commit();
-            System.out.println("Cập nhật appointment thành công!");
+            System.out.println("Appointment updated successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -58,5 +59,6 @@ public class CalendarController {
             ex.printStackTrace();
         }
     }
+
 
 }

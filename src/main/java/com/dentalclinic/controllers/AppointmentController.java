@@ -33,7 +33,10 @@ public class AppointmentController {
         TypedQuery<Room> query = em.createQuery("SELECT r FROM Room r", Room.class);
         return query.getResultList();
     }
-
+    public long countAppointments() {
+        TypedQuery<Long> query = em.createQuery("SELECT COUNT(p) FROM Appointment p", Long.class);
+        return query.getSingleResult();
+    }
     public Staff getDoctorWithFewestAppointments() {
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s WHERE s.role = :role ORDER BY " +
@@ -50,7 +53,7 @@ public class AppointmentController {
         TypedQuery<Room> query = em.createQuery(
                 "SELECT r FROM Room r WHERE r.roomType = :roomType " +
                         "AND NOT EXISTS (SELECT a FROM Appointment a WHERE a.room = r " +
-                        "AND a.appointmentDate = :dateTime)", // So sánh trực tiếp LocalDateTime
+                        "AND a.appointmentDate = :dateTime)",
                 Room.class);
 
         query.setParameter("roomType", roomType);
@@ -68,7 +71,7 @@ public class AppointmentController {
             transaction.begin();
             em.persist(appointment);
             transaction.commit();
-            System.out.println("Thêm lịch hẹn thành công!");
+            System.out.println("Appointment added successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -77,13 +80,14 @@ public class AppointmentController {
             System.out.println(ex.getMessage());
         }
     }
+
     public void updateAppointment(Appointment appointment) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.merge(appointment);
             transaction.commit();
-            System.out.println("Cập nhật appointment thành công!");
+            System.out.println("Appointment updated successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -91,6 +95,7 @@ public class AppointmentController {
             ex.printStackTrace();
         }
     }
+
     public void deleteAppointment(Long appointmentId) {
         EntityTransaction transaction = em.getTransaction();
         try {

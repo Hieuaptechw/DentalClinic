@@ -25,8 +25,15 @@ public class StaffController {
         TypedQuery<Staff> query = em.createQuery(
                 "SELECT s FROM Staff s WHERE s.role = :role", Staff.class);
         RoleType role = RoleType.valueOf("DOCTOR");
-        query.setParameter("role", role); // Giả sử role của bác sĩ là "Doctor"
+        query.setParameter("role", role);
         return query.getResultList();
+    }
+    public long countDoctors() {
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(s) FROM Staff s WHERE s.role = :role", Long.class);
+        RoleType role = RoleType.valueOf("DOCTOR");
+        query.setParameter("role", role);
+        return query.getSingleResult();
     }
 
     public Staff getStaffById(Long staffId) {
@@ -40,7 +47,7 @@ public class StaffController {
             transaction.begin();
             em.persist(staff);
             transaction.commit();
-            System.out.println("Thêm nhân viên thành công!");
+            System.out.println("Staff added successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -50,13 +57,13 @@ public class StaffController {
         }
     }
 
-    public  void  updateStaff(Staff staff) {
+    public void updateStaff(Staff staff) {
         EntityTransaction transaction = em.getTransaction();
         try {
             transaction.begin();
             em.merge(staff);
             transaction.commit();
-            System.out.println("Cập nhật nhân viên thành công!");
+            System.out.println("Staff updated successfully!");
         } catch (Exception ex) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -64,6 +71,7 @@ public class StaffController {
             ex.printStackTrace();
         }
     }
+
     public boolean isEmailExists(String email) {
         TypedQuery<Long> query = em.createQuery(
                 "SELECT COUNT(s) FROM Staff s WHERE s.email = :email", Long.class
@@ -81,10 +89,11 @@ public class StaffController {
                 em.remove(staff);
             }
             transaction.commit();
-            System.out.println("Xóa nhân viên thành công!");
+            System.out.println("Staff deleted successfully!");
         } catch (Exception e) {
             transaction.rollback();
             e.printStackTrace();
         }
     }
+
 }

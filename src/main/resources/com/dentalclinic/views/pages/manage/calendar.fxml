@@ -41,8 +41,8 @@
                <TableColumn fx:id="patientIndentityCardColumn" prefWidth="132.8000030517578" style="-fx-alignment: center;" text="Indentity Card" />
                <TableColumn fx:id="doctorColumn" prefWidth="144.00003051757812" style="-fx-alignment: center;" text="Doctor Name" />
               <TableColumn fx:id="roomColumn" prefWidth="82.39996337890625" style="-fx-alignment: center;" text="Room" />
-               <TableColumn fx:id="reasonColumn" prefWidth="140.0" style="-fx-alignment: center;" text="Reason" />
                <TableColumn fx:id="symptomsColumn" prefWidth="144.79998779296875" style="-fx-alignment: center;" text="Symptoms" />
+               <TableColumn fx:id="semdEmailColumn" prefWidth="140.0" style="-fx-alignment: center;" text="Send Email" />
               <TableColumn fx:id="checkInColumn" prefWidth="100.00006103515625" style="-fx-alignment: center;" text="Check In" />
               <TableColumn fx:id="actionColumn" prefWidth="123.19989013671875" style="-fx-alignment: center;" text="Actions" />
             </columns>

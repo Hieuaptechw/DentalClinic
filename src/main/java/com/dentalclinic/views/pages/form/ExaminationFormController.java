@@ -16,10 +16,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -59,6 +56,7 @@ public class ExaminationFormController {
 private PatientController patientController;
 private MedicineController medicineController;
 private MedicalRecordController medicalRecordController;
+private AppointmentController appointmentController;
 private Staff user;
     public void initialize() {
         EntityManager em = DatabaseController.getEntityManager();
@@ -68,6 +66,7 @@ private Staff user;
         medicalRecordController = new MedicalRecordController(em);
         examinationRecordController = new ExaminationRecordController(em);
         patientController = new PatientController(em);
+        appointmentController = new AppointmentController(em);
         checkBoxDate.setOnAction(event -> {
             followUpdatePicker.setDisable(!checkBoxDate.isSelected());
         });
@@ -223,6 +222,7 @@ private Staff user;
         reasonField.setText(examinationRecord.getReason());
         symptimField.setText(examinationRecord.getSymptoms());
         doctorBox.setValue(examinationRecord.getStaff());
+        diagnosisField.setText(examinationRecord.getDiagnosis() != null ? examinationRecord.getDiagnosis() : "N/A");
         roomBox.setValue(examinationRecord.getRoom().toString());
 
 
@@ -311,29 +311,56 @@ private Staff user;
     }
 
     public void handleAddMedicalRecord() {
-
         Staff doctor = doctorBox.getValue();
-
         String diagnosis = diagnosisField.getText().trim();
         String treatment = treatmentField.getText().trim();
         LocalDate fob = followUpdatePicker.getValue();
         String note = noteArea.getText().trim();
         LocalDate today = LocalDate.now();
+        ExaminationStatus selectedStatus = statusComboBox.getValue();
+        PatientStatus patientStatus = patientStatusComboBox.getValue();
 
-        if (diagnosis.isEmpty()) {
-            showAlert("Error", "Please fill in all fields!", Alert.AlertType.ERROR);
+        if (diagnosis.isEmpty() || doctor == null) {
+            showAlert("Error", "Please fill in all required fields!", Alert.AlertType.ERROR);
             return;
         }
-        boolean isDoctorChanged = !doctor.equals(selectedExamination.getStaff());
 
+        boolean isDoctorChanged = !doctor.equals(selectedExamination.getStaff());
+        Staff previousDoctor = selectedExamination.getStaff();
         if (isDoctorChanged) {
             selectedExamination.setStaff(doctor);
             selectedExamination.setStatus(ExaminationStatus.ONGOING);
+            selectedExamination.setDiagnosis(diagnosis);
             examinationRecordController.updateExamination(selectedExamination);
-            showAlert("Info", "Patient has been referred to doctor"+doctor, Alert.AlertType.INFORMATION);
-        }
+            ExaminationValidator.showAlert("Info", "Patient has been referred to doctor => " + doctor);
+        } else {
+            if (treatment.isEmpty() || note.isEmpty() || selectedMedicinesListView.getItems().isEmpty() || fob == null) {
+                ExaminationValidator.showAlert("Error", "All fields except specialty are required!");
+                return;
+            }
+            if (!ExaminationValidator.isValidTreatment(treatment) || !ExaminationValidator.isValidNote(note)) {
+                ExaminationValidator.showAlert("Error", "Invalid format in treatment or note!");
+                return;
+            }
+            if (!fob.isAfter(today)) {
+                ExaminationValidator.showAlert("Error", "Follow-up date must be in the future!");
+                return;
+            }
 
-        System.out.println(selectedExamination.getStaff().getName());
+            LocalTime examTime = Optional.ofNullable(selectedExamination.getDateOfVisit())
+                    .map(LocalDateTime::toLocalTime)
+                    .orElse(LocalTime.NOON);
+            LocalDateTime appointmentDateTime = fob.atTime(examTime);
+            Appointment newAppointment = new Appointment();
+            newAppointment.setPatient(selectedPatient);
+            newAppointment.setAppointmentDate(appointmentDateTime);
+            newAppointment.setStatus(AppointmentStatus.PENDING);
+            newAppointment.setStaff(doctor);
+            newAppointment.setSymptoms(symptimField.getText());
+            newAppointment.setRoom(selectedExamination.getRoom());
+            newAppointment.setReason(reasonField.getText());
+            appointmentController.addAppointment(newAppointment);
+        }
 
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setDiagnosis(diagnosis);
@@ -344,41 +371,45 @@ private Staff user;
         medicalRecord.setSymptoms(selectedExamination.getSymptoms());
         medicalRecord.setReason(selectedExamination.getReason());
         medicalRecord.setPatient(selectedPatient);
-        medicalRecord.setDoctor(selectedExamination.getStaff());
-        medicalRecord.setDateOfVisit(selectedExamination.getDateOfVisit().toLocalDate());
-        PatientStatus patientStatus = patientStatusComboBox.getValue();
-        ExaminationStatus selectedStatus = statusComboBox.getValue();
+        medicalRecord.setDoctor(previousDoctor);
+        medicalRecord.setDateOfVisit(Optional.ofNullable(selectedExamination.getDateOfVisit())
+                .map(LocalDateTime::toLocalDate)
+                .orElse(today));
+
         if (!isDoctorChanged) {
             medicalRecord.setTreatment(treatment);
             Set<Medicine> selectedMedicinesSet = selectedMedicines.stream()
-                    .map(name -> medicineController.getMedicineByName(name))
+                    .map(medicineController::getMedicineByName)
                     .collect(Collectors.toSet());
             medicalRecord.setMedicines(selectedMedicinesSet);
-            if(selectedStatus == ExaminationStatus.NO_SHOW) {
-                selectedExamination.setStatus(statusComboBox.getValue());
+
+            if (selectedStatus == ExaminationStatus.NO_SHOW) {
+                selectedExamination.setStatus(ExaminationStatus.NO_SHOW);
                 examinationRecordController.updateExamination(selectedExamination);
                 showAlert("Error", "The patient is not present!", Alert.AlertType.ERROR);
-                Stage stage = (Stage) selectedMedicinesListView.getScene().getWindow();
-                stage.close();
+                closeWindow();
                 return;
             } else if (selectedStatus == ExaminationStatus.ONGOING) {
                 selectedExamination.setStatus(ExaminationStatus.COMPLETED);
                 examinationRecordController.updateExamination(selectedExamination);
             }
 
-            if (patientStatus != selectedPatient.getStatus()) {
+            if (!patientStatus.equals(selectedPatient.getStatus())) {
                 selectedPatient.setStatus(patientStatus);
                 patientController.updatePatient(selectedPatient);
             }
         }
 
-
-
         medicalRecordController.handleAddMedicalRecord(medicalRecord);
         showAlert("Success", "The patient has been examined!", Alert.AlertType.INFORMATION);
+        closeWindow();
+    }
+
+    private void closeWindow() {
         Stage stage = (Stage) selectedMedicinesListView.getScene().getWindow();
         stage.close();
     }
+
     private void showAlert(String title, String message, Alert.AlertType type) {
         Alert alert = new Alert(type);
         alert.setTitle(title);

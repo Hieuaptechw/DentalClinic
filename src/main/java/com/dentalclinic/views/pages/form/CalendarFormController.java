@@ -53,7 +53,6 @@ public class CalendarFormController {
 
     @FXML
     public void initialize() {
-        setupComboBoxListeners();
         EntityManager em = DatabaseController.getEntityManager();
         calendarController = new CalendarController(em);
     }
@@ -105,7 +104,7 @@ public class CalendarFormController {
         LocalDateTime appointmentDateTime = appointment.getAppointmentDate();
         timeField.setText(appointmentDateTime.format(timeFormatter));
         appointmentDatePicker.setValue(appointmentDateTime.toLocalDate());
-        String symptom = (appointment.getSymptoms() != null) ? appointment.getSymptoms() : "Chưa có";
+        String symptom = (appointment.getSymptoms() != null) ? appointment.getSymptoms() : "N/A";
         symptomPresentationField.setText(symptom);
 
 
@@ -144,21 +143,6 @@ public class CalendarFormController {
         alert.showAndWait();
         Stage stage = (Stage) btnAction.getScene().getWindow();
         stage.close();
-    }
-    private void setupComboBoxListeners() {
-        comboBoxDoctor.setOnAction(event -> {
-            Staff selectedDoctor = comboBoxDoctor.getSelectionModel().getSelectedItem();
-            if (selectedDoctor != null) {
-                System.out.println("Bác sĩ được chọn: " + selectedDoctor.getName());
-            }
-        });
-
-        comboBoxRoom.setOnAction(event -> {
-            Room selectedRoom = comboBoxRoom.getSelectionModel().getSelectedItem();
-            if (selectedRoom != null) {
-                System.out.println("Phòng được chọn: " + selectedRoom.getRoomNumber());
-            }
-        });
     }
 
 }

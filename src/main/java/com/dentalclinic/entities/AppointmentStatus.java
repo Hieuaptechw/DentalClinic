@@ -1,11 +1,9 @@
 package com.dentalclinic.entities;
 
 public enum AppointmentStatus {
-    PENDING("Pending Confirmation"),
-    ARRIVED("Patient Arrived"),
-    CANCELLED("Cancelled"),
+    PENDING("Pending"),
     COMPLETED("Completed"),
-    NO_SHOW("No Show");
+    CANCELLED("Cancelled");
 
     private final String label;
 
@@ -13,7 +11,8 @@ public enum AppointmentStatus {
         this.label = label;
     }
 
-    public String getLabel() {
+    @Override
+    public String toString() {
         return label;
     }
 }

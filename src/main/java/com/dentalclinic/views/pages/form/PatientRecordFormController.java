@@ -82,27 +82,6 @@ public class PatientRecordFormController {
         diagnoseField.setText(medicalRecord.getDiagnosis());
         treatmentField.setText(medicalRecord.getTreatment());
     }
-//
-//    @FXML
-//    private void handAddPatientRecord(){
-//        String name = namePatient.getText().trim();
-//        String diagnoses = diagnosePatient.getText().trim();
-//        String treatment = treatmentPatient.getText().trim();
-//
-//
-//        Patient patient = patientRecordController.findPatientByName(name);
-//        if(patient != null){
-//            MedicalRecord medicalRecord = new MedicalRecord();
-//            medicalRecord.setPatient(patient);
-//            medicalRecord.setDiagnosis(diagnoses);
-//            medicalRecord.setTreatment(treatment);
-//            medicalRecord.setCreatedAt(LocalDateTime.now());
-//            patientRecordController.handleAddPatientRecord(medicalRecord);
-//            closeWindow();
-//        }else {
-//            alertMessage(Alert.AlertType.ERROR, "Đã xảy ra lỗi", "Không tìm thấy bệnh nhân: " + name);
-//        }
-//    }
 
 
     @FXML
@@ -115,7 +94,8 @@ public class PatientRecordFormController {
             medicalRecord.setTreatment(treatment);
 
             patientRecordController.updatePatientRecord(medicalRecord);
-            alertMessage(Alert.AlertType.INFORMATION, "Cập nhật bệnh án", "Bệnh án đã được cập nhật");
+            alertMessage(Alert.AlertType.INFORMATION, "Update Medical Record", "The medical record has been updated.");
+
 
             closeWindow();
         }
